@@ -2,6 +2,7 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AppProvider } from './context/AppContext';
 import FloatingChatbot from './components/common/FloatingChatbot';
+
 import AuthPage from './pages/Auth';
 import LandingPage from './pages/LandingPage';
 import HomePage from './pages/Home';
@@ -11,8 +12,8 @@ import AICHADetailPage from './pages/AICHADetail';
 import DIGIMEDetailPage from './pages/DIGIMEDetail';
 import ProjectsPage from './pages/Projects';
 import ToolsPage from './pages/Tools';
-import ThemeLayout from './components/layout/themeLayout';
 import CreateDigiMeePage from './components/digimee/CreateDigiMeePage';
+import ThemeLayout from './components/layout/themeLayout';
 
 const isAuthenticated = () => {
   try {
