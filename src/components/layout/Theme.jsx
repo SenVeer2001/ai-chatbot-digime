@@ -1,7 +1,8 @@
-import React from 'react';
+import React from 'react'
 
-function ThemeLayout({ children }) {
-  return (
+function Theme({children}) {
+ 
+     return (
     <div className="relative min-h-screen">
       {/* Conic gradient background */}
       <div className="conic-gradient-bg" />
@@ -15,6 +16,7 @@ function ThemeLayout({ children }) {
       </div>
     </div>
   );
+ 
 }
 
-export default ThemeLayout;
+export default Theme

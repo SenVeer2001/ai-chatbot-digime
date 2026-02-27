@@ -12,8 +12,9 @@ import AICHADetailPage from './pages/AICHADetail';
 import DIGIMEDetailPage from './pages/DIGIMEDetail';
 import ProjectsPage from './pages/Projects';
 import ToolsPage from './pages/Tools';
-import CreateDigiMeePage from './components/digimee/CreateDigiMeePage';
-import ThemeLayout from './components/layout/themeLayout';
+import Theme from './components/layout/Theme';
+
+
 
 const isAuthenticated = () => {
   try {
@@ -29,7 +30,7 @@ const ProtectedRoute = ({ children }) => {
 
 function App() {
   return (
-    < ThemeLayout>
+    < Theme>
     <AppProvider>
       <Router>
         <FloatingChatbot />
@@ -49,7 +50,7 @@ function App() {
       </Router>
     </AppProvider>
 
-    </ThemeLayout>
+    </Theme>
   );
 }
 
