@@ -13,6 +13,7 @@ import DIGIMEDetailPage from './pages/DIGIMEDetail';
 import ProjectsPage from './pages/Projects';
 import ToolsPage from './pages/Tools';
 import Theme from './components/layout/Theme';
+import CreateDigiMeePage from './components/digimee/CreateDigiMeePage';
 
 
 
