@@ -1,6 +1,7 @@
 import Sidebar from '../components/layout/Sidebar';
 import TopNavbar from '../components/layout/TopNavbar';
 import { useApp } from '../hooks/useApp';
+import Footer from '../pages/Footer';
 
 const DashboardLayout = ({ children }) => {
   const { darkMode } = useApp();
@@ -13,6 +14,8 @@ const DashboardLayout = ({ children }) => {
         <main className="ml-64 mt-16 p-8">
           {children}
         </main>
+
+        <Footer/>
       </div>
     </div>
   );

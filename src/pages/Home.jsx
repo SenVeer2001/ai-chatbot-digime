@@ -2,6 +2,7 @@ import { Sparkles, Zap, Brain, TrendingUp, MessageSquare, User, ArrowRight, Chev
 import { useApp } from '../hooks/useApp';
 import { useNavigate } from 'react-router-dom';
 import Header from '../components/layout/Header';
+import Footer from './Footer';
 
 const HomePage = () => {
   const { user } = useApp();
@@ -64,8 +65,8 @@ const HomePage = () => {
       color: 'from-green-400 to-green-600',
       bgLight: 'from-green-50 to-green-100',
       shadowColor: 'shadow-green-500/20',
-      path: '#',
-      status: 'Coming Soon',
+      path: 'https://app.kypecrm.com/',
+      status: '',
       stats: null,
     },
   ];
@@ -195,6 +196,8 @@ const HomePage = () => {
       
 
       </main>
+
+        <Footer/>
     </div>
   );
 };

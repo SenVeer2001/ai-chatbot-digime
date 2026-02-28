@@ -13,7 +13,7 @@ export const AppProvider = ({ children }) => {
     {
       id: 1,
       name: 'Professional Avatar',
-      image: '/api/placeholder/150/150',
+      image: '/gajendra.jpeg',
       voiceId: 'voice-1',
       status: 'active',
       createdAt: new Date('2026-02-15'),
@@ -21,11 +21,30 @@ export const AppProvider = ({ children }) => {
     {
       id: 2,
       name: 'Friendly Avatar',
-      image: '/api/placeholder/150/150',
+      image: '/demo.jpeg',
       voiceId: 'voice-2',
       status: 'active',
       createdAt: new Date('2026-02-10'),
     },
+    {
+      id: 3,
+      name: 'Support Avatar',
+      image: '/aswinsir.jpeg',
+      voiceId: 'voice-2',
+      status: 'active',
+      createdAt: new Date('2026-02-10'),
+    },
+     {
+      id: 4,
+      name: 'Tech Avatar',
+      image: '/shaktisir.jpeg',
+      voiceId: 'voice-2',
+      status: 'active',
+      createdAt: new Date('2026-02-10'),
+    },
+
+
+
   ]);
 
   const [contexts, setContexts] = useState([

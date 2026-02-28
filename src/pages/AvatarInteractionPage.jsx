@@ -1,8 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { 
-  User, Book, Code, Copy, FileText, 
-  MicOff, MessageSquare, 
+import {
+  User, Book, Code, Copy, FileText,
+  MicOff, MessageSquare,
   Send, X, Video, VideoOff,
   Link2, File, Check, Clock, Zap, Bot,
   Mic, Upload, Plus, Trash2, Edit3, ExternalLink,
@@ -11,14 +11,24 @@ import {
   Eye, EyeOff, MoreVertical, ArrowLeft,
   Activity, AudioLines, ChevronUp, BookOpen, Code2, Github, BarChart3,
   Search, Menu, Calendar, MessageCircle, Save, ZoomIn, ZoomOut, Maximize2,
-  Volume2
+  Volume2,
+  UserPlus,
+  Mail,
+  Share2,
+   Users,
+ 
+
+
+  ThumbsUp,
+  ThumbsDown,
+
 } from 'lucide-react';
 
 const AvatarInteractionPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const avatarData = location.state?.avatar;
-  
+
   const [activeTab, setActiveTab] = useState('avatar');
   const [activeMode, setActiveMode] = useState('chat');
   const [developerSubTab, setDeveloperSubTab] = useState('overview');
@@ -61,12 +71,12 @@ const AvatarInteractionPage = () => {
   });
 
   // Add these states at the top
-const [videoError, setVideoError] = useState(false);
-const [videoLoaded, setVideoLoaded] = useState(false);
-const avatarVideoRef = useRef(null);
+  const [videoError, setVideoError] = useState(false);
+  const [videoLoaded, setVideoLoaded] = useState(false);
+  const avatarVideoRef = useRef(null);
 
-// Video URL from public folder - apni video ka naam yahan daalo
-const avatarVideoUrl = '/avatar-talking.mp4'; // ya '/videos/ann-therapist.mp4'
+  // Video URL from public folder - apni video ka naam yahan daalo
+  const avatarVideoUrl = '/avatar-talking.mp4'; // ya '/videos/ann-therapist.mp4'
 
   const [messages, setMessages] = useState([
     { id: 1, sender: 'user', text: 'hi', time: '10:30 AM' },
@@ -127,24 +137,24 @@ const avatarVideoUrl = '/avatar-talking.mp4'; // ya '/videos/ann-therapist.mp4'
     if (!userVideoEnabled) {
       try {
         // Request camera permission
-        const stream = await navigator.mediaDevices.getUserMedia({ 
-          video: { 
+        const stream = await navigator.mediaDevices.getUserMedia({
+          video: {
             width: { ideal: 640 },
             height: { ideal: 480 },
             facingMode: 'user'
-          }, 
-          audio: userMicEnabled 
+          },
+          audio: userMicEnabled
         });
-        
+
         setUserStream(stream);
         setUserVideoEnabled(true);
-        
+
         // Set video source immediately
         if (userVideoRef.current) {
           userVideoRef.current.srcObject = stream;
           await userVideoRef.current.play();
         }
-        
+
         console.log('Camera started successfully');
       } catch (err) {
         console.error('Camera Error:', err);
@@ -157,7 +167,7 @@ const avatarVideoUrl = '/avatar-talking.mp4'; // ya '/videos/ann-therapist.mp4'
           track.stop();
           console.log('Video track stopped');
         });
-        
+
         if (!userMicEnabled) {
           userStream.getTracks().forEach(track => track.stop());
           setUserStream(null);
@@ -179,13 +189,13 @@ const avatarVideoUrl = '/avatar-talking.mp4'; // ya '/videos/ann-therapist.mp4'
           setUserMicEnabled(true);
         } else {
           // Create new stream with audio
-          const stream = await navigator.mediaDevices.getUserMedia({ 
-            audio: true, 
-            video: userVideoEnabled 
+          const stream = await navigator.mediaDevices.getUserMedia({
+            audio: true,
+            video: userVideoEnabled
           });
           setUserStream(stream);
           setUserMicEnabled(true);
-          
+
           if (userVideoEnabled && userVideoRef.current) {
             userVideoRef.current.srcObject = stream;
           }
@@ -202,7 +212,7 @@ const avatarVideoUrl = '/avatar-talking.mp4'; // ya '/videos/ann-therapist.mp4'
           track.stop();
           console.log('Audio track stopped');
         });
-        
+
         if (!userVideoEnabled) {
           userStream.getTracks().forEach(track => track.stop());
           setUserStream(null);
@@ -281,335 +291,373 @@ const avatarVideoUrl = '/avatar-talking.mp4'; // ya '/videos/ann-therapist.mp4'
 
   // ==================== AVATAR TAB ====================
   const renderAvatarTab = () => (
-    <div className="flex flex-row gap-4 flex-1 overflow-hidden h-full">
-      
-      {/* LEFT: User Video */}
-      <div className="w-56 flex-shrink-0 flex flex-col gap-4">
-        {/* User Camera */}
-        <div className="relative w-full h-80 rounded-2xl overflow-hidden border-2 border-slate-200 shadow-lg bg-slate-900">
-          {/* Video Element - Always render it */}
+  <div className="flex flex-row gap-4 flex-1 overflow-hidden h-full">
+
+    {/* LEFT: User Video */}
+    <div className="w-[300px] flex-shrink-0 flex flex-col gap-4">
+      {/* User Camera */}
+      <div className="relative w-full h-52 rounded-2xl overflow-hidden border-2 border-slate-200 shadow-lg bg-slate-900">
+        {/* Video Element - Always render it */}
+        <video
+          ref={userVideoRef}
+          autoPlay
+          playsInline
+          muted
+          className={`w-full h-full object-cover ${userVideoEnabled ? 'block' : 'hidden'}`}
+          style={{ transform: 'scaleX(-1)' }}
+        />
+
+        {/* Placeholder when camera is off */}
+        {!userVideoEnabled && (
+          <div className="w-full h-full flex flex-col items-center justify-center bg-gradient-to-br from-slate-800 to-slate-900">
+            <div className="w-20 h-20 rounded-full bg-slate-700 flex items-center justify-center mb-3">
+              <User size={40} className="text-slate-400" />
+            </div>
+            <span className="text-sm text-slate-400 font-medium">Camera Off</span>
+            <span className="text-xs text-slate-500 mt-1">Click button to enable</span>
+          </div>
+        )}
+
+        {/* User Info Badge */}
+      </div>
+
+      {/* Video/Audio Controls */}
+      <div className="bg-white flex items-center justify-between rounded-2xl p-4 border border-slate-200 shadow-sm gap-4">
+        <button
+          onClick={toggleUserVideo}
+          className={`w-full flex items-center justify-center gap-3 p-3 rounded-xl font-medium transition-all ${userVideoEnabled
+            ? 'bg-green-500 text-white hover:bg-green-600'
+            : 'bg-red-100 text-red-600 hover:bg-red-200 border border-red-200'
+            }`}
+        >
+          {userVideoEnabled ? <Video size={20} /> : <VideoOff size={20} />}
+        </button>
+
+        <button
+          onClick={toggleUserMic}
+          className={`w-full flex items-center justify-center gap-3 p-3 rounded-xl font-medium transition-all ${userMicEnabled
+            ? 'bg-green-500 text-white hover:bg-green-600'
+            : 'bg-red-100 text-red-600 hover:bg-red-200 border border-red-200'
+            }`}
+        >
+          {userMicEnabled ? <Mic size={20} /> : <MicOff size={20} />}
+        </button>
+      </div>
+
+      {/* ============ INVITE USER SECTION - NEW ============ */}
+      <div className="bg-white rounded-2xl p-4 border border-slate-200 shadow-sm">
+        <div className="flex items-center gap-3 mb-3">
+          <div className="w-10 h-10 rounded-full bg-gradient-to-br from-cyan-500 to-blue-500 flex items-center justify-center">
+            <Users size={20} className="text-white" />
+          </div>
+          <div>
+            <h4 className="font-semibold text-slate-800 text-sm">Invite User</h4>
+            <p className="text-xs text-slate-500">Share this session</p>
+          </div>
+        </div>
+        
+        {/* Invite Link */}
+        <div className="flex items-center gap-2 mb-3">
+          <div className="flex-1 bg-slate-100 rounded-xl px-3 py-2.5 text-xs text-slate-600 truncate">
+            https://liveavatar.com/session/{avatar.id}
+          </div>
+          <button 
+            onClick={() => {
+              navigator.clipboard.writeText(`https://liveavatar.com/session/${avatar.id}`);
+              // You can add a toast notification here
+            }}
+            className="p-2.5 bg-cyan-500 text-white rounded-xl hover:bg-cyan-600 transition-colors"
+          >
+            <Copy size={16} />
+          </button>
+        </div>
+
+        {/* Invite Button */}
+        <button className="w-full flex items-center justify-center gap-2 p-3 bg-gradient-to-r from-cyan-500 to-blue-500 text-white rounded-xl font-medium hover:shadow-lg transition-all">
+          <UserPlus size={18} />
+          <span>Invite to Call</span>
+        </button>
+
+        {/* Or share via */}
+        <div className="flex items-center gap-2 mt-3">
+          <div className="flex-1 h-px bg-slate-200"></div>
+          <span className="text-xs text-slate-400">or share via</span>
+          <div className="flex-1 h-px bg-slate-200"></div>
+        </div>
+
+        {/* Social Share Icons */}
+        <div className="flex items-center justify-center gap-2 mt-3">
+         
+          <button className="w-10 h-10 rounded-full bg-slate-100 hover:bg-purple-100 flex items-center justify-center transition-colors">
+            <Share2 size={18} className="text-slate-600" />
+          </button>
+          <button className="w-10 h-10 rounded-full bg-slate-100 hover:bg-cyan-100 flex items-center justify-center transition-colors">
+            <Link2 size={18} className="text-slate-600" />
+          </button>
+        </div>
+      </div>
+      {/* ============ END INVITE USER SECTION ============ */}
+
+    </div>
+
+    {/* CENTER: Avatar Video */}
+    <div className="flex-1 relative bg-slate-900 rounded-3xl overflow-hidden shadow-lg border border-slate-700 h-[500px]">
+      <div className="relative w-full h-full">
+        <div
+          className="w-full h-full flex items-center justify-center transition-transform duration-300 overflow-hidden"
+          style={{ transform: `scale(${avatarZoom})` }}
+        >
+          {/* Avatar Talking Video */}
           <video
-            ref={userVideoRef}
+            ref={avatarVideoRef}
             autoPlay
+            loop
+            muted={false}
             playsInline
-            muted
-            className={`w-full h-full object-cover ${userVideoEnabled ? 'block' : 'hidden'}`}
-            style={{ transform: 'scaleX(-1)' }}
-          />
-          
-          {/* Placeholder when camera is off */}
-          {!userVideoEnabled && (
-            <div className="w-full h-full flex flex-col items-center justify-center bg-gradient-to-br from-slate-800 to-slate-900">
-              <div className="w-20 h-20 rounded-full bg-slate-700 flex items-center justify-center mb-3">
-                <User size={40} className="text-slate-400" />
-              </div>
-              <span className="text-sm text-slate-400 font-medium">Camera Off</span>
-              <span className="text-xs text-slate-500 mt-1">Click button to enable</span>
+            className={`w-full h-full object-cover ${videoLoaded && !videoError ? 'block' : 'hidden'}`}
+            onLoadedData={() => {
+              setVideoLoaded(true);
+              console.log('✅ Avatar video loaded successfully');
+            }}
+            onError={(e) => {
+              console.log('❌ Video error:', e);
+              setVideoError(true);
+            }}
+            onPlay={() => console.log('▶️ Video playing')}
+          >
+            <source src="/AvatarGirl.mp4" type="video/mp4" />
+            <source src="/Avatar.mp4" type="video/mp4" />
+          </video>
+
+          {/* Fallback Image */}
+          {(!videoLoaded || videoError) && (
+            <div className="relative w-full h-full">
+              <img
+                src={avatar.image}
+                alt={avatar.name}
+                className="w-full h-full object-cover"
+              />
+              {!videoError && (
+                <div className="absolute inset-0 flex items-center justify-center bg-black/40">
+                  <div className="text-center">
+                    <div className="w-12 h-12 border-4 border-cyan-400/30 border-t-cyan-400 rounded-full animate-spin mx-auto mb-3"></div>
+                    <p className="text-white text-sm">Loading video...</p>
+                  </div>
+                </div>
+              )}
+              {videoError && (
+                <div className="absolute bottom-20 left-1/2 -translate-x-1/2 bg-red-500/80 text-white px-4 py-2 rounded-lg text-sm">
+                  Video not found. Showing image.
+                </div>
+              )}
             </div>
           )}
-          
-          {/* User Info Badge */}
-          <div className="absolute bottom-3 left-3 right-3 bg-black/70 backdrop-blur-md px-3 py-2 rounded-xl flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <div className={`w-2 h-2 rounded-full ${userVideoEnabled ? 'bg-green-500' : 'bg-red-500'} animate-pulse`}></div>
-              <span className="text-xs text-white font-medium">You</span>
+        </div>
+
+        {/* LIVE Badge - Top Left */}
+        <div className="absolute top-4 left-4 flex items-center gap-3">
+          <div className="bg-black/60 backdrop-blur-md text-white px-4 py-2 rounded-xl text-sm font-medium flex items-center gap-2">
+            <Clock size={14} />
+            <span>01:45</span>
+          </div>
+        </div>
+
+        {/* Volume Control - Top Right */}
+        <div className="absolute top-4 right-4 flex flex-col gap-1.5 bg-black/50 backdrop-blur-md rounded-xl p-1.5">
+          <button
+            onClick={() => {
+              setVideoError(false);
+              setVideoLoaded(false);
+              if (avatarVideoRef.current) {
+                avatarVideoRef.current.load();
+                avatarVideoRef.current.play();
+              }
+            }}
+            className="p-2 bg-white/20 hover:bg-white/30 text-white rounded-lg transition-colors"
+            title="Reload Video"
+          >
+            <RefreshCw size={16} />
+          </button>
+        </div>
+
+        {/* Avatar Name - Bottom Left */}
+        <div className="absolute bottom-4 left-4 bg-black/60 backdrop-blur-md px-4 py-2.5 rounded-xl">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-cyan-400">
+              <img src={avatar.image} alt="" className="w-full h-full object-cover" />
             </div>
-            <div className="flex items-center gap-2">
-              {!userMicEnabled && <MicOff size={14} className="text-red-400" />}
-              {!userVideoEnabled && <VideoOff size={14} className="text-red-400" />}
+            <div>
+              <p className="text-white font-semibold">{avatar.name}</p>
+              <p className="text-cyan-400 text-xs flex items-center gap-1">
+                <span className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"></span>
+                {videoLoaded && !videoError ? 'Speaking...' : 'Online'}
+              </p>
             </div>
           </div>
         </div>
 
-        {/* Video/Audio Controls */}
-        <div className="bg-white flex items-center  justify-between rounded-2xl p-4 border border-slate-200 shadow-sm gap-4 ">
+        {/* ============ 4 ACTION ICONS - BOTTOM CENTER - NEW ============ */}
+        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2 bg-black/60 backdrop-blur-md p-2 rounded-2xl">
+          {/* Copy */}
           <button 
-            onClick={toggleUserVideo}
-            className={`w-full flex items-center justify-center gap-3 p-3 rounded-xl font-medium transition-all ${
-              userVideoEnabled 
-                ? 'bg-green-500 text-white hover:bg-green-600' 
-                : 'bg-red-100 text-red-600 hover:bg-red-200 border border-red-200'
-            }`}
+            onClick={() => {
+              navigator.clipboard.writeText(window.location.href);
+              // Add toast notification if needed
+            }}
+            className="p-3 bg-white/10 hover:bg-white/20 text-white rounded-xl transition-all hover:scale-105 group"
+            title="Copy Link"
           >
-            {userVideoEnabled ? <Video size={20} /> : <VideoOff size={20} />}
-           
-          </button>
-          
-          <button 
-            onClick={toggleUserMic}
-            className={`w-full flex items-center justify-center gap-3 p-3 rounded-xl font-medium transition-all ${
-              userMicEnabled 
-                ? 'bg-green-500 text-white hover:bg-green-600' 
-                : 'bg-red-100 text-red-600 hover:bg-red-200 border border-red-200'
-            }`}
-          >
-            {userMicEnabled ? <Mic size={20} /> : <MicOff size={20} />}
-            
+            <Copy size={18} className="group-hover:text-cyan-400" />
           </button>
 
-          {/* Status */}
-        
+          {/* Like */}
+          <button 
+            className="p-3 bg-white/10 hover:bg-green-500/30 text-white rounded-xl transition-all hover:scale-105 group"
+            title="Like"
+          >
+            <ThumbsUp size={18} className="group-hover:text-green-400" />
+          </button>
+
+          {/* Dislike */}
+          <button 
+            className="p-3 bg-white/10 hover:bg-red-500/30 text-white rounded-xl transition-all hover:scale-105 group"
+            title="Dislike"
+          >
+            <ThumbsDown size={18} className="group-hover:text-red-400" />
+          </button>
+
+          {/* Upload/Share */}
+          <button 
+            className="p-3 bg-white/10 hover:bg-purple-500/30 text-white rounded-xl transition-all hover:scale-105 group"
+            title="Share"
+          >
+            <Upload size={18} className="group-hover:text-purple-400" />
+          </button>
+        </div>
+        {/* ============ END 4 ACTION ICONS ============ */}
+
+        {/* Bottom Controls - Bottom Right */}
+        <div className="absolute bottom-4 right-4 flex items-center gap-2">
+          <div className="flex items-center gap-1.5 bg-black/50 backdrop-blur-xl p-1.5 rounded-xl">
+            <button className="p-2.5 bg-white/10 text-white rounded-lg hover:bg-white/20">
+              <ChevronUp size={18} />
+            </button>
+            <button onClick={() => navigate(-1)} className="p-2.5 bg-red-500 text-white rounded-lg hover:bg-red-600">
+              <X size={18} />
+            </button>
+          </div>
+
+          <div className="flex bg-white rounded-xl p-1 shadow-lg">
+            <button
+              onClick={() => setActiveMode('chat')}
+              className={`p-2.5 rounded-lg transition-all ${activeMode === 'chat' ? 'bg-cyan-500 text-white' : 'text-slate-400 hover:text-cyan-500'}`}
+            >
+              <MessageSquare size={18} />
+            </button>
+            <button
+              onClick={() => setActiveMode('voice')}
+              className={`p-2.5 rounded-lg transition-all ${activeMode === 'voice' ? 'bg-cyan-500 text-white' : 'text-slate-400 hover:text-cyan-500'}`}
+            >
+              <AudioLines size={18} />
+            </button>
+          </div>
         </div>
       </div>
+    </div>
 
-      {/* CENTER: Avatar Video */}
-      {/* CENTER: Avatar Talking Video */}
-<div className="flex-1 relative bg-slate-900 rounded-3xl overflow-hidden shadow-lg border border-slate-700 h-[500px]">
-  <div className="relative w-full h-full">
-    <div 
-      className="w-full h-full flex items-center justify-center transition-transform duration-300 overflow-hidden"
-      style={{ transform: `scale(${avatarZoom})` }}
-    >
-      {/* Avatar Talking Video */}
-      <video
-        ref={avatarVideoRef}
-        autoPlay
-        loop
-        muted={false}  // Sound on - avatar ki awaaz sunne ke liye
-        playsInline
-        className={`w-full h-full object-cover ${videoLoaded && !videoError ? 'block' : 'hidden'}`}
-        onLoadedData={() => {
-          setVideoLoaded(true);
-          console.log('✅ Avatar video loaded successfully');
-        }}
-        onError={(e) => {
-          console.log('❌ Video error:', e);
-          setVideoError(true);
-        }}
-        onPlay={() => console.log('▶️ Video playing')}
-      >
-        {/* Multiple sources for better compatibility */}
-        <source src="/AvatarGirl.mp4" type="video/mp4" />
-        <source src="/Avatar.mp4" type="video/mp4" />
-      </video>
-      
-      {/* Fallback Image - jab video load na ho */}
-      {(!videoLoaded || videoError) && (
-        <div className="relative w-full h-full">
-          <img 
-            src={avatar.image} 
-            alt={avatar.name} 
-            className="w-full h-full object-cover"
-          />
-          {/* Loading spinner */}
-          {!videoError && (
-            <div className="absolute inset-0 flex items-center justify-center bg-black/40">
-              <div className="text-center">
-                <div className="w-12 h-12 border-4 border-cyan-400/30 border-t-cyan-400 rounded-full animate-spin mx-auto mb-3"></div>
-                <p className="text-white text-sm">Loading video...</p>
+    {/* RIGHT: Chat */}
+    <div className="w-96 flex-shrink-0 flex flex-col bg-white rounded-3xl shadow-lg border border-slate-200 overflow-hidden">
+      {activeMode === 'chat' ? (
+        <>
+          <div className="p-4 border-b border-slate-100 bg-gradient-to-r from-cyan-50 to-blue-50">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-cyan-200">
+                  <img src={avatar.image} alt={avatar.name} className="w-full h-full object-cover" />
+                </div>
+                <div>
+                  <h3 className="font-bold text-slate-800">{avatar.name}</h3>
+                  <p className="text-xs text-slate-500 flex items-center gap-1">
+                    <span className="w-1.5 h-1.5 bg-green-500 rounded-full"></span> Online
+                  </p>
+                </div>
               </div>
+              <button className="p-1.5 bg-cyan-500 text-white rounded-lg hover:bg-cyan-600">
+                <X size={14} />
+              </button>
             </div>
-          )}
-          {/* Error message */}
-          {videoError && (
-            <div className="absolute bottom-20 left-1/2 -translate-x-1/2 bg-red-500/80 text-white px-4 py-2 rounded-lg text-sm">
-              Video not found. Showing image.
+          </div>
+
+          <div className="flex-1 p-4 space-y-4 overflow-y-auto bg-slate-50/50">
+            {messages.map((message) => (
+              <div key={message.id} className="flex items-start gap-3">
+                <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 overflow-hidden ${message.sender === 'user' ? 'bg-slate-200 text-slate-600' : 'border-2 border-cyan-200'
+                  }`}>
+                  {message.sender === 'user' ? 'U' : <img src={avatar.image} alt="" className="w-full h-full object-cover" />}
+                </div>
+                <div className={`flex-1 text-sm leading-relaxed ${message.sender === 'user' ? 'text-slate-600' : 'text-slate-700 bg-white p-3 rounded-2xl rounded-tl-none shadow-sm border border-slate-100'
+                  }`}>
+                  {message.text}
+                  <p className="text-xs text-slate-400 mt-1">{message.time}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="p-4 border-t border-slate-100 bg-white">
+            <div className="flex items-center bg-slate-100 rounded-2xl px-4 py-3 focus-within:ring-2 focus-within:ring-cyan-500/30">
+              <input
+                type="text"
+                value={inputMessage}
+                onChange={(e) => setInputMessage(e.target.value)}
+                onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
+                placeholder="Type a message..."
+                className="bg-transparent flex-1 text-sm outline-none text-slate-600 placeholder-slate-400"
+              />
+              <button onClick={handleSendMessage} className="ml-2 p-2 bg-cyan-500 text-white rounded-xl hover:bg-cyan-600">
+                <Send size={16} />
+              </button>
+            </div>
+          </div>
+        </>
+      ) : (
+        <div className="flex-1 flex flex-col items-center justify-center p-8 bg-gradient-to-b from-slate-50 to-white">
+          <div className="w-20 h-20 rounded-full overflow-hidden border-4 border-cyan-200 mb-6">
+            <img src={avatar.image} alt={avatar.name} className="w-full h-full object-cover" />
+          </div>
+
+          <div className={`relative ${isListening ? 'animate-pulse' : ''}`}>
+            {isListening && (
+              <>
+                <div className="absolute inset-0 w-36 h-36 -m-2 rounded-full bg-cyan-300 animate-ping opacity-20"></div>
+                <div className="absolute inset-0 w-36 h-36 -m-2 rounded-full bg-cyan-400 animate-ping opacity-10" style={{ animationDelay: '0.3s' }}></div>
+              </>
+            )}
+
+            <button
+              onClick={() => setIsListening(!isListening)}
+              className={`relative w-32 h-32 rounded-full flex items-center justify-center shadow-2xl ${isListening ? 'bg-red-500 hover:bg-red-600' : 'bg-cyan-500 hover:bg-cyan-600'
+                }`}
+            >
+              {isListening ? <MicOff size={40} className="text-white" /> : <Mic size={40} className="text-white" />}
+            </button>
+          </div>
+
+          <p className="text-slate-700 mt-6 font-semibold">{isListening ? 'Listening...' : 'Tap to speak'}</p>
+          <p className="text-slate-400 text-sm mt-1">{isListening ? 'Tap to stop' : `Talk with ${avatar.name}`}</p>
+
+          {isListening && (
+            <div className="flex items-center gap-1 mt-6">
+              {[...Array(5)].map((_, i) => (
+                <div key={i} className="w-1 bg-cyan-500 rounded-full animate-pulse" style={{ height: `${Math.random() * 24 + 12}px`, animationDelay: `${i * 0.1}s` }}></div>
+              ))}
             </div>
           )}
         </div>
       )}
     </div>
-
-    {/* LIVE Badge - Top Left */}
-    <div className="absolute top-4 left-4 flex items-center gap-3">
-      <div className="bg-black/60 backdrop-blur-md text-white px-4 py-2 rounded-xl text-sm font-medium flex items-center gap-2">
-        <Clock size={14} />
-        <span>01:45</span>
-      </div>
-      
-      {/* {videoLoaded && !videoError && (
-        <div className="bg-red-500 text-white px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 animate-pulse">
-          <span className="w-2 h-2 bg-white rounded-full"></span>
-          LIVE
-        </div>
-      )} */}
-    </div>
-
-    {/* Volume Control - Top Right */}
-    <div className="absolute top-4 right-4 flex flex-col gap-1.5 bg-black/50 backdrop-blur-md rounded-xl p-1.5">
-      {/* Mute/Unmute */}
-      {/* <button
-        onClick={() => {
-          if (avatarVideoRef.current) {
-            avatarVideoRef.current.muted = !avatarVideoRef.current.muted;
-          }
-        }}
-        className="p-2 bg-white/20 hover:bg-white/30 text-white rounded-lg transition-colors"
-        title="Toggle Sound"
-      >
-        <Volume2 size={16} />
-      </button>
-       */}
-      {/* Reload Video */}
-      <button
-        onClick={() => {
-          setVideoError(false);
-          setVideoLoaded(false);
-          if (avatarVideoRef.current) {
-            avatarVideoRef.current.load();
-            avatarVideoRef.current.play();
-          }
-        }}
-        className="p-2 bg-white/20 hover:bg-white/30 text-white rounded-lg transition-colors"
-        title="Reload Video"
-      >
-        <RefreshCw size={16} />
-      </button>
-      
-      {/* Zoom Controls */}
-      {/* <div className="border-t border-white/20 mt-1 pt-1 space-y-1">
-        <button onClick={handleZoomIn} className="p-2 bg-white/20 hover:bg-white/30 text-white rounded-lg w-full">
-          <ZoomIn size={16} />
-        </button>
-        <button onClick={handleResetZoom} className="p-2 bg-white/20 hover:bg-white/30 text-white rounded-lg w-full">
-          <Maximize2 size={16} />
-        </button>
-        <button onClick={handleZoomOut} className="p-2 bg-white/20 hover:bg-white/30 text-white rounded-lg w-full">
-          <ZoomOut size={16} />
-        </button>
-      </div> */}
-    </div>
-
-    {/* Avatar Name - Bottom Left */}
-    <div className="absolute bottom-4 left-4 bg-black/60 backdrop-blur-md px-4 py-2.5 rounded-xl">
-      <div className="flex items-center gap-3">
-        <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-cyan-400">
-          <img src={avatar.image} alt="" className="w-full h-full object-cover" />
-        </div>
-        <div>
-          <p className="text-white font-semibold">{avatar.name}</p>
-          <p className="text-cyan-400 text-xs flex items-center gap-1">
-            <span className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"></span>
-            {videoLoaded && !videoError ? 'Speaking...' : 'Online'}
-          </p>
-        </div>
-      </div>
-    </div>
-
-    {/* Bottom Controls - Bottom Right */}
-    <div className="absolute bottom-4 right-4 flex items-center gap-2">
-      <div className="flex items-center gap-1.5 bg-black/50 backdrop-blur-xl p-1.5 rounded-xl">
-        <button className="p-2.5 bg-white/10 text-white rounded-lg hover:bg-white/20">
-          <ChevronUp size={18} />
-        </button>
-        <button onClick={() => navigate(-1)} className="p-2.5 bg-red-500 text-white rounded-lg hover:bg-red-600">
-          <X size={18} />
-        </button>
-      </div>
-
-      <div className="flex bg-white rounded-xl p-1 shadow-lg">
-        <button 
-          onClick={() => setActiveMode('chat')}
-          className={`p-2.5 rounded-lg transition-all ${activeMode === 'chat' ? 'bg-cyan-500 text-white' : 'text-slate-400 hover:text-cyan-500'}`}
-        >
-          <MessageSquare size={18} />
-        </button>
-        <button 
-          onClick={() => setActiveMode('voice')}
-          className={`p-2.5 rounded-lg transition-all ${activeMode === 'voice' ? 'bg-cyan-500 text-white' : 'text-slate-400 hover:text-cyan-500'}`}
-        >
-          <AudioLines size={18} />
-        </button>
-      </div>
-    </div>
   </div>
-</div>
-      {/* RIGHT: Chat */}
-      <div className="w-96 flex-shrink-0 flex flex-col bg-white rounded-3xl shadow-lg border border-slate-200 overflow-hidden">
-        {activeMode === 'chat' ? (
-          <>
-            <div className="p-4 border-b border-slate-100 bg-gradient-to-r from-cyan-50 to-blue-50">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-cyan-200">
-                    <img src={avatar.image} alt={avatar.name} className="w-full h-full object-cover" />
-                  </div>
-                  <div>
-                    <h3 className="font-bold text-slate-800">{avatar.name}</h3>
-                    <p className="text-xs text-slate-500 flex items-center gap-1">
-                      <span className="w-1.5 h-1.5 bg-green-500 rounded-full"></span> Online
-                    </p>
-                  </div>
-                </div>
-                <button className="p-1.5 bg-cyan-500 text-white rounded-lg hover:bg-cyan-600">
-                  <X size={14} />
-                </button>
-              </div>
-            </div>
-
-            <div className="flex-1 p-4 space-y-4 overflow-y-auto bg-slate-50/50">
-              {messages.map((message) => (
-                <div key={message.id} className="flex items-start gap-3">
-                  <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 overflow-hidden ${
-                    message.sender === 'user' ? 'bg-slate-200 text-slate-600' : 'border-2 border-cyan-200'
-                  }`}>
-                    {message.sender === 'user' ? 'U' : <img src={avatar.image} alt="" className="w-full h-full object-cover" />}
-                  </div>
-                  <div className={`flex-1 text-sm leading-relaxed ${
-                    message.sender === 'user' ? 'text-slate-600' : 'text-slate-700 bg-white p-3 rounded-2xl rounded-tl-none shadow-sm border border-slate-100'
-                  }`}>
-                    {message.text}
-                    <p className="text-xs text-slate-400 mt-1">{message.time}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            <div className="p-4 border-t border-slate-100 bg-white">
-              <div className="flex items-center bg-slate-100 rounded-2xl px-4 py-3 focus-within:ring-2 focus-within:ring-cyan-500/30">
-                <input 
-                  type="text" 
-                  value={inputMessage}
-                  onChange={(e) => setInputMessage(e.target.value)}
-                  onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
-                  placeholder="Type a message..." 
-                  className="bg-transparent flex-1 text-sm outline-none text-slate-600 placeholder-slate-400"
-                />
-                <button onClick={handleSendMessage} className="ml-2 p-2 bg-cyan-500 text-white rounded-xl hover:bg-cyan-600">
-                  <Send size={16} />
-                </button>
-              </div>
-            </div>
-          </>
-        ) : (
-          <div className="flex-1 flex flex-col items-center justify-center p-8 bg-gradient-to-b from-slate-50 to-white">
-            <div className="w-20 h-20 rounded-full overflow-hidden border-4 border-cyan-200 mb-6">
-              <img src={avatar.image} alt={avatar.name} className="w-full h-full object-cover" />
-            </div>
-            
-            <div className={`relative ${isListening ? 'animate-pulse' : ''}`}>
-              {isListening && (
-                <>
-                  <div className="absolute inset-0 w-36 h-36 -m-2 rounded-full bg-cyan-300 animate-ping opacity-20"></div>
-                  <div className="absolute inset-0 w-36 h-36 -m-2 rounded-full bg-cyan-400 animate-ping opacity-10" style={{ animationDelay: '0.3s' }}></div>
-                </>
-              )}
-              
-              <button 
-                onClick={() => setIsListening(!isListening)}
-                className={`relative w-32 h-32 rounded-full flex items-center justify-center shadow-2xl ${
-                  isListening ? 'bg-red-500 hover:bg-red-600' : 'bg-cyan-500 hover:bg-cyan-600'
-                }`}
-              >
-                {isListening ? <MicOff size={40} className="text-white" /> : <Mic size={40} className="text-white" />}
-              </button>
-            </div>
-            
-            <p className="text-slate-700 mt-6 font-semibold">{isListening ? 'Listening...' : 'Tap to speak'}</p>
-            <p className="text-slate-400 text-sm mt-1">{isListening ? 'Tap to stop' : `Talk with ${avatar.name}`}</p>
-            
-            {isListening && (
-              <div className="flex items-center gap-1 mt-6">
-                {[...Array(5)].map((_, i) => (
-                  <div key={i} className="w-1 bg-cyan-500 rounded-full animate-pulse" style={{ height: `${Math.random() * 24 + 12}px`, animationDelay: `${i * 0.1}s` }}></div>
-                ))}
-              </div>
-            )}
-          </div>
-        )}
-      </div>
-    </div>
-  );
+);
 
   // ==================== KNOWLEDGE TAB ====================
   const renderKnowledgeTab = () => (
@@ -628,7 +676,7 @@ const avatarVideoUrl = '/avatar-talking.mp4'; // ya '/videos/ann-therapist.mp4'
         {saveStatus && <div className="px-4 py-3 rounded-xl bg-blue-50 text-blue-700 border border-blue-200">{saveStatus}</div>}
 
         <div className="flex gap-1 border-b border-gray-200">
-          {['general', 'persona', 'guardrail', 'knowledgebase', 'images', 'preview'].map((tab) => (
+          {['general', 'persona', 'guardrail', 'knowledgebase'].map((tab) => (
             <button
               key={tab}
               onClick={() => setKnowledgeSubTab(tab)}
@@ -708,188 +756,9 @@ const avatarVideoUrl = '/avatar-talking.mp4'; // ya '/videos/ann-therapist.mp4'
             </div>
           )}
 
-          {knowledgeSubTab === 'images' && (
-            <div>
-              <h2 className="text-xl font-semibold mb-4">Images</h2>
-              <div className="border-2 border-dashed border-gray-300 rounded-xl p-8 text-center cursor-pointer hover:border-blue-500 hover:bg-blue-50">
-                <input type="file" multiple accept="image/*" onChange={handleImageUpload} className="hidden" id="img-upload" />
-                <label htmlFor="img-upload" className="cursor-pointer">
-                  <Upload size={32} className="mx-auto mb-3 text-gray-400" />
-                  <p className="font-medium">Upload images</p>
-                </label>
-              </div>
-              {images.length > 0 && (
-                <div className="grid grid-cols-4 gap-4 mt-6">
-                  {images.map((img) => (
-                    <div key={img.id} className="relative group">
-                      <img src={img.src} alt="" className="w-full h-32 object-cover rounded-lg" />
-                      <button onClick={() => handleRemoveImage(img.id)} className="absolute top-2 right-2 p-1 bg-red-500 text-white rounded-full opacity-0 group-hover:opacity-100">
-                        <X size={14} />
-                      </button>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-          )}
-
-          {knowledgeSubTab === 'preview' && (
-            <div className="flex gap-6">
-             <div className="flex-1 max-w-md">
-  <div className="bg-white rounded-3xl border border-gray-200 shadow-xl overflow-visible">
-    
-    {/* Top Section with Gradient Background */}
-   
-    
-    {/* Circular Avatar - Overlapping */}
-    <div className="flex justify-center  mt-2 relative z-10">
-      <div className="relative">
-        {/* Outer Ring */}
-        <div className="w-32 h-32 rounded-full bg-gradient-to-br from-blue-400 via-purple-500 to-pink-500 p-1 shadow-2xl">
-          {/* White Ring */}
-          <div className="w-full h-full rounded-full bg-white p-1">
-            {/* Avatar Image */}
-            <div className="w-full h-full rounded-full overflow-hidden">
-              <img 
-                src={avatar.image} 
-                alt={avatar.name} 
-                className="w-full h-full object-cover"
-              />
-            </div>
-          </div>
-        </div>
         
-        {/* Online Status Badge */}
-        <div className="absolute bottom-1 right-1 w-8 h-8 bg-green-500 rounded-full border-4 border-white flex items-center justify-center shadow-lg">
-          <div className="w-3 h-3 bg-white rounded-full animate-pulse"></div>
-        </div>
-      </div>
-    </div>
 
-    {/* Content Section */}
-    <div className="px-6 pb-6 pt-4 text-center">
-      {/* Avatar Name */}
-      <h3 className="text-2xl font-bold text-gray-900 mb-1">{avatar.name}</h3>
-      {/* <p className="text-gray-500 text-sm mb-6">{avatar.role || 'AI Assistant'}</p> */}
-
-      {/* Stats Cards */}
-      <div className="space-y-3">
-        {/* Created Date */}
-        <div className="flex items-center gap-4 p-4 rounded-2xl bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-100">
-          <div className="w-12 h-12 rounded-full bg-blue-500 flex items-center justify-center shadow-lg">
-            <Calendar size={20} className="text-white" />
-          </div>
-          <div className="text-left flex-1">
-            <p className="text-xs text-gray-500 font-medium uppercase tracking-wide">Created</p>
-            <p className="text-sm font-bold text-gray-900">{formatDate(avatar.createdAt)}</p>
-          </div>
-        </div>
-
-        {/* Conversations */}
-        <div className="flex items-center gap-4 p-4 rounded-2xl bg-gradient-to-r from-green-50 to-emerald-50 border border-green-100">
-          <div className="w-12 h-12 rounded-full bg-green-500 flex items-center justify-center shadow-lg">
-            <MessageCircle size={20} className="text-white" />
-          </div>
-          <div className="text-left flex-1">
-            <p className="text-xs text-gray-500 font-medium uppercase tracking-wide">Conversations</p>
-            <p className="text-sm font-bold text-gray-900">{avatar.conversations} total</p>
-          </div>
-        </div>
-
-        {/* Last Updated */}
-        <div className="flex items-center gap-4 p-4 rounded-2xl bg-gradient-to-r from-purple-50 to-pink-50 border border-purple-100">
-          <div className="w-12 h-12 rounded-full bg-purple-500 flex items-center justify-center shadow-lg">
-            <Clock size={20} className="text-white" />
-          </div>
-          <div className="text-left flex-1">
-            <p className="text-xs text-gray-500 font-medium uppercase tracking-wide">Last Updated</p>
-            <p className="text-sm font-bold text-gray-900">{formatDate(avatar.updatedAt)}</p>
-          </div>
-        </div>
-      </div>
-
-      {/* Action Bar */}
-      <div className="flex items-center justify-between mt-6 pt-5 border-t border-gray-100">
-        {/* Publish Toggle */}
-        <div className="flex items-center gap-3">
-          <button 
-            onClick={() => setIsPublished(!isPublished)} 
-            className={`relative w-14 h-7 rounded-full transition-all duration-300 shadow-inner ${
-              isPublished ? 'bg-green-500' : 'bg-gray-300'
-            }`}
-          >
-            <span className={`absolute top-0.5 w-6 h-6 bg-white rounded-full shadow-lg transition-all duration-300 flex items-center justify-center ${
-              isPublished ? 'left-7' : 'left-0.5'
-            }`}>
-              {isPublished ? (
-                <Check size={12} className="text-green-500" />
-              ) : (
-                <X size={12} className="text-gray-400" />
-              )}
-            </span>
-          </button>
-          <span className={`text-sm font-semibold ${
-            isPublished ? 'text-green-600' : 'text-gray-500'
-          }`}>
-            {isPublished ? 'Published' : 'Unpublished'}
-          </span>
-        </div>
-
-        {/* Copy Button */}
-        <button 
-          onClick={handleCopyWidget} 
-          className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-semibold transition-all ${
-            copied 
-              ? 'bg-green-100 text-green-700' 
-              : 'bg-blue-100 text-blue-700 hover:bg-blue-200'
-          }`}
-        >
-          {copied ? <Check size={16} /> : <Copy size={16} />}
-          {copied ? 'Copied!' : 'Copy'}
-        </button>
-      </div>
-    </div>
-  </div>
-</div>
-
-              <div className="flex-1 bg-white rounded-2xl border shadow-lg flex flex-col max-h-[600px]">
-                <div className="p-4 border-b bg-gradient-to-r from-blue-50 to-cyan-50">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full overflow-hidden">
-                      <img src={avatar.image} alt="" className="w-full h-full object-cover" />
-                    </div>
-                    <div>
-                      <h4 className="font-semibold">{avatar.name}</h4>
-                      <p className="text-xs text-gray-600">Test Chat</p>
-                    </div>
-                  </div>
-                </div>
-                <div className="flex-1 p-4 space-y-4 overflow-y-auto bg-gray-50">
-                  {chatMessages.map((msg) => (
-                    <div key={msg.id} className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
-                      <div className={`max-w-[85%] px-4 py-2.5 rounded-2xl ${msg.sender === 'user' ? 'bg-gradient-to-r from-blue-500 to-cyan-500 text-white' : 'bg-white border'}`}>
-                        {msg.text}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-                <div className="p-4 border-t">
-                  <div className="flex gap-2">
-                    <input
-                      value={chatInput}
-                      onChange={(e) => setChatInput(e.target.value)}
-                      onKeyPress={(e) => e.key === 'Enter' && handlePreviewMessage()}
-                      placeholder="Type..."
-                      className="flex-1 px-4 py-2.5 rounded-xl bg-gray-50 border"
-                    />
-                    <button onClick={handlePreviewMessage} className="px-4 py-2.5 bg-gradient-to-r from-blue-500 to-cyan-500 text-white rounded-xl">
-                      <Send size={18} />
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
+          
         </div>
       </div>
     </div>
@@ -897,7 +766,7 @@ const avatarVideoUrl = '/avatar-talking.mp4'; // ya '/videos/ann-therapist.mp4'
 
   // ==================== DEVELOPER TAB ====================
   const renderDeveloperTab = () => (
-    <div className="flex-1 flex flex-col overflow-hidden bg-white rounded-3xl shadow-sm border">
+    <div className="flex-1 flex flex-col overflow-hidden bg-white max-w-7xl mx-auto rounded-3xl shadow-sm border">
       <div className="flex justify-center py-8 border-b">
         <div className="inline-flex bg-slate-100 p-1 rounded-xl">
           {['Overview', 'API Key', 'Embed', 'Usage'].map((tab) => (
@@ -938,7 +807,7 @@ const avatarVideoUrl = '/avatar-talking.mp4'; // ya '/videos/ann-therapist.mp4'
                 </div>
                 <div className="flex items-center gap-2">
                   <code className="flex-1 text-sm bg-slate-900 text-green-400 px-4 py-3 rounded-xl font-mono">{showApiKey[key.id] ? 'sk_live_abcdef123456789' : key.key}</code>
-                  <button onClick={() => setShowApiKey({...showApiKey, [key.id]: !showApiKey[key.id]})} className="p-2.5 text-slate-400 hover:text-slate-600 hover:bg-slate-50 rounded-lg">
+                  <button onClick={() => setShowApiKey({ ...showApiKey, [key.id]: !showApiKey[key.id] })} className="p-2.5 text-slate-400 hover:text-slate-600 hover:bg-slate-50 rounded-lg">
                     {showApiKey[key.id] ? <EyeOff size={18} /> : <Eye size={18} />}
                   </button>
                   <button onClick={() => handleCopyCode(key.key)} className="p-2.5 text-slate-400 hover:text-slate-600 hover:bg-slate-50 rounded-lg">

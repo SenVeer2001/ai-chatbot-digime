@@ -34,8 +34,8 @@ const Header = ({ user ,title}) => {
           >
             <img src="/webkype-logo11.png" alt="Webkype" className="h-8 w-auto" />
           </button>
-          <div className="hidden md:block h-6 w-px bg-gray-300"></div>
-          <span className="hidden md:block text-sm font-medium text-gray-500">{title}</span>
+          <div className="hidden md:block h-6 w-px bg-gray-400"></div>
+          <span className="bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent font-bold">{title}</span>
         </div>
 
         {/* Right - User Profile & Logout */}
