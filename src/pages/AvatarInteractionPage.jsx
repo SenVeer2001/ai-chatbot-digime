@@ -16,13 +16,15 @@ import {
   Mail,
   Share2,
    Users,
+    ChevronDown, Info, Wand2, ArrowRight,Shield,
  
 
 
   ThumbsUp,
-  ThumbsDown,
+  ThumbsDown
 
 } from 'lucide-react';
+import TemplateModal from './TemplateModal';
 
 const AvatarInteractionPage = () => {
   const location = useLocation();
@@ -32,9 +34,10 @@ const AvatarInteractionPage = () => {
   const [activeTab, setActiveTab] = useState('avatar');
   const [activeMode, setActiveMode] = useState('chat');
   const [developerSubTab, setDeveloperSubTab] = useState('overview');
-  const [knowledgeSubTab, setKnowledgeSubTab] = useState('general');
+  const [knowledgeSubTab, setKnowledgeSubTab] = useState('persona');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [avatarZoom, setAvatarZoom] = useState(1);
+  const [showTemplateModal, setShowTemplateModal] = useState(false);
 
   // Video & Audio States
   const [userVideoEnabled, setUserVideoEnabled] = useState(false);
@@ -222,6 +225,13 @@ const AvatarInteractionPage = () => {
     }
   };
 
+  const handleSelectTemplate = (template) => {
+  setRoleText(template.role);
+  setPersonaText(template.systemPrompt);
+  // You can also set other fields if needed
+  console.log('Template applied:', template.title);
+};
+
   const handleSendMessage = () => {
     if (!inputMessage.trim()) return;
     const newMessage = {
@@ -379,22 +389,9 @@ const AvatarInteractionPage = () => {
         </button>
 
         {/* Or share via */}
-        <div className="flex items-center gap-2 mt-3">
-          <div className="flex-1 h-px bg-slate-200"></div>
-          <span className="text-xs text-slate-400">or share via</span>
-          <div className="flex-1 h-px bg-slate-200"></div>
-        </div>
-
+        
         {/* Social Share Icons */}
-        <div className="flex items-center justify-center gap-2 mt-3">
-         
-          <button className="w-10 h-10 rounded-full bg-slate-100 hover:bg-purple-100 flex items-center justify-center transition-colors">
-            <Share2 size={18} className="text-slate-600" />
-          </button>
-          <button className="w-10 h-10 rounded-full bg-slate-100 hover:bg-cyan-100 flex items-center justify-center transition-colors">
-            <Link2 size={18} className="text-slate-600" />
-          </button>
-        </div>
+       
       </div>
       {/* ============ END INVITE USER SECTION ============ */}
 
@@ -566,7 +563,7 @@ const AvatarInteractionPage = () => {
     </div>
 
     {/* RIGHT: Chat */}
-    <div className="w-96 flex-shrink-0 flex flex-col bg-white rounded-3xl shadow-lg border border-slate-200 overflow-hidden">
+    <div className="w-96 flex-shrink-0 flex flex-col bg-white max-h-[590px] rounded-3xl shadow-lg border border-slate-200 overflow-hidden">
       {activeMode === 'chat' ? (
         <>
           <div className="p-4 border-b border-slate-100 bg-gradient-to-r from-cyan-50 to-blue-50">
@@ -577,9 +574,7 @@ const AvatarInteractionPage = () => {
                 </div>
                 <div>
                   <h3 className="font-bold text-slate-800">{avatar.name}</h3>
-                  <p className="text-xs text-slate-500 flex items-center gap-1">
-                    <span className="w-1.5 h-1.5 bg-green-500 rounded-full"></span> Online
-                  </p>
+                  
                 </div>
               </div>
               <button className="p-1.5 bg-cyan-500 text-white rounded-lg hover:bg-cyan-600">
@@ -588,7 +583,7 @@ const AvatarInteractionPage = () => {
             </div>
           </div>
 
-          <div className="flex-1 p-4 space-y-4 overflow-y-auto bg-slate-50/50">
+          <div className="flex-1 p-2 space-y-4 overflow-y-auto bg-slate-50/50 max-h-[420px]">
             {messages.map((message) => (
               <div key={message.id} className="flex items-start gap-3">
                 <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 overflow-hidden ${message.sender === 'user' ? 'bg-slate-200 text-slate-600' : 'border-2 border-cyan-200'
@@ -604,7 +599,7 @@ const AvatarInteractionPage = () => {
             ))}
           </div>
 
-          <div className="p-4 border-t border-slate-100 bg-white">
+          <div className="p-2 border-t border-slate-100 bg-white">
             <div className="flex items-center bg-slate-100 rounded-2xl px-4 py-3 focus-within:ring-2 focus-within:ring-cyan-500/30">
               <input
                 type="text"
@@ -660,109 +655,331 @@ const AvatarInteractionPage = () => {
 );
 
   // ==================== KNOWLEDGE TAB ====================
-  const renderKnowledgeTab = () => (
-    <div className="h-full overflow-y-auto">
-      <div className="max-w-6xl mx-auto space-y-6">
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-3xl font-bold text-gray-900">{avatar.name}</h1>
-            <p className="text-sm text-gray-600 mt-1">Manage knowledge sources</p>
-          </div>
-          <button onClick={handleSave} className="flex items-center gap-2 px-5 py-2.5 bg-blue-500 text-white rounded-xl hover:bg-blue-600 font-medium">
-            <Save size={18} /> Save
-          </button>
+ const renderKnowledgeTab = () => (
+  <div className="h-full overflow-y-auto pb-24">
+    <div className="max-w-6xl mx-auto space-y-6">
+      {/* Header */}
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-3xl font-bold text-gray-900">{avatar.name}</h1>
+          <p className="text-sm text-gray-600 mt-1">Manage knowledge sources</p>
         </div>
+         <div className='flex gap-4'>
 
-        {saveStatus && <div className="px-4 py-3 rounded-xl bg-blue-50 text-blue-700 border border-blue-200">{saveStatus}</div>}
-
-        <div className="flex gap-1 border-b border-gray-200">
-          {['general', 'persona', 'guardrail', 'knowledgebase'].map((tab) => (
-            <button
-              key={tab}
-              onClick={() => setKnowledgeSubTab(tab)}
-              className={`px-4 py-3 font-medium border-b-2 capitalize ${knowledgeSubTab === tab ? 'border-blue-500 text-blue-500' : 'border-transparent text-gray-600 hover:text-gray-900'}`}
-            >
-              {tab === 'knowledgebase' ? 'Knowledge Base' : tab}
-            </button>
-          ))}
-        </div>
-
-        <div className="bg-white rounded-2xl p-6 border border-gray-200">
-          {knowledgeSubTab === 'general' && (
-            <div className="max-w-2xl">
-              <h2 className="text-xl font-semibold mb-4">General Settings</h2>
-              <div className="space-y-4">
-                <div>
-                  <label className="block text-sm font-medium mb-2">Avatar Name</label>
-                  <input type="text" value={avatar.name} readOnly className="w-full px-4 py-2.5 rounded-xl border border-gray-300 bg-gray-50" />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium mb-2">Avatar</label>
-                  <div className="w-20 h-20 rounded-xl overflow-hidden border border-gray-300">
-                    <img src={avatar.image} alt="" className="w-full h-full object-cover" />
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
-
-          {knowledgeSubTab === 'persona' && (
-            <div className="max-w-2xl space-y-4">
-              <h2 className="text-xl font-semibold mb-4">Persona</h2>
-              <div>
-                <label className="block text-sm font-medium mb-2">Role</label>
-                <input type="text" value={roleText} onChange={(e) => setRoleText(e.target.value)} className="w-full px-4 py-2.5 rounded-xl border border-gray-300" />
-              </div>
-              <div>
-                <label className="block text-sm font-medium mb-2">Description</label>
-                <textarea value={personaText} onChange={(e) => setPersonaText(e.target.value)} rows={5} className="w-full px-4 py-3 rounded-xl border border-gray-300" />
-              </div>
-            </div>
-          )}
-
-          {knowledgeSubTab === 'guardrail' && (
-            <div className="max-w-2xl">
-              <h2 className="text-xl font-semibold mb-4">Guard Rails</h2>
-              <textarea value={guardRailText} onChange={(e) => setGuardRailText(e.target.value)} rows={6} className="w-full px-4 py-3 rounded-xl border border-gray-300" placeholder="Safety guidelines..." />
-            </div>
-          )}
-
-          {knowledgeSubTab === 'knowledgebase' && (
-            <div>
-              <h2 className="text-xl font-semibold mb-6">Knowledge Base</h2>
-              <div className="grid grid-cols-3 gap-4 mb-8">
-                {[{ icon: Upload, title: 'Upload', desc: 'PDFs, Docs' }, { icon: FileText, title: 'Text', desc: 'Type or paste' }, { icon: Link2, title: 'Link', desc: 'Add URL' }].map((item, i) => (
-                  <button key={i} className="p-6 border-2 border-dashed border-gray-200 rounded-xl hover:border-blue-500 hover:bg-blue-50 transition-all text-center">
-                    <item.icon size={28} className="text-blue-500 mx-auto mb-3" />
-                    <h4 className="font-semibold">{item.title}</h4>
-                    <p className="text-sm text-gray-600">{item.desc}</p>
-                  </button>
-                ))}
-              </div>
-              <div className="space-y-3">
-                {knowledgeBase.map((source) => (
-                  <div key={source.id} className="flex items-center justify-between p-4 rounded-xl border bg-gray-50">
-                    <div className="flex items-center gap-3">
-                      {getFileIcon(source.type)}
-                      <div>
-                        <p className="font-medium">{source.name}</p>
-                        <p className="text-xs text-gray-500">{source.type.toUpperCase()} • {source.size}</p>
-                      </div>
-                    </div>
-                    <MoreVertical size={18} className="text-gray-400" />
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
-        
-
-          
-        </div>
+           <button  onClick={() => setShowTemplateModal(true)} className="flex items-center gap-2 px-5 py-2.5  text-blue-500 border border-blue-700 rounded-xl hover:bg-blue-600 hover:text-white font-medium">
+          <Plus size={18} /> Template
+        </button>
+        <button onClick={handleSave} className="flex items-center gap-2 px-5 py-2.5 bg-blue-500 text-white rounded-xl hover:bg-blue-600 font-medium">
+          <Save size={18} /> Save
+        </button>
+         </div>
       </div>
+
+      {saveStatus && <div className="px-4 py-3 rounded-xl bg-blue-50 text-blue-700 border border-blue-200">{saveStatus}</div>}
+
+      {/* Tabs */}
+      <div className="flex gap-1 border-b border-gray-200">
+        {['persona', 'guardrail', 'knowledgebase'].map((tab) => (
+          <button
+            key={tab}
+            onClick={() => setKnowledgeSubTab(tab)}
+            className={`px-4 py-3 font-medium border-b-2 capitalize ${knowledgeSubTab === tab ? 'border-blue-500 text-blue-500' : 'border-transparent text-gray-600 hover:text-gray-900'}`}
+          >
+            {tab === 'knowledgebase' ? 'Knowledge Base' : tab}
+          </button>
+        ))}
+      </div>
+
+      {/* Content */}
+      <div className=" rounded-2xl p-4">
+        
+      
+        {/* ============ PERSONA TAB - UPDATED ============ */}
+        {knowledgeSubTab === 'persona' && (
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
+            
+            {/* Left Column: Persona Details */}
+            <section className="space-y-6 bg-white p-4 rounded-xl">
+              <div className="inline-block px-3 py-1 bg-slate-100 rounded-lg text-xs font-semibold text-slate-500">
+                Persona
+              </div>
+
+              <div className="space-y-5">
+                {/* Replica Selector */}
+                <div>
+                  <label className="block text-sm font-bold text-slate-700 mb-2">Replica</label>
+                  <div className="flex items-center justify-between p-3 border border-slate-200 rounded-xl bg-white cursor-pointer hover:border-slate-300 transition-colors">
+                    <div className="flex items-center gap-3">
+                      <img 
+                        src={avatar.image} 
+                        alt={avatar.name} 
+                        className="w-10 h-10 rounded-full object-cover border-2 border-cyan-200" 
+                      />
+                      <span className="text-sm font-medium text-slate-700">
+                        {avatar.name} <span className="text-slate-400 font-normal">(default)</span>
+                      </span>
+                    </div>
+                    <ChevronDown size={18} className="text-slate-400" />
+                  </div>
+                </div>
+
+                {/* Persona Role */}
+                <div>
+                  <label className="block text-sm font-bold text-slate-700 mb-2">Persona Role</label>
+                  <input 
+                    type="text" 
+                    value={roleText}
+                    onChange={(e) => setRoleText(e.target.value)}
+                    placeholder="Enter a name for your persona"
+                    className="w-full p-3 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-blue-100 focus:border-blue-300 outline-none transition-all"
+                  />
+                </div>
+
+                {/* System Prompt */}
+                <div className="relative">
+                  <div className="flex items-center gap-2 mb-2">
+                    <label className="text-sm font-bold text-slate-700">
+                      System Prompt <span className="text-slate-400 font-normal">(required)</span>
+                    </label>
+                    <Info size={14} className="text-slate-400" />
+                  </div>
+                  <div className="relative border border-slate-200 rounded-xl overflow-hidden focus-within:ring-2 focus-within:ring-blue-100 focus-within:border-blue-300">
+                    <div className="absolute top-3 right-3 flex flex-col gap-2 z-10">
+                      <button className="p-1.5 hover:bg-slate-100 rounded-lg transition-colors">
+                        <Wand2 size={16} className="text-slate-400 hover:text-blue-500" />
+                      </button>
+                    </div>
+                    <textarea 
+                      rows={8}
+                      value={personaText}
+                      onChange={(e) => setPersonaText(e.target.value)}
+                      placeholder="e.g. You are a witty travel guide with deep knowledge of European history and architecture."
+                      className="w-full p-4 pr-12 text-sm text-slate-600 bg-white outline-none resize-none"
+                    />
+                    <div className="absolute bottom-3 right-3">
+                      <Maximize2 size={16} className="text-slate-300 cursor-pointer hover:text-slate-500" />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Info Box */}
+                <div className="flex gap-3 p-4 bg-blue-50 border border-blue-100 rounded-xl text-xs text-slate-600 leading-relaxed">
+                  <Info size={16} className="shrink-0 mt-0.5 text-blue-500" />
+                  <p>
+                    The <span className="font-bold text-slate-700">context</span> field has been deprecated. 
+                    Please use the system prompt to provide both personality and context information.
+                  </p>
+                </div>
+
+                {/* Greeting Message */}
+                <div>
+                  <div className="flex items-center gap-2 mb-2">
+                    <label className="text-sm font-bold text-slate-700">Greeting Message</label>
+                    <Info size={14} className="text-slate-400" />
+                  </div>
+                  <textarea 
+                    rows={3}
+                    placeholder="Hi! I'm your AI assistant. How can I help you today?"
+                    className="w-full p-4 border border-slate-200 rounded-xl text-sm text-slate-600 outline-none resize-none focus:ring-2 focus:ring-blue-100 focus:border-blue-300"
+                  />
+                </div>
+              </div>
+            </section>
+
+            {/* Right Column: Technical Layers */}
+            <section className="space-y-6 bg-white p-4 rounded-xl">
+              <div className="inline-block px-3 py-1 bg-slate-100 rounded-lg text-xs font-semibold text-slate-500">
+                Layers
+              </div>
+
+              <div className="space-y-5">
+                {/* Language Model */}
+                <SelectField label="Language Model (LLM)" value="GPT-4o (Recommended)" hasSettings />
+                
+                {/* Tools */}
+                <div className="space-y-2">
+                  <label className="block text-sm font-bold text-slate-700">Tools</label>
+                  <button className="flex items-center gap-2 px-4 py-2.5 border border-slate-200 rounded-full text-xs font-bold text-slate-600 hover:bg-slate-50 hover:border-slate-300 transition-colors">
+                    <Plus size={14} /> Add Tool
+                  </button>
+                </div>
+
+                {/* Turn Detection */}
+                <SelectField label="Turn Detection Model" value="Sparrow-1 (Recommended)" hasSettings />
+
+                {/* Perception Model */}
+                <SelectField label="Perception Model" value="Raven-1" hasSettings />
+
+                {/* Visual & Audio Tools */}
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <label className="block text-sm font-bold text-slate-700">Visual Tools</label>
+                    <button className="flex items-center gap-2 px-4 py-2.5 border border-slate-200 rounded-full text-xs font-bold text-slate-600 hover:bg-slate-50 transition-colors">
+                      <Plus size={14} /> Add
+                    </button>
+                  </div>
+                  <div className="space-y-2">
+                    <label className="block text-sm font-bold text-slate-700">Audio Tools</label>
+                    <button className="flex items-center gap-2 px-4 py-2.5 border border-slate-200 rounded-full text-xs font-bold text-slate-600 hover:bg-slate-50 transition-colors">
+                      <Plus size={14} /> Add
+                    </button>
+                  </div>
+                </div>
+
+                {/* TTS */}
+                <SelectField label="Text-to-Speech (TTS)" value="ElevenLabs - Natural" hasSettings />
+
+                {/* Hotwords */}
+                <div>
+                  <div className="flex items-center gap-2 mb-2">
+                    <label className="text-sm font-bold text-slate-700">Hotwords (STT)</label>
+                    <Info size={14} className="text-slate-400" />
+                  </div>
+                  <input 
+                    type="text" 
+                    placeholder="Enter hotwords separated by commas"
+                    className="w-full p-3 border border-slate-200 rounded-xl text-sm outline-none focus:ring-2 focus:ring-blue-100 focus:border-blue-300"
+                  />
+                </div>
+
+                {/* Knowledge Base Card */}
+                <div className="border border-slate-200 rounded-xl p-4 flex items-center justify-between hover:border-slate-300 transition-colors">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-lg bg-blue-50 flex items-center justify-center">
+                      <Database size={18} className="text-blue-500" />
+                    </div>
+                    <div>
+                      <h4 className="text-sm font-bold text-slate-700">Knowledge Base</h4>
+                      <p className="text-xs text-slate-400">Enable your persona to reference information...</p>
+                    </div>
+                  </div>
+                  <button className="px-4 py-2 border border-slate-200 rounded-lg text-xs font-bold text-slate-600 hover:bg-slate-50 transition-colors">
+                    Configure
+                  </button>
+                </div>
+
+                {/* Guard Rails Card */}
+                <div className="border border-slate-200 rounded-xl p-4 flex items-center justify-between hover:border-slate-300 transition-colors">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-lg bg-amber-50 flex items-center justify-center">
+                      <Shield size={18} className="text-amber-500" />
+                    </div>
+                    <div>
+                      <h4 className="text-sm font-bold text-slate-700">Guard Rails</h4>
+                      <p className="text-xs text-slate-400">Set safety boundaries for responses...</p>
+                    </div>
+                  </div>
+                  <button 
+                    onClick={() => setKnowledgeSubTab('guardrail')}
+                    className="px-4 py-2 border border-slate-200 rounded-lg text-xs font-bold text-slate-600 hover:bg-slate-50 transition-colors"
+                  >
+                    Configure
+                  </button>
+                </div>
+              </div>
+            </section>
+          </div>
+        )}
+
+        {/* ============ GUARDRAIL TAB ============ */}
+        {knowledgeSubTab === 'guardrail' && (
+          <div className="max-w-2xl">
+            <h2 className="text-xl font-semibold mb-4">Guard Rails</h2>
+            <p className="text-sm text-slate-500 mb-6">Define safety guidelines and boundaries for your AI persona.</p>
+            
+            <div className="space-y-6">
+              {/* Main Guard Rail Textarea */}
+              <div>
+                <div className="flex items-center gap-2 mb-2">
+                  <label className="text-sm font-bold text-slate-700">Safety Guidelines</label>
+                  <Info size={14} className="text-slate-400" />
+                </div>
+                <textarea 
+                  value={guardRailText} 
+                  onChange={(e) => setGuardRailText(e.target.value)} 
+                  rows={6} 
+                  className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-100 focus:border-blue-300 outline-none" 
+                  placeholder="e.g. Do not discuss political topics. Avoid giving medical advice. Always be respectful..." 
+                />
+              </div>
+
+              {/* Quick Toggles */}
+              <div className="space-y-3">
+                <h3 className="text-sm font-bold text-slate-700">Quick Settings</h3>
+                
+                {[
+                  { label: 'Block inappropriate content', enabled: true },
+                  { label: 'Prevent medical advice', enabled: true },
+                  { label: 'Restrict financial recommendations', enabled: false },
+                  { label: 'Avoid political discussions', enabled: true },
+                ].map((item, i) => (
+                  <div key={i} className="flex items-center justify-between p-3 border border-slate-200 rounded-xl">
+                    <span className="text-sm text-slate-700">{item.label}</span>
+                    <button className={`relative w-11 h-6 rounded-full transition-colors ${item.enabled ? 'bg-green-500' : 'bg-gray-300'}`}>
+                      <span className={`absolute top-0.5 w-5 h-5 bg-white rounded-full shadow transition-all ${item.enabled ? 'left-5' : 'left-0.5'}`} />
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* ============ KNOWLEDGE BASE TAB ============ */}
+        {knowledgeSubTab === 'knowledgebase' && (
+          <div>
+            <h2 className="text-xl font-semibold mb-2">Knowledge Base</h2>
+            <p className="text-sm text-slate-500 mb-6">Add data sources to enhance your persona's knowledge.</p>
+            
+            <div className="grid grid-cols-3 gap-4 mb-8">
+              {[
+                { icon: Upload, title: 'Upload Files', desc: 'PDFs, Docs, Excel' },
+                { icon: FileText, title: 'Add Text', desc: 'Type or paste content' },
+                { icon: Link2, title: 'Add Link', desc: 'Import from URL' }
+              ].map((item, i) => (
+                <button key={i} className="p-6 border-2 border-dashed border-gray-500 rounded-xl hover:border-blue-500 hover:bg-blue-50 transition-all text-center group">
+                  <div className="w-12 h-12 mx-auto mb-3 rounded-xl bg-blue-50 group-hover:bg-blue-100 flex items-center justify-center transition-colors">
+                    <item.icon size={24} className="text-blue-500" />
+                  </div>
+                  <h4 className="font-semibold text-slate-700">{item.title}</h4>
+                  <p className="text-sm text-gray-500">{item.desc}</p>
+                </button>
+              ))}
+            </div>
+
+            {/* Sources List */}
+            <div className="space-y-3">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="font-semibold text-slate-700">Data Sources ({knowledgeBase.length})</h3>
+                <button className="text-sm text-blue-500 font-medium hover:text-blue-600">Sync All</button>
+              </div>
+              
+              {knowledgeBase.map((source) => (
+                <div key={source.id} className="flex items-center justify-between p-4 rounded-xl border border-slate-200 bg-slate-50 hover:bg-slate-100 transition-colors group">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-lg bg-white flex items-center justify-center border border-slate-200">
+                      {getFileIcon(source.type)}
+                    </div>
+                    <div>
+                      <p className="font-medium text-slate-700">{source.name}</p>
+                      <p className="text-xs text-gray-500">{source.type.toUpperCase()} • {source.size}</p>
+                    </div>
+                  </div>
+                  <button className="p-2 opacity-0 group-hover:opacity-100 hover:bg-slate-200 rounded-lg transition-all">
+                    <MoreVertical size={18} className="text-gray-400" />
+                  </button>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* ============ FOOTER ACTIONS - FIXED AT BOTTOM ============ */}
+     
     </div>
-  );
+  </div>
+);
 
   // ==================== DEVELOPER TAB ====================
   const renderDeveloperTab = () => (
@@ -896,8 +1113,38 @@ const AvatarInteractionPage = () => {
       <main className="flex-1 overflow-hidden p-6 ">
         <div className="h-full">{renderContent()}</div>
       </main>
+
+
+       <TemplateModal
+      isOpen={showTemplateModal}
+      onClose={() => setShowTemplateModal(false)}
+      onSelectTemplate={handleSelectTemplate}
+    />
     </div>
   );
 };
 
 export default AvatarInteractionPage;
+
+
+
+
+const SelectField = ({ label, value, hasSettings = false, hasInfo = true }) => (
+  <div className="space-y-2">
+    <div className="flex items-center gap-2">
+      <label className="text-sm font-bold text-slate-700">{label}</label>
+      {hasInfo && <Info size={14} className="text-slate-400" />}
+    </div>
+    <div className="flex gap-2">
+      <div className="flex-1 flex items-center justify-between p-3 border border-slate-200 rounded-xl text-sm bg-white cursor-pointer group hover:border-slate-300 transition-colors">
+        <span className="text-slate-700">{value}</span>
+        <ChevronDown size={18} className="text-slate-400 group-hover:text-slate-600 transition-colors" />
+      </div>
+      {hasSettings && (
+        <button className="p-3 border border-slate-200 rounded-xl hover:bg-slate-50 transition-colors">
+          <Settings size={18} className="text-slate-400" />
+        </button>
+      )}
+    </div>
+  </div>
+);
