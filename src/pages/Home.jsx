@@ -1,6 +1,7 @@
 import { Sparkles, Zap, Brain, TrendingUp, MessageSquare, User, ArrowRight, ChevronRight, Settings, Bell, Search, LayoutGrid, Star } from 'lucide-react';
 import { useApp } from '../hooks/useApp';
 import { useNavigate } from 'react-router-dom';
+import Header from '../components/layout/Header';
 
 const HomePage = () => {
   const { user } = useApp();
@@ -73,46 +74,7 @@ const HomePage = () => {
   return (
     <div className="min-h-screen">
       {/* Header */}
-      <header className="sticky top-0 z-50 backdrop-blur-xl bg-white/70 border-b border-gray-200/50">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8 py-4">
-          <div className="flex items-center justify-between">
-            {/* Logo */}
-            <div className="flex items-center gap-4">
-              <button
-                onClick={() => navigate('/dashboard')}
-                className="hover:opacity-80 transition-opacity cursor-pointer"
-                title="Go to Dashboard"
-              >
-                <img src="/webkype-logo11.png" alt="Webkype" className="h-10 w-auto" />
-              </button>
-              <div className="hidden md:block h-6 w-px bg-gray-300"></div>
-              <span className="hidden md:block text-sm font-medium text-gray-500">Dashboard</span>
-            </div>
-
-         
-          
-
-            {/* Right Actions */}
-            <div className="flex items-center gap-3">
-              
-              {/* User Profile */}
-              <div className="flex items-center gap-3 pl-3 ml-2 border-l border-gray-200">
-                <div className="hidden sm:block text-right">
-                  <p className="text-sm font-semibold text-gray-900">
-                    {user?.name || 'User'}
-                  </p>
-                  <p className="text-xs text-gray-500">
-                    {user?.email || 'user@example.com'}
-                  </p>
-                </div>
-                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center shadow-lg shadow-purple-500/20">
-                  <User size={20} className="text-white" />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </header>
+      <Header user={user}   title={"Dashboard"} />
 
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-6 lg:px-8 py-8 lg:py-12">

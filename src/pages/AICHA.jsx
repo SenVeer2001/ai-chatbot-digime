@@ -1,7 +1,8 @@
-import { Plus, MessageCircle, Settings, Trash2, Copy, Search, LogOut, User, Grid3X3, List, Calendar, Clock, Eye, Sparkles, AlertCircle } from 'lucide-react';
+import { Plus, MessageCircle, Settings, Trash2, Copy, Search, LogOut, User, Grid3X3, List, Calendar, Clock, Eye, Sparkles, AlertCircle, ImageOff, X, Check } from 'lucide-react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useApp } from '../hooks/useApp';
+import Header from '../components/layout/Header';
 
 const AICHAPage = () => {
   const { contexts, knowledgeBase, user } = useApp();
@@ -10,6 +11,7 @@ const AICHAPage = () => {
   const [viewMode, setViewMode] = useState('grid');
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [newBotName, setNewBotName] = useState('');
+  const [copyNotification, setCopyNotification] = useState(null);
 
   // Sample images for chatbots
   const sampleImages = [
@@ -140,6 +142,38 @@ const AICHAPage = () => {
     }
   };
 
+ const handleCopyBot = (bot) => {
+  const newBot = {
+    ...bot,
+    id: Date.now(),
+    name: `${bot.name} (Copy)`,
+    createdAt: new Date().toISOString().split('T')[0],
+    updatedAt: new Date().toISOString().split('T')[0],
+  };
+  
+  // Add at top
+  setChatbots((prev) => [newBot, ...prev]);
+  
+  setCopyNotification(`"${bot.name}" copied successfully!`);
+  setTimeout(() => setCopyNotification(null), 3000);
+};
+
+
+  const handleRemoveImage = (botId) => {
+    setChatbots((prev) =>
+      prev.map((bot) =>
+        bot.id === botId ? { ...bot, image: null } : bot
+      )
+    );
+  };
+
+  {copyNotification && (
+  <div className="fixed top-20 right-6 z-50 px-4 py-3 bg-green-500 text-white rounded-lg shadow-lg flex items-center gap-2 animate-slide-in">
+    <Check size={18} />
+    {copyNotification}
+  </div>
+)}
+
   // Status Badge Component
   const StatusBadge = ({ status }) => {
     if (status === 'active') {
@@ -185,38 +219,7 @@ const AICHAPage = () => {
   return (
     <div className="min-h-screen ">
       {/* Header */}
-      <div className="border-b border-gray-200  backdrop-blur-md sticky top-0 z-30">
-        <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <button
-              onClick={() => navigate('/dashboard')}
-              className="hover:opacity-80 transition-opacity cursor-pointer"
-            >
-              <img src="/webkype-logo11.png" alt="Webkype" className="h-8 w-auto" />
-            </button>
-            <div className="hidden md:block h-6 w-px bg-gray-300"></div>
-            <span className="hidden md:block text-sm font-medium text-gray-500">AICHA™</span>
-          </div>
-
-          <div className="flex items-center gap-4">
-            <div className="flex items-center gap-3 px-4 py-2 rounded-xl bg-white border border-gray-200">
-              <div className="w-9 h-9 rounded-full bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center">
-                <User size={18} className="text-white" />
-              </div>
-              <div className="hidden sm:block">
-                <p className="text-sm font-semibold text-gray-900">{user?.name || 'User'}</p>
-                <p className="text-xs text-gray-500">{user?.email || 'user@example.com'}</p>
-              </div>
-            </div>
-            <button
-              onClick={() => { localStorage.removeItem('auth'); navigate('/'); }}
-              className="p-2.5 rounded-xl hover:bg-gray-100 transition-colors"
-            >
-              <LogOut size={20} className="text-gray-600" />
-            </button>
-          </div>
-        </div>
-      </div>
+      <Header title={"AICHA™"} />
 
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-6 py-10">
@@ -257,22 +260,20 @@ const AICHAPage = () => {
           <div className="flex items-center gap-1 p-1 bg-white border border-gray-200 rounded-xl shadow-sm">
             <button
               onClick={() => setViewMode('grid')}
-              className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all ${
-                viewMode === 'grid'
+              className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all ${viewMode === 'grid'
                   ? 'bg-blue-500 text-white shadow-sm'
                   : 'text-gray-600 hover:bg-gray-100'
-              }`}
+                }`}
             >
               <Grid3X3 size={18} />
               <span className="hidden sm:inline">Grid</span>
             </button>
             <button
               onClick={() => setViewMode('list')}
-              className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all ${
-                viewMode === 'list'
+              className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all ${viewMode === 'list'
                   ? 'bg-blue-500 text-white shadow-sm'
                   : 'text-gray-600 hover:bg-gray-100'
-              }`}
+                }`}
             >
               <List size={18} />
               <span className="hidden sm:inline">List</span>
@@ -299,10 +300,10 @@ const AICHAPage = () => {
             {/* Add New Card */}
             <button
               onClick={() => setShowCreateModal(true)}
-              className="aspect-[4/5] rounded-2xl border-2 border-dashed border-gray-300 hover:border-blue-500 hover:bg-blue-50 flex flex-col items-center justify-center transition-all group"
+              className="aspect-[4/5] rounded-2xl border-2 border-dashed border-gray-400 hover:border-blue-500 hover:bg-blue-50 flex flex-col items-center justify-center transition-all group"
             >
-              <div className="w-16 h-16 rounded-full bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center mb-3 shadow-lg group-hover:scale-110 transition-transform">
-                <Plus size={28} className="text-white" />
+              <div className="w-20 h-20 rounded-full bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center mb-4 shadow-lg group-hover:scale-110 transition-transform">
+                <Plus size={32} className="text-white" />
               </div>
               <p className="font-semibold text-gray-700">New Chatbot</p>
               <p className="text-sm text-gray-400">Create AICHA</p>
@@ -315,82 +316,87 @@ const AICHAPage = () => {
                 onClick={() => navigate(`/aicha/${bot.id}`, { state: { bot } })}
                 className="group bg-white rounded-2xl border border-gray-200 overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-300 cursor-pointer"
               >
-                {/* Image Area */}
-                <div className="aspect-[4/3] relative overflow-hidden">
-                  {bot.image ? (
-                    <img
-                      src={bot.image}
-                      alt={bot.name}
-                      className="w-full h-full object-cover"
-                    />
-                  ) : (
-                    <div className="w-full h-full bg-gradient-to-br from-blue-100 via-cyan-100 to-teal-100 flex items-center justify-center">
-                      <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center shadow-lg">
-                        <MessageCircle size={40} className="text-white" />
-                      </div>
-                    </div>
-                  )}
-
-                  {/* Gradient Overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
-
-                  {/* Hover Actions */}
-                  <div className="absolute inset-0 flex items-center justify-center gap-2 opacity-0 group-hover:opacity-100 transition-all">
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        navigate(`/aicha/${bot.id}`, { state: { bot } });
-                      }}
-                      className="p-3 bg-white rounded-xl shadow-lg hover:scale-110 transition-transform"
-                    >
-                      <Eye size={20} className="text-gray-700" />
-                    </button>
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        navigate(`/aicha/${bot.id}`, { state: { bot } });
-                      }}
-                      className="p-3 bg-white rounded-xl shadow-lg hover:scale-110 transition-transform"
-                    >
-                      <Settings size={20} className="text-gray-700" />
-                    </button>
-                    <button
-                      onClick={(e) => handleDeleteBot(bot.id, e)}
-                      className="p-3 bg-white rounded-xl shadow-lg hover:scale-110 transition-transform"
-                    >
-                      <Trash2 size={20} className="text-red-500" />
-                    </button>
-                  </div>
-
-                  {/* Status Badge - Top Left */}
-                  {/* <div className={`absolute top-3 left-3 px-3 py-1 rounded-full text-xs font-medium flex items-center gap-1.5 shadow-lg ${
-                    bot.status === 'active'
-                      ? 'bg-green-500 text-white'
-                      : 'bg-amber-500 text-white'
-                  }`}>
-                    {bot.status === 'active' ? (
-                      <>
-                        <div className="w-1.5 h-1.5 rounded-full bg-white animate-pulse"></div>
-                        Active
-                      </>
-                    ) : (
-                      <>
-                        <AlertCircle size={12} />
-                        Incomplete
-                      </>
-                    )}
-                  </div> */}
-
+                {/* Top Section with Circle Avatar */}
+                <div className="pt-8 pb-4 px-5   relative">
                   {/* Conversations Badge - Top Right */}
-                  <div className="absolute top-3 right-3 px-3 py-1 bg-white/90 backdrop-blur-sm text-gray-700 text-xs font-medium rounded-full flex items-center gap-1 shadow-lg">
+                  <div className="absolute top-3 right-3 px-3 py-1 bg-white/90 backdrop-blur-sm text-gray-700 text-xs font-medium rounded-full flex items-center gap-1 shadow-sm">
                     <MessageCircle size={12} />
                     {bot.conversations}
+                  </div>
+
+                  {/* Circular Avatar with Action Icons */}
+                  <div className="flex flex-col items-center">
+                    <div className="relative">
+                      {/* Circle Image */}
+                      <div className="w-24 h-24 rounded-full overflow-hidden border-4 border-white shadow-lg">
+                        {bot.image ? (
+                          <img
+                            src={bot.image}
+                            alt={bot.name}
+                            className="w-full h-full object-cover"
+                          />
+                        ) : (
+                          <div className="w-full h-full bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center">
+                            <MessageCircle size={36} className="text-white" />
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Status Indicator on Avatar */}
+                      <div className={`absolute bottom-1 right-1 w-6 h-6 rounded-full border-3 border-white flex items-center justify-center ${bot.status === 'active' ? 'bg-green-500' : 'bg-amber-500'
+                        }`}>
+                        <div className={`w-2 h-2 rounded-full bg-white ${bot.status === 'active' ? 'animate-pulse' : ''}`}></div>
+                      </div>
+
+                      {/* Action Icons Below Avatar */}
+                      <div className="absolute -bottom-3 left-1/2 transform -translate-x-1/2 flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-all">
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            navigate(`/aicha/${bot.id}`, { state: { bot } });
+                          }}
+                          className="p-1.5 bg-white rounded-lg shadow-md hover:bg-blue-50 transition-colors"
+                          title="View"
+                        >
+                          <Eye size={14} className="text-blue-600" />
+                        </button>
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            navigate(`/aicha/${bot.id}`, { state: { bot } });
+                          }}
+                          className="p-1.5 bg-white rounded-lg shadow-md hover:bg-gray-100 transition-colors"
+                          title="Settings"
+                        >
+                          <Settings size={14} className="text-gray-600" />
+                        </button>
+                        <button
+                          onClick={(e) => handleDeleteBot(bot.id, e)}
+                          className="p-1.5 bg-white rounded-lg shadow-md hover:bg-red-50 transition-colors"
+                          title="Delete"
+                        >
+                          <Trash2 size={14} className="text-red-500" />
+                        </button>
+
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleCopyBot(bot);
+                          }}
+                          className="p-1.5 bg-white rounded-lg shadow-md hover:bg-orange-50 transition-colors"
+                          title="copy"
+                        >
+                          <Copy size={14} className="text-blue-700" />
+                        </button>
+
+                      </div>
+                    </div>
                   </div>
                 </div>
 
                 {/* Content */}
-                <div className="p-5">
-                  <h3 className="font-bold text-lg text-gray-900 mb-3 truncate">{bot.name}</h3>
+                <div className="p-5 pt-6">
+                  <h3 className="font-bold text-lg text-gray-900 mb-3 truncate text-center">{bot.name}</h3>
 
                   <div className="space-y-2">
                     <div className="flex items-center gap-2 text-sm text-gray-500">
@@ -405,13 +411,16 @@ const AICHAPage = () => {
 
                   <div className="flex items-center justify-between mt-4 pt-4 border-t border-gray-100">
                     <StatusBadge status={bot.status} />
-                    <ActionButton 
-                      status={bot.status}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        navigate(`/aicha/${bot.id}`, { state: { bot } });
-                      }}
-                    />
+                    <div className="flex items-center gap-2">
+
+                      <ActionButton
+                        status={bot.status}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          navigate(`/aicha/${bot.id}`, { state: { bot } });
+                        }}
+                      />
+                    </div>
                   </div>
                 </div>
               </div>
@@ -421,122 +430,159 @@ const AICHAPage = () => {
 
         {/* List View */}
         {viewMode === 'list' && (
-          <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm">
-            {/* Table Header */}
-            <div className="grid grid-cols-12 gap-4 px-6 py-4 bg-gray-50 border-b border-gray-200 text-sm font-semibold text-gray-600">
-              <div className="col-span-4 lg:col-span-3">Name</div>
-              <div className="col-span-2 hidden lg:block">Status</div>
-              <div className="col-span-2 hidden lg:block">Created</div>
-              <div className="col-span-2 hidden lg:block">Updated</div>
-              <div className="col-span-2 hidden sm:block">Conversations</div>
-              <div className="col-span-4 sm:col-span-2 lg:col-span-1 text-right">Actions</div>
-            </div>
+         <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm">
+  {/* Table Header */}
+  <div className="grid grid-cols-12 gap-4 px-6 py-4 bg-gray-50 border-b border-gray-200 text-sm font-semibold text-gray-600">
+    <div className="col-span-4 lg:col-span-3">Name</div>
+    <div className="col-span-2 hidden lg:block">Status</div>
+    <div className="col-span-2 hidden lg:block">Created</div>
+    <div className="col-span-2 hidden lg:block">Updated</div>
+    <div className="col-span-1 hidden sm:block">Chats</div>
+    <div className="col-span-4 sm:col-span-3 lg:col-span-2 text-right">Actions</div>
+  </div>
 
-            {/* Table Body */}
-            {filteredChatbots.map((bot, index) => (
-              <div
-                key={bot.id}
-                onClick={() => navigate(`/aicha/${bot.id}`, { state: { bot } })}
-                className={`grid grid-cols-12 gap-4 px-6 py-4 items-center hover:bg-blue-50 transition-colors cursor-pointer ${
-                  index !== filteredChatbots.length - 1 ? 'border-b border-gray-100' : ''
-                }`}
-              >
-                {/* Name with Image */}
-                <div className="col-span-4 lg:col-span-3 flex items-center gap-4">
-                  <div className="relative w-14 h-14 rounded-xl overflow-hidden flex-shrink-0 shadow-sm">
-                    {bot.image ? (
-                      <img src={bot.image} alt={bot.name} className="w-full h-full object-cover" />
-                    ) : (
-                      <div className="w-full h-full bg-gradient-to-br from-blue-100 to-cyan-100 flex items-center justify-center">
-                        <MessageCircle size={24} className="text-blue-500" />
-                      </div>
-                    )}
-                    {/* Status indicator on image */}
-                    <div className={`absolute -bottom-1 -right-1 w-5 h-5 rounded-full flex items-center justify-center border-2 border-white ${
-                      bot.status === 'active' ? 'bg-green-500' : 'bg-amber-500'
-                    }`}>
-                      {bot.status === 'active' ? (
-                        <div className="w-2 h-2 rounded-full bg-white"></div>
-                      ) : (
-                        <AlertCircle size={10} className="text-white" />
-                      )}
-                    </div>
-                  </div>
-                  <div className="min-w-0">
-                    <h3 className="font-semibold text-gray-900 truncate">{bot.name}</h3>
-                    <p className="text-sm text-gray-500 lg:hidden">
-                      {formatDate(bot.updatedAt)}
-                    </p>
-                  </div>
-                </div>
-
-                {/* Status */}
-                <div className="col-span-2 hidden lg:block">
-                  <StatusBadge status={bot.status} />
-                </div>
-
-                {/* Created Date */}
-                <div className="col-span-2 hidden lg:flex items-center gap-2 text-sm text-gray-600">
-                  <Calendar size={14} className="text-blue-400" />
-                  {formatDate(bot.createdAt)}
-                </div>
-
-                {/* Updated Date */}
-                <div className="col-span-2 hidden lg:flex items-center gap-2 text-sm text-gray-600">
-                  <Clock size={14} className="text-green-400" />
-                  {formatDate(bot.updatedAt)}
-                </div>
-
-                {/* Conversations */}
-                <div className="col-span-2 hidden sm:block">
-                  <span className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-blue-50 text-blue-600 rounded-full text-sm font-medium">
-                    <MessageCircle size={14} />
-                    {bot.conversations}
-                  </span>
-                </div>
-
-                {/* Actions */}
-                <div className="col-span-4 sm:col-span-2 lg:col-span-1 flex items-center justify-end gap-1">
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      navigate(`/aicha/${bot.id}`, { state: { bot } });
-                    }}
-                    className="p-2 rounded-lg bg-blue-50 hover:bg-blue-100 text-blue-600 transition-colors"
-                    title="View"
-                  >
-                    <Eye size={16} />
-                  </button>
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      navigate(`/aicha/${bot.id}`, { state: { bot } });
-                    }}
-                    className="p-2 rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-600 transition-colors"
-                    title="Settings"
-                  >
-                    <Settings size={16} />
-                  </button>
-                  <button
-                    onClick={(e) => handleDeleteBot(bot.id, e)}
-                    className="p-2 rounded-lg bg-red-50 hover:bg-red-100 text-red-500 transition-colors"
-                    title="Delete"
-                  >
-                    <Trash2 size={16} />
-                  </button>
-                </div>
-              </div>
-            ))}
-
-            {/* Empty State */}
-            {filteredChatbots.length === 0 && (
-              <div className="py-16 text-center">
-                <Search size={48} className="mx-auto mb-4 text-gray-300" />
-                <p className="text-lg font-medium text-gray-600">No chatbots found</p>
-                <p className="text-sm text-gray-400">Try a different search term</p>
+  {/* Table Body */}
+  {filteredChatbots.map((bot, index) => (
+    <div
+      key={bot.id}
+      onClick={() => navigate(`/aicha/${bot.id}`, { state: { bot } })}
+      className={`group grid grid-cols-12 gap-4 px-6 py-4 items-center hover:bg-blue-50 transition-colors cursor-pointer ${
+        index !== filteredChatbots.length - 1 ? 'border-b border-gray-100' : ''
+      }`}
+    >
+      {/* Name with Circle Image */}
+      <div className="col-span-4 lg:col-span-3 flex items-center gap-4">
+        <div className="relative flex-shrink-0">
+          {/* Circle Image */}
+          <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-gray-100 shadow-sm">
+            {bot.image ? (
+              <img src={bot.image} alt={bot.name} className="w-full h-full object-cover" />
+            ) : (
+              <div className="w-full h-full bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center">
+                <MessageCircle size={20} className="text-white" />
               </div>
             )}
           </div>
+          
+          {/* Status indicator on avatar bottom */}
+          <div className={`absolute -bottom-0.5 -right-0.5 w-4 h-4 rounded-full flex items-center justify-center border-2 border-white ${
+            bot.status === 'active' ? 'bg-green-500' : 'bg-amber-500'
+          }`}>
+            {bot.status === 'active' ? (
+              <div className="w-1.5 h-1.5 rounded-full bg-white animate-pulse"></div>
+            ) : (
+              <AlertCircle size={8} className="text-white" />
+            )}
+          </div>
+
+          {/* Remove Image Button (shows on hover) */}
+          {bot.image && (
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                handleRemoveImage(bot.id);
+              }}
+              className="absolute -top-1 -right-1 p-1 bg-white rounded-full shadow-md opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-50"
+              title="Remove Image"
+            >
+              <X size={10} className="text-red-500" />
+            </button>
+          )}
+        </div>
+        
+        <div className="min-w-0">
+          <h3 className="font-semibold text-gray-900 truncate">{bot.name}</h3>
+          <p className="text-sm text-gray-500 lg:hidden">
+            {formatDate(bot.updatedAt)}
+          </p>
+        </div>
+      </div>
+
+      {/* Status */}
+      <div className="col-span-2 hidden lg:block">
+        <StatusBadge status={bot.status} />
+      </div>
+
+      {/* Created Date */}
+      <div className="col-span-2 hidden lg:flex items-center gap-2 text-sm text-gray-600">
+        <Calendar size={14} className="text-blue-400" />
+        {formatDate(bot.createdAt)}
+      </div>
+
+      {/* Updated Date */}
+      <div className="col-span-2 hidden lg:flex items-center gap-2 text-sm text-gray-600">
+        <Clock size={14} className="text-green-400" />
+        {formatDate(bot.updatedAt)}
+      </div>
+
+      {/* Conversations */}
+      <div className="col-span-1 hidden sm:block">
+        <span className="inline-flex items-center gap-1 px-2 py-1 bg-blue-50 text-blue-600 rounded-full text-xs font-medium">
+          <MessageCircle size={12} />
+          {bot.conversations}
+        </span>
+      </div>
+
+      {/* Actions */}
+      <div className="col-span-4 sm:col-span-3 lg:col-span-2 flex items-center justify-end gap-1">
+        {/* Copy Button */}
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            handleCopyBot(bot);
+          }}
+          className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-blue-50 hover:bg-blue-100 text-blue-600 transition-colors text-sm font-medium"
+          title="Copy"
+        >
+          <Copy size={14} />
+          <span className="hidden sm:inline">Copy</span>
+        </button>
+        
+        {/* View Button */}
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            navigate(`/aicha/${bot.id}`, { state: { bot } });
+          }}
+          className="p-2 rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-600 transition-colors"
+          title="View"
+        >
+          <Eye size={16} />
+        </button>
+        
+        {/* Settings Button */}
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            navigate(`/aicha/${bot.id}`, { state: { bot } });
+          }}
+          className="p-2 rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-600 transition-colors hidden lg:flex"
+          title="Settings"
+        >
+          <Settings size={16} />
+        </button>
+        
+        {/* Delete Button */}
+        <button
+          onClick={(e) => handleDeleteBot(bot.id, e)}
+          className="p-2 rounded-lg bg-red-50 hover:bg-red-100 text-red-500 transition-colors"
+          title="Delete"
+        >
+          <Trash2 size={16} />
+        </button>
+      </div>
+    </div>
+  ))}
+
+  {/* Empty State */}
+  {filteredChatbots.length === 0 && (
+    <div className="py-16 text-center">
+      <Search size={48} className="mx-auto mb-4 text-gray-300" />
+      <p className="text-lg font-medium text-gray-600">No chatbots found</p>
+      <p className="text-sm text-gray-400">Try a different search term</p>
+    </div>
+  )}
+</div>
         )}
 
         {/* Empty State for Grid */}
@@ -616,11 +662,10 @@ const AICHAPage = () => {
                 <button
                   onClick={handleCreateChatbot}
                   disabled={!newBotName.trim()}
-                  className={`flex-1 px-4 py-3 rounded-xl font-semibold transition-all flex items-center justify-center gap-2 ${
-                    newBotName.trim()
+                  className={`flex-1 px-4 py-3 rounded-xl font-semibold transition-all flex items-center justify-center gap-2 ${newBotName.trim()
                       ? 'bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 text-white shadow-lg'
                       : 'bg-gray-200 text-gray-400 cursor-not-allowed'
-                  }`}
+                    }`}
                 >
                   <Plus size={18} />
                   Create

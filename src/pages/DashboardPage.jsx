@@ -6,6 +6,7 @@ import Button from '../components/common/Button';
 import Card from '../components/common/Card';
 import { useChatbot } from '../hooks/useChatbot';
 import { useState } from 'react';
+import Header from '../components/layout/Header';
 
 const DashboardPage = ({ darkMode, onToggleDarkMode }) => {
   const navigate = useNavigate();
@@ -26,7 +27,7 @@ const DashboardPage = ({ darkMode, onToggleDarkMode }) => {
       <Sidebar />
 
       <div className="flex-1 flex flex-col overflow-hidden">
-        <Navbar darkMode={darkMode} onToggleDarkMode={onToggleDarkMode} />
+        <Header user={()=>{}} />
 
         {/* Main Content */}
         <main className="flex-1 overflow-y-auto">

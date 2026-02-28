@@ -2,6 +2,7 @@ import { ArrowLeft, Plus, Save, LogOut, User, Bot, Upload, FileText, Link2, More
 import { useMemo, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useApp } from '../hooks/useApp';
+import Header from '../components/layout/Header';
 
 const DIGIMEDetailPage = () => {
   const { id } = useParams();
@@ -162,51 +163,7 @@ const DIGIMEDetailPage = () => {
 
   return (
     <div className={`min-h-screen ${darkMode ? 'bg-gray-950' : 'bg-white'}`}>
-      {/* Header */}
-      <div className={`border-b ${darkMode ? 'border-gray-800' : 'border-gray-200'}`}>
-        <div className="max-w-7xl mx-auto px-8 py-6 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <button
-              onClick={() => navigate('/dashboard')}
-              className="hover:opacity-80 transition-opacity cursor-pointer"
-              title="Go to Dashboard"
-            >
-              <img src="/webkype-logo11.png" alt="Webkype" className="h-10 w-auto" />
-            </button>
-          </div>
-
-          <div className="flex items-center gap-6">
-            <div className={`flex items-center gap-3 px-4 py-2 rounded-lg ${darkMode ? 'bg-gray-900' : 'bg-gray-50'}`}>
-              <div className={`w-10 h-10 rounded-full flex items-center justify-center ${darkMode ? 'bg-gray-800' : 'bg-gray-200'}`}>
-                <User size={20} className={darkMode ? 'text-gray-400' : 'text-gray-600'} />
-              </div>
-              <div>
-                <p className={`text-sm font-semibold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
-                  {user?.name || 'User'}
-                </p>
-                <p className={`text-xs ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-                  {user?.email || 'user@example.com'}
-                </p>
-              </div>
-            </div>
-
-            <button
-              onClick={() => {
-                localStorage.removeItem('auth');
-                navigate('/');
-              }}
-              className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all ${
-                darkMode
-                  ? 'text-gray-400 hover:bg-gray-800 hover:text-gray-200'
-                  : 'text-gray-600 hover:bg-gray-100'
-              }`}
-              title="Logout"
-            >
-              <LogOut size={20} />
-            </button>
-          </div>
-        </div>
-      </div>
+    <Header user={()=>{}} title={"AICHA™"}/>
 
       {/* Main Content */}
       <div className="max-w-6xl mx-auto px-8 py-12 space-y-8">

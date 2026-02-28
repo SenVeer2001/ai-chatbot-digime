@@ -177,7 +177,7 @@ const DIGIMEPage = () => {
             {filteredAvatars.map((avatar, i) => (
               <button
                 key={avatar.id}
-                onClick={() => navigate(`/digime/${avatar.id}`, { state: { avatar } })}
+                onClick={() => navigate(`/digime/test/${avatar.id}`, { state: { avatar } })}
                 className="aspect-[3/4] rounded-2xl overflow-hidden relative group shadow-lg hover:shadow-2xl transition-all hover:-translate-y-2"
               >
                 <div className="absolute inset-0 bg-gradient-to-br from-indigo-400 via-purple-500 to-pink-500 flex items-center justify-center">

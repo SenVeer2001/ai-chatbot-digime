@@ -14,6 +14,9 @@ import ProjectsPage from './pages/Projects';
 import ToolsPage from './pages/Tools';
 import Theme from './components/layout/Theme';
 import CreateDigiMeePage from './components/digimee/CreateDigiMeePage';
+import ProfilePage from './pages/ProfilePage';
+
+import AvatarInteractionPage from './pages/AvatarInteractionPage';
 
 
 
@@ -42,9 +45,12 @@ function App() {
           <Route path="/digime" element={<ProtectedRoute><DIGIMEPage /></ProtectedRoute>} />
           <Route path="/digime/create" element={<ProtectedRoute><CreateDigiMeePage /></ProtectedRoute>} />
           <Route path="/digime/:id" element={<ProtectedRoute><DIGIMEDetailPage /></ProtectedRoute>} />
+          <Route path="/digime/test/:id" element={<ProtectedRoute><AvatarInteractionPage/></ProtectedRoute>} />
+
           <Route path="/aicha" element={<ProtectedRoute><AICHAPage /></ProtectedRoute>} />
           <Route path="/aicha/:id" element={<ProtectedRoute><AICHADetailPage /></ProtectedRoute>} />
           <Route path="/projects" element={<ProtectedRoute><ProjectsPage /></ProtectedRoute>} />
+          <Route path="/profile" element={<ProfilePage />} />
           <Route path="/tools" element={<ProtectedRoute><ToolsPage /></ProtectedRoute>} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
