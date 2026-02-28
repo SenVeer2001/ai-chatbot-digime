@@ -1,4 +1,4 @@
-import { ArrowLeft, Plus, Save, LogOut, User, Bot, Upload, FileText, Link2, MoreVertical, X, Send, Calendar, Clock, MessageCircle, Copy, AlertCircle, Check, Code, Globe, GlobeOff } from 'lucide-react';
+import { ArrowLeft, Plus, Save, LogOut, User, Bot, Upload, FileText, Link2, MoreVertical, X, Send, Calendar, Clock, MessageCircle, Copy, AlertCircle, Check, Code, Globe, GlobeOff, Mic } from 'lucide-react';
 import { useMemo, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useApp } from '../hooks/useApp';
@@ -606,6 +606,12 @@ const AICHADetailPage = () => {
                         placeholder="Type your message..."
                         className="flex-1 px-4 py-2 rounded-xl bg-gray-50 border-gray-200 text-gray-900 placeholder-gray-400 border focus:outline-none focus:ring-2 focus:ring-blue-500"
                       />
+                        <button
+                        onClick={handleSendMessage}
+                        className="px-4 py-2 bg-gradient-to-r from-blue-500 to-cyan-500 text-white rounded-xl hover:from-blue-600 hover:to-cyan-600"
+                      >
+                        <Mic size={20} />
+                      </button>
                       <button
                         onClick={handleSendMessage}
                         className="px-4 py-2 bg-gradient-to-r from-blue-500 to-cyan-500 text-white rounded-xl hover:from-blue-600 hover:to-cyan-600"

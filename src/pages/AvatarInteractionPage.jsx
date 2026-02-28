@@ -10,7 +10,8 @@ import {
   Database, Settings, CheckCircle,
   Eye, EyeOff, MoreVertical, ArrowLeft,
   Activity, AudioLines, ChevronUp, BookOpen, Code2, Github, BarChart3,
-  Search, Menu, Calendar, MessageCircle, Save, ZoomIn, ZoomOut, Maximize2
+  Search, Menu, Calendar, MessageCircle, Save, ZoomIn, ZoomOut, Maximize2,
+  Volume2
 } from 'lucide-react';
 
 const AvatarInteractionPage = () => {
@@ -58,6 +59,14 @@ const AvatarInteractionPage = () => {
     updatedAt: new Date(),
     conversations: 1247
   });
+
+  // Add these states at the top
+const [videoError, setVideoError] = useState(false);
+const [videoLoaded, setVideoLoaded] = useState(false);
+const avatarVideoRef = useRef(null);
+
+// Video URL from public folder - apni video ka naam yahan daalo
+const avatarVideoUrl = '/avatar-talking.mp4'; // ya '/videos/ann-therapist.mp4'
 
   const [messages, setMessages] = useState([
     { id: 1, sender: 'user', text: 'hi', time: '10:30 AM' },
@@ -313,7 +322,7 @@ const AvatarInteractionPage = () => {
         </div>
 
         {/* Video/Audio Controls */}
-        <div className="bg-white rounded-2xl p-4 border border-slate-200 shadow-sm space-y-3">
+        <div className="bg-white flex items-center  justify-between rounded-2xl p-4 border border-slate-200 shadow-sm gap-4 ">
           <button 
             onClick={toggleUserVideo}
             className={`w-full flex items-center justify-center gap-3 p-3 rounded-xl font-medium transition-all ${
@@ -323,9 +332,7 @@ const AvatarInteractionPage = () => {
             }`}
           >
             {userVideoEnabled ? <Video size={20} /> : <VideoOff size={20} />}
-            <span className="text-sm">
-              {userVideoEnabled ? 'Camera On' : 'Turn On Camera'}
-            </span>
+           
           </button>
           
           <button 
@@ -337,93 +344,176 @@ const AvatarInteractionPage = () => {
             }`}
           >
             {userMicEnabled ? <Mic size={20} /> : <MicOff size={20} />}
-            <span className="text-sm">
-              {userMicEnabled ? 'Mic On' : 'Turn On Mic'}
-            </span>
+            
           </button>
 
           {/* Status */}
-          <div className="pt-2 border-t border-slate-100">
-            <div className="flex items-center justify-between text-xs">
-              <span className="text-slate-500">Status:</span>
-              <span className={`font-medium ${userVideoEnabled || userMicEnabled ? 'text-green-600' : 'text-slate-400'}`}>
-                {userVideoEnabled || userMicEnabled ? 'Connected' : 'Ready'}
-              </span>
-            </div>
-          </div>
+        
         </div>
       </div>
 
       {/* CENTER: Avatar Video */}
-      <div className="flex-1 relative bg-white rounded-3xl overflow-hidden shadow-lg border border-slate-200">
+      {/* CENTER: Avatar Talking Video */}
+<div className="flex-1 relative bg-slate-900 rounded-3xl overflow-hidden shadow-lg border border-slate-700 h-[500px]">
+  <div className="relative w-full h-full">
+    <div 
+      className="w-full h-full flex items-center justify-center transition-transform duration-300 overflow-hidden"
+      style={{ transform: `scale(${avatarZoom})` }}
+    >
+      {/* Avatar Talking Video */}
+      <video
+        ref={avatarVideoRef}
+        autoPlay
+        loop
+        muted={false}  // Sound on - avatar ki awaaz sunne ke liye
+        playsInline
+        className={`w-full h-full object-cover ${videoLoaded && !videoError ? 'block' : 'hidden'}`}
+        onLoadedData={() => {
+          setVideoLoaded(true);
+          console.log('✅ Avatar video loaded successfully');
+        }}
+        onError={(e) => {
+          console.log('❌ Video error:', e);
+          setVideoError(true);
+        }}
+        onPlay={() => console.log('▶️ Video playing')}
+      >
+        {/* Multiple sources for better compatibility */}
+        <source src="/AvatarGirl.mp4" type="video/mp4" />
+        <source src="/Avatar.mp4" type="video/mp4" />
+      </video>
+      
+      {/* Fallback Image - jab video load na ho */}
+      {(!videoLoaded || videoError) && (
         <div className="relative w-full h-full">
-          <div 
-            className="w-full h-full flex items-center justify-center transition-transform duration-300 overflow-hidden"
-            style={{ transform: `scale(${avatarZoom})` }}
-          >
-            <img 
-              src={avatar.image} 
-              alt={avatar.name} 
-              className="w-full h-full object-cover"
-            />
-          </div>
-
-          {/* Zoom Controls */}
-          <div className="absolute top-4 right-4 flex flex-col gap-1.5 bg-black/50 backdrop-blur-md rounded-xl p-1.5">
-            <button onClick={handleZoomIn} className="p-2 bg-white/20 hover:bg-white/30 text-white rounded-lg transition-colors">
-              <ZoomIn size={16} />
-            </button>
-            <button onClick={handleResetZoom} className="p-2 bg-white/20 hover:bg-white/30 text-white rounded-lg transition-colors">
-              <Maximize2 size={16} />
-            </button>
-            <button onClick={handleZoomOut} className="p-2 bg-white/20 hover:bg-white/30 text-white rounded-lg transition-colors">
-              <ZoomOut size={16} />
-            </button>
-          </div>
-
-          {/* Timer */}
-          <div className="absolute top-4 left-4 bg-black/50 backdrop-blur-md text-white px-4 py-2 rounded-xl text-sm font-medium flex items-center gap-2">
-            <Clock size={14} />
-            Time: 01:45
-          </div>
-
-          {/* Avatar Name */}
-          <div className="absolute bottom-4 left-4 bg-black/50 backdrop-blur-md px-4 py-2 rounded-xl">
-            <div className="flex items-center gap-2">
-              <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
-              <span className="text-white font-semibold">{avatar.name}</span>
+          <img 
+            src={avatar.image} 
+            alt={avatar.name} 
+            className="w-full h-full object-cover"
+          />
+          {/* Loading spinner */}
+          {!videoError && (
+            <div className="absolute inset-0 flex items-center justify-center bg-black/40">
+              <div className="text-center">
+                <div className="w-12 h-12 border-4 border-cyan-400/30 border-t-cyan-400 rounded-full animate-spin mx-auto mb-3"></div>
+                <p className="text-white text-sm">Loading video...</p>
+              </div>
             </div>
-          </div>
-
-          {/* Bottom Controls */}
-          <div className="absolute bottom-4 right-4 flex items-center gap-2">
-            <div className="flex items-center gap-1.5 bg-black/50 backdrop-blur-xl p-1.5 rounded-xl">
-              <button className="p-2.5 bg-white/10 text-white rounded-lg hover:bg-white/20">
-                <ChevronUp size={18} />
-              </button>
-              <button onClick={() => navigate(-1)} className="p-2.5 bg-red-500 text-white rounded-lg hover:bg-red-600">
-                <X size={18} />
-              </button>
+          )}
+          {/* Error message */}
+          {videoError && (
+            <div className="absolute bottom-20 left-1/2 -translate-x-1/2 bg-red-500/80 text-white px-4 py-2 rounded-lg text-sm">
+              Video not found. Showing image.
             </div>
+          )}
+        </div>
+      )}
+    </div>
 
-            <div className="flex bg-white rounded-xl p-1 shadow-lg">
-              <button 
-                onClick={() => setActiveMode('chat')}
-                className={`p-2.5 rounded-lg transition-all ${activeMode === 'chat' ? 'bg-cyan-500 text-white' : 'text-slate-400 hover:text-cyan-500'}`}
-              >
-                <MessageSquare size={18} />
-              </button>
-              <button 
-                onClick={() => setActiveMode('voice')}
-                className={`p-2.5 rounded-lg transition-all ${activeMode === 'voice' ? 'bg-cyan-500 text-white' : 'text-slate-400 hover:text-cyan-500'}`}
-              >
-                <AudioLines size={18} />
-              </button>
-            </div>
-          </div>
+    {/* LIVE Badge - Top Left */}
+    <div className="absolute top-4 left-4 flex items-center gap-3">
+      <div className="bg-black/60 backdrop-blur-md text-white px-4 py-2 rounded-xl text-sm font-medium flex items-center gap-2">
+        <Clock size={14} />
+        <span>01:45</span>
+      </div>
+      
+      {/* {videoLoaded && !videoError && (
+        <div className="bg-red-500 text-white px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 animate-pulse">
+          <span className="w-2 h-2 bg-white rounded-full"></span>
+          LIVE
+        </div>
+      )} */}
+    </div>
+
+    {/* Volume Control - Top Right */}
+    <div className="absolute top-4 right-4 flex flex-col gap-1.5 bg-black/50 backdrop-blur-md rounded-xl p-1.5">
+      {/* Mute/Unmute */}
+      {/* <button
+        onClick={() => {
+          if (avatarVideoRef.current) {
+            avatarVideoRef.current.muted = !avatarVideoRef.current.muted;
+          }
+        }}
+        className="p-2 bg-white/20 hover:bg-white/30 text-white rounded-lg transition-colors"
+        title="Toggle Sound"
+      >
+        <Volume2 size={16} />
+      </button>
+       */}
+      {/* Reload Video */}
+      <button
+        onClick={() => {
+          setVideoError(false);
+          setVideoLoaded(false);
+          if (avatarVideoRef.current) {
+            avatarVideoRef.current.load();
+            avatarVideoRef.current.play();
+          }
+        }}
+        className="p-2 bg-white/20 hover:bg-white/30 text-white rounded-lg transition-colors"
+        title="Reload Video"
+      >
+        <RefreshCw size={16} />
+      </button>
+      
+      {/* Zoom Controls */}
+      {/* <div className="border-t border-white/20 mt-1 pt-1 space-y-1">
+        <button onClick={handleZoomIn} className="p-2 bg-white/20 hover:bg-white/30 text-white rounded-lg w-full">
+          <ZoomIn size={16} />
+        </button>
+        <button onClick={handleResetZoom} className="p-2 bg-white/20 hover:bg-white/30 text-white rounded-lg w-full">
+          <Maximize2 size={16} />
+        </button>
+        <button onClick={handleZoomOut} className="p-2 bg-white/20 hover:bg-white/30 text-white rounded-lg w-full">
+          <ZoomOut size={16} />
+        </button>
+      </div> */}
+    </div>
+
+    {/* Avatar Name - Bottom Left */}
+    <div className="absolute bottom-4 left-4 bg-black/60 backdrop-blur-md px-4 py-2.5 rounded-xl">
+      <div className="flex items-center gap-3">
+        <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-cyan-400">
+          <img src={avatar.image} alt="" className="w-full h-full object-cover" />
+        </div>
+        <div>
+          <p className="text-white font-semibold">{avatar.name}</p>
+          <p className="text-cyan-400 text-xs flex items-center gap-1">
+            <span className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"></span>
+            {videoLoaded && !videoError ? 'Speaking...' : 'Online'}
+          </p>
         </div>
       </div>
+    </div>
 
+    {/* Bottom Controls - Bottom Right */}
+    <div className="absolute bottom-4 right-4 flex items-center gap-2">
+      <div className="flex items-center gap-1.5 bg-black/50 backdrop-blur-xl p-1.5 rounded-xl">
+        <button className="p-2.5 bg-white/10 text-white rounded-lg hover:bg-white/20">
+          <ChevronUp size={18} />
+        </button>
+        <button onClick={() => navigate(-1)} className="p-2.5 bg-red-500 text-white rounded-lg hover:bg-red-600">
+          <X size={18} />
+        </button>
+      </div>
+
+      <div className="flex bg-white rounded-xl p-1 shadow-lg">
+        <button 
+          onClick={() => setActiveMode('chat')}
+          className={`p-2.5 rounded-lg transition-all ${activeMode === 'chat' ? 'bg-cyan-500 text-white' : 'text-slate-400 hover:text-cyan-500'}`}
+        >
+          <MessageSquare size={18} />
+        </button>
+        <button 
+          onClick={() => setActiveMode('voice')}
+          className={`p-2.5 rounded-lg transition-all ${activeMode === 'voice' ? 'bg-cyan-500 text-white' : 'text-slate-400 hover:text-cyan-500'}`}
+        >
+          <AudioLines size={18} />
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
       {/* RIGHT: Chat */}
       <div className="w-96 flex-shrink-0 flex flex-col bg-white rounded-3xl shadow-lg border border-slate-200 overflow-hidden">
         {activeMode === 'chat' ? (
@@ -555,7 +645,7 @@ const AvatarInteractionPage = () => {
               <h2 className="text-xl font-semibold mb-4">General Settings</h2>
               <div className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium mb-2">Chatbot Name</label>
+                  <label className="block text-sm font-medium mb-2">Avatar Name</label>
                   <input type="text" value={avatar.name} readOnly className="w-full px-4 py-2.5 rounded-xl border border-gray-300 bg-gray-50" />
                 </div>
                 <div>
@@ -645,48 +735,122 @@ const AvatarInteractionPage = () => {
 
           {knowledgeSubTab === 'preview' && (
             <div className="flex gap-6">
-              <div className="flex-1 max-w-md">
-                <div className="bg-white rounded-2xl border shadow-lg overflow-hidden">
-                  <div className="h-48 bg-gradient-to-br from-blue-500 to-purple-500 relative">
-                    <img src={avatar.image} alt="" className="w-full h-full object-cover opacity-90" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                    <div className="absolute bottom-4 left-4">
-                      <h3 className="text-2xl font-bold text-white">{avatar.name}</h3>
-                      <div className="flex items-center gap-2 mt-1">
-                        <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-                        <span className="text-white/90 text-sm">Online</span>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="p-4 space-y-3">
-                    <div className="flex items-center gap-3 p-3 rounded-xl bg-blue-50 border border-blue-100">
-                      <Calendar size={18} className="text-blue-500" />
-                      <div>
-                        <p className="text-xs text-gray-500">Created</p>
-                        <p className="text-sm font-semibold">{formatDate(avatar.createdAt)}</p>
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-3 p-3 rounded-xl bg-green-50 border border-green-100">
-                      <MessageCircle size={18} className="text-green-500" />
-                      <div>
-                        <p className="text-xs text-gray-500">Conversations</p>
-                        <p className="text-sm font-semibold">{avatar.conversations}</p>
-                      </div>
-                    </div>
-                    <div className="flex items-center justify-between pt-3 border-t">
-                      <div className="flex items-center gap-2">
-                        <button onClick={() => setIsPublished(!isPublished)} className={`w-11 h-6 rounded-full transition-colors ${isPublished ? 'bg-green-500' : 'bg-gray-300'}`}>
-                          <span className={`block w-5 h-5 bg-white rounded-full shadow transition-all ${isPublished ? 'translate-x-5' : 'translate-x-0.5'}`} />
-                        </button>
-                        <span className={`text-sm font-medium ${isPublished ? 'text-green-600' : 'text-gray-600'}`}>{isPublished ? 'Published' : 'Draft'}</span>
-                      </div>
-                      <button onClick={handleCopyWidget} className="flex items-center gap-2 px-4 py-2 text-sm text-blue-600 hover:bg-blue-50 rounded-lg">
-                        {copied ? <Check size={16} /> : <Copy size={16} />} {copied ? 'Copied!' : 'Copy'}
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
+             <div className="flex-1 max-w-md">
+  <div className="bg-white rounded-3xl border border-gray-200 shadow-xl overflow-visible">
+    
+    {/* Top Section with Gradient Background */}
+   
+    
+    {/* Circular Avatar - Overlapping */}
+    <div className="flex justify-center  mt-2 relative z-10">
+      <div className="relative">
+        {/* Outer Ring */}
+        <div className="w-32 h-32 rounded-full bg-gradient-to-br from-blue-400 via-purple-500 to-pink-500 p-1 shadow-2xl">
+          {/* White Ring */}
+          <div className="w-full h-full rounded-full bg-white p-1">
+            {/* Avatar Image */}
+            <div className="w-full h-full rounded-full overflow-hidden">
+              <img 
+                src={avatar.image} 
+                alt={avatar.name} 
+                className="w-full h-full object-cover"
+              />
+            </div>
+          </div>
+        </div>
+        
+        {/* Online Status Badge */}
+        <div className="absolute bottom-1 right-1 w-8 h-8 bg-green-500 rounded-full border-4 border-white flex items-center justify-center shadow-lg">
+          <div className="w-3 h-3 bg-white rounded-full animate-pulse"></div>
+        </div>
+      </div>
+    </div>
+
+    {/* Content Section */}
+    <div className="px-6 pb-6 pt-4 text-center">
+      {/* Avatar Name */}
+      <h3 className="text-2xl font-bold text-gray-900 mb-1">{avatar.name}</h3>
+      {/* <p className="text-gray-500 text-sm mb-6">{avatar.role || 'AI Assistant'}</p> */}
+
+      {/* Stats Cards */}
+      <div className="space-y-3">
+        {/* Created Date */}
+        <div className="flex items-center gap-4 p-4 rounded-2xl bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-100">
+          <div className="w-12 h-12 rounded-full bg-blue-500 flex items-center justify-center shadow-lg">
+            <Calendar size={20} className="text-white" />
+          </div>
+          <div className="text-left flex-1">
+            <p className="text-xs text-gray-500 font-medium uppercase tracking-wide">Created</p>
+            <p className="text-sm font-bold text-gray-900">{formatDate(avatar.createdAt)}</p>
+          </div>
+        </div>
+
+        {/* Conversations */}
+        <div className="flex items-center gap-4 p-4 rounded-2xl bg-gradient-to-r from-green-50 to-emerald-50 border border-green-100">
+          <div className="w-12 h-12 rounded-full bg-green-500 flex items-center justify-center shadow-lg">
+            <MessageCircle size={20} className="text-white" />
+          </div>
+          <div className="text-left flex-1">
+            <p className="text-xs text-gray-500 font-medium uppercase tracking-wide">Conversations</p>
+            <p className="text-sm font-bold text-gray-900">{avatar.conversations} total</p>
+          </div>
+        </div>
+
+        {/* Last Updated */}
+        <div className="flex items-center gap-4 p-4 rounded-2xl bg-gradient-to-r from-purple-50 to-pink-50 border border-purple-100">
+          <div className="w-12 h-12 rounded-full bg-purple-500 flex items-center justify-center shadow-lg">
+            <Clock size={20} className="text-white" />
+          </div>
+          <div className="text-left flex-1">
+            <p className="text-xs text-gray-500 font-medium uppercase tracking-wide">Last Updated</p>
+            <p className="text-sm font-bold text-gray-900">{formatDate(avatar.updatedAt)}</p>
+          </div>
+        </div>
+      </div>
+
+      {/* Action Bar */}
+      <div className="flex items-center justify-between mt-6 pt-5 border-t border-gray-100">
+        {/* Publish Toggle */}
+        <div className="flex items-center gap-3">
+          <button 
+            onClick={() => setIsPublished(!isPublished)} 
+            className={`relative w-14 h-7 rounded-full transition-all duration-300 shadow-inner ${
+              isPublished ? 'bg-green-500' : 'bg-gray-300'
+            }`}
+          >
+            <span className={`absolute top-0.5 w-6 h-6 bg-white rounded-full shadow-lg transition-all duration-300 flex items-center justify-center ${
+              isPublished ? 'left-7' : 'left-0.5'
+            }`}>
+              {isPublished ? (
+                <Check size={12} className="text-green-500" />
+              ) : (
+                <X size={12} className="text-gray-400" />
+              )}
+            </span>
+          </button>
+          <span className={`text-sm font-semibold ${
+            isPublished ? 'text-green-600' : 'text-gray-500'
+          }`}>
+            {isPublished ? 'Published' : 'Unpublished'}
+          </span>
+        </div>
+
+        {/* Copy Button */}
+        <button 
+          onClick={handleCopyWidget} 
+          className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-semibold transition-all ${
+            copied 
+              ? 'bg-green-100 text-green-700' 
+              : 'bg-blue-100 text-blue-700 hover:bg-blue-200'
+          }`}
+        >
+          {copied ? <Check size={16} /> : <Copy size={16} />}
+          {copied ? 'Copied!' : 'Copy'}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
 
               <div className="flex-1 bg-white rounded-2xl border shadow-lg flex flex-col max-h-[600px]">
                 <div className="p-4 border-b bg-gradient-to-r from-blue-50 to-cyan-50">
