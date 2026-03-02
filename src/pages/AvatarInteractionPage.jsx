@@ -25,6 +25,7 @@ import {
 
 } from 'lucide-react';
 import TemplateModal from './TemplateModal';
+import SubscriptionModal from './SubscriptionModal';
 
 const AvatarInteractionPage = () => {
   const location = useLocation();
@@ -61,6 +62,7 @@ const AvatarInteractionPage = () => {
   const [personaText, setPersonaText] = useState('Friendly and professional AI assistant');
   const [guardRailText, setGuardRailText] = useState('Do not discuss sensitive topics');
   const [images, setImages] = useState([]);
+  const [showSubscriptionModal, setShowSubscriptionModal] = useState(false);
 
   const [avatar] = useState({
     id: avatarData?.id || 1,
@@ -383,7 +385,9 @@ const AvatarInteractionPage = () => {
         </div>
 
         {/* Invite Button */}
-        <button className="w-full flex items-center justify-center gap-2 p-3 bg-gradient-to-r from-cyan-500 to-blue-500 text-white rounded-xl font-medium hover:shadow-lg transition-all">
+        <button 
+         onClick={() => setShowSubscriptionModal(true)}
+        className="w-full flex items-center justify-center gap-2 p-3 bg-gradient-to-r from-cyan-500 to-blue-500 text-white rounded-xl font-medium hover:shadow-lg transition-all">
           <UserPlus size={18} />
           <span>Invite to Call</span>
         </button>
@@ -1078,18 +1082,12 @@ const AvatarInteractionPage = () => {
           </nav>
 
           <div className="flex items-center gap-4">
-            <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 bg-slate-50 rounded-lg text-xs font-medium">
-              <span className="bg-slate-300 text-white px-1.5 py-0.5 rounded">Free</span> 10 credits
-            </div>
-            <div className="flex items-center gap-3 px-3 py-1.5 cursor-pointer hover:bg-slate-50 rounded-lg">
-              <div className="w-8 h-8 rounded-full overflow-hidden border-2 border-slate-200">
-                <img src={avatar.image} alt="User" className="w-full h-full object-cover" />
-              </div>
-              <div className="hidden sm:block text-sm">
-                <p className="font-semibold text-slate-800">Support Bot</p>
-                <p className="text-slate-400 text-xs">Free</p>
-              </div>
-            </div>
+            <button 
+             onClick={() => setShowSubscriptionModal(true)}
+            className="hidden sm:flex items-center gap-2 px-3 py-1.5 bg-slate-50 border  rounded-lg text-xs font-medium">
+              <span className="bg-slate-400 text-white px-1.5 py-0.5 rounded">Free</span> 10 credits
+            </button>
+            
             <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} className="md:hidden p-2 text-slate-500 hover:bg-slate-100 rounded-lg">
               <Menu size={20} />
             </button>
@@ -1119,6 +1117,11 @@ const AvatarInteractionPage = () => {
       isOpen={showTemplateModal}
       onClose={() => setShowTemplateModal(false)}
       onSelectTemplate={handleSelectTemplate}
+    />
+
+        <SubscriptionModal 
+      isOpen={showSubscriptionModal}
+      onClose={() => setShowSubscriptionModal(false)}
     />
     </div>
   );
