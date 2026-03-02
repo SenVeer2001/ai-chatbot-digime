@@ -127,7 +127,7 @@ const DIGIMEPage = () => {
                 onClick={() => navigate(`/digime/test/${avatar.id}`, { state: { avatar } })}
                 className="aspect-[3/4] rounded-2xl overflow-hidden relative group shadow-lg hover:shadow-2xl transition-all hover:-translate-y-2"
               >
-                 <img src={avatar.image} alt={avatar.name} className="w-full h-full object-cover" />
+                 <img src={avatar.image || "./mam.jpeg"} alt={avatar.name} className="w-full h-full object-cover" />
                 <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-all flex items-center justify-center">
                   <div className="opacity-0 group-hover:opacity-100 w-12 h-12 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center transition-opacity">
                     <Play size={20} className="text-white ml-0.5" />

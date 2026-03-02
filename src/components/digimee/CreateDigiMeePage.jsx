@@ -165,7 +165,7 @@ const CreateDigiMeePage = () => {
     const newAvatar = {
       id: Math.max(...digimeAvatars.map((item) => item.id), 0) + 1,
       name: avatarName.trim(),
-      image: '/api/placeholder/150/150',
+      image: './mam.jpeg',
       voiceId: `voice-${Date.now()}`,
       status: 'draft',
       createdAt: new Date(),
