@@ -28,32 +28,43 @@ const DIGIMEPage = () => {
     } catch {}
   }, [digimeAvatars]);
 
-  const actionCards = [
-    {
-      id: 'create_persona',
-      title: 'Create DigiMee Persona',
-      desc: 'Set the personality and behaviour of your DigiMee to reflect your identity, knowledge, work and expertise',
-      Icon: Sparkles,
-      gradient: 'from-blue-500 to-cyan-500',
-      bgColor: 'bg-blue-50',
-      onClick: () => navigate('/aicha/1'), // Navigate to page
-    },
-    {
-      id: 'create_digimee',
-      title: 'Create New DigiMee',
-      desc: 'Build your digital twin by defining its voice, communication style, and tone to respond accurately and intelligently.',
-      Icon: User,
-      gradient: 'from-purple-500 to-pink-500',
-      bgColor: 'bg-purple-50',
-      onClick: () => navigate('/digime/create'), // Navigate to page
-    },
-    
-  ];
+const actionCards = [
+  {
+    id: 'create_digimee',
+    title: 'Create New DigiMee',
+    desc: 'Build your digital twin by defining its voice, communication style, and tone to respond accurately and intelligently.',
+    Icon: User,
+    gradient: 'from-purple-500 to-pink-500',
+    bgColor: 'bg-purple-50',
+    onClick: () => navigate('/digime/create'),
+  },
+  {
+    id: 'create_persona',
+    title: 'Create DigiMee Persona',
+    desc: 'Set the personality and behaviour of your DigiMee to reflect your identity, knowledge, work and expertise',
+    Icon: Sparkles,
+    gradient: 'from-blue-500 to-cyan-500',
+    bgColor: 'bg-blue-50',
+    // UPDATED: Navigate with state to open knowledge tab
+    onClick: () => navigate('/digime/persona/create', { 
+      state: { 
+        openTab: 'knowledge',
+        avatar: {
+          id: Date.now(),
+          name: 'New Persona',
+          role: 'AI Assistant',
+          image: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=1000&auto=format&fit=crop',
+          status: 'draft'
+        }
+      } 
+    }),
+  },
+];
 
   return (
     <div className="min-h-screen ">
       {/* Header */}
-      <Header user={user} title={"DigiMee™️"} />
+      <Header user={user} title={"DigiMee™"} />
 
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-6 py-10 space-y-12">

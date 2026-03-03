@@ -32,7 +32,11 @@ const AvatarInteractionPage = () => {
   const navigate = useNavigate();
   const avatarData = location.state?.avatar;
 
-  const [activeTab, setActiveTab] = useState('avatar');
+ 
+
+    const initialTab = location.state?.openTab || 'avatar'; // NEW: Get initial tab from route
+
+  const [activeTab, setActiveTab] = useState(initialTab); // UPDATED: Use initialTab
   const [activeMode, setActiveMode] = useState('chat');
   const [developerSubTab, setDeveloperSubTab] = useState('overview');
   const [knowledgeSubTab, setKnowledgeSubTab] = useState('persona');
@@ -79,6 +83,12 @@ const AvatarInteractionPage = () => {
   const [videoError, setVideoError] = useState(false);
   const [videoLoaded, setVideoLoaded] = useState(false);
   const avatarVideoRef = useRef(null);
+
+  useEffect(() => {
+  if (location.state?.openTab) {
+    setActiveTab(location.state.openTab);
+  }
+}, [location.state?.openTab]);
 
   // Video URL from public folder - apni video ka naam yahan daalo
   const avatarVideoUrl = '/avatar-talking.mp4'; // ya '/videos/ann-therapist.mp4'
@@ -683,7 +693,7 @@ const AvatarInteractionPage = () => {
 
       {/* Tabs */}
       <div className="flex gap-1 border-b border-gray-200">
-        {['persona', 'guardrail', 'knowledgebase'].map((tab) => (
+        {['persona', 'guardrail', 'knowledgebase',"LLM"].map((tab) => (
           <button
             key={tab}
             onClick={() => setKnowledgeSubTab(tab)}
@@ -700,7 +710,7 @@ const AvatarInteractionPage = () => {
       
         {/* ============ PERSONA TAB - UPDATED ============ */}
         {knowledgeSubTab === 'persona' && (
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
+          <div className="">
             
             {/* Left Column: Persona Details */}
             <section className="space-y-6 bg-white p-4 rounded-xl">
@@ -790,98 +800,7 @@ const AvatarInteractionPage = () => {
               </div>
             </section>
 
-            {/* Right Column: Technical Layers */}
-            <section className="space-y-6 bg-white p-4 rounded-xl">
-              <div className="inline-block px-3 py-1 bg-slate-100 rounded-lg text-xs font-semibold text-slate-500">
-                Layers
-              </div>
-
-              <div className="space-y-5">
-                {/* Language Model */}
-                <SelectField label="Language Model (LLM)" value="GPT-4o (Recommended)" hasSettings />
-                
-                {/* Tools */}
-                <div className="space-y-2">
-                  <label className="block text-sm font-bold text-slate-700">Tools</label>
-                  <button className="flex items-center gap-2 px-4 py-2.5 border border-slate-200 rounded-full text-xs font-bold text-slate-600 hover:bg-slate-50 hover:border-slate-300 transition-colors">
-                    <Plus size={14} /> Add Tool
-                  </button>
-                </div>
-
-                {/* Turn Detection */}
-                <SelectField label="Turn Detection Model" value="Sparrow-1 (Recommended)" hasSettings />
-
-                {/* Perception Model */}
-                <SelectField label="Perception Model" value="Raven-1" hasSettings />
-
-                {/* Visual & Audio Tools */}
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <label className="block text-sm font-bold text-slate-700">Visual Tools</label>
-                    <button className="flex items-center gap-2 px-4 py-2.5 border border-slate-200 rounded-full text-xs font-bold text-slate-600 hover:bg-slate-50 transition-colors">
-                      <Plus size={14} /> Add
-                    </button>
-                  </div>
-                  <div className="space-y-2">
-                    <label className="block text-sm font-bold text-slate-700">Audio Tools</label>
-                    <button className="flex items-center gap-2 px-4 py-2.5 border border-slate-200 rounded-full text-xs font-bold text-slate-600 hover:bg-slate-50 transition-colors">
-                      <Plus size={14} /> Add
-                    </button>
-                  </div>
-                </div>
-
-                {/* TTS */}
-                <SelectField label="Text-to-Speech (TTS)" value="ElevenLabs - Natural" hasSettings />
-
-                {/* Hotwords */}
-                <div>
-                  <div className="flex items-center gap-2 mb-2">
-                    <label className="text-sm font-bold text-slate-700">Hotwords (STT)</label>
-                    <Info size={14} className="text-slate-400" />
-                  </div>
-                  <input 
-                    type="text" 
-                    placeholder="Enter hotwords separated by commas"
-                    className="w-full p-3 border border-slate-200 rounded-xl text-sm outline-none focus:ring-2 focus:ring-blue-100 focus:border-blue-300"
-                  />
-                </div>
-
-                {/* Knowledge Base Card */}
-                <div className="border border-slate-200 rounded-xl p-4 flex items-center justify-between hover:border-slate-300 transition-colors">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-lg bg-blue-50 flex items-center justify-center">
-                      <Database size={18} className="text-blue-500" />
-                    </div>
-                    <div>
-                      <h4 className="text-sm font-bold text-slate-700">Knowledge Base</h4>
-                      <p className="text-xs text-slate-400">Enable your persona to reference information...</p>
-                    </div>
-                  </div>
-                  <button className="px-4 py-2 border border-slate-200 rounded-lg text-xs font-bold text-slate-600 hover:bg-slate-50 transition-colors">
-                    Configure
-                  </button>
-                </div>
-
-                {/* Guard Rails Card */}
-                <div className="border border-slate-200 rounded-xl p-4 flex items-center justify-between hover:border-slate-300 transition-colors">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-lg bg-amber-50 flex items-center justify-center">
-                      <Shield size={18} className="text-amber-500" />
-                    </div>
-                    <div>
-                      <h4 className="text-sm font-bold text-slate-700">Guard Rails</h4>
-                      <p className="text-xs text-slate-400">Set safety boundaries for responses...</p>
-                    </div>
-                  </div>
-                  <button 
-                    onClick={() => setKnowledgeSubTab('guardrail')}
-                    className="px-4 py-2 border border-slate-200 rounded-lg text-xs font-bold text-slate-600 hover:bg-slate-50 transition-colors"
-                  >
-                    Configure
-                  </button>
-                </div>
-              </div>
-            </section>
+           
           </div>
         )}
 
@@ -977,6 +896,103 @@ const AvatarInteractionPage = () => {
             </div>
           </div>
         )}
+
+        {knowledgeSubTab === 'LLM' && (
+
+           <section className="space-y-6 bg-white p-4 rounded-xl">
+              <div className="inline-block px-3 py-1 bg-slate-100 rounded-lg text-xs font-semibold text-slate-500">
+                Layers
+              </div>
+
+              <div className="space-y-5">
+                {/* Language Model */}
+                <SelectField label="Language Model (LLM)" value="GPT-4o (Recommended)" hasSettings />
+                
+                {/* Tools */}
+                <div className="space-y-2">
+                  <label className="block text-sm font-bold text-slate-700">Tools</label>
+                  <button className="flex items-center gap-2 px-4 py-2.5 border border-slate-200 rounded-full text-xs font-bold text-slate-600 hover:bg-slate-50 hover:border-slate-300 transition-colors">
+                    <Plus size={14} /> Add Tool
+                  </button>
+                </div>
+
+                {/* Turn Detection */}
+                <SelectField label="Turn Detection Model" value="Sparrow-1 (Recommended)" hasSettings />
+
+                {/* Perception Model */}
+                <SelectField label="Perception Model" value="Raven-1" hasSettings />
+
+                {/* Visual & Audio Tools */}
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <label className="block text-sm font-bold text-slate-700">Visual Tools</label>
+                    <button className="flex items-center gap-2 px-4 py-2.5 border border-slate-200 rounded-full text-xs font-bold text-slate-600 hover:bg-slate-50 transition-colors">
+                      <Plus size={14} /> Add
+                    </button>
+                  </div>
+                  <div className="space-y-2">
+                    <label className="block text-sm font-bold text-slate-700">Audio Tools</label>
+                    <button className="flex items-center gap-2 px-4 py-2.5 border border-slate-200 rounded-full text-xs font-bold text-slate-600 hover:bg-slate-50 transition-colors">
+                      <Plus size={14} /> Add
+                    </button>
+                  </div>
+                </div>
+
+                {/* TTS */}
+                <SelectField label="Text-to-Speech (TTS)" value="ElevenLabs - Natural" hasSettings />
+
+                {/* Hotwords */}
+                <div>
+                  <div className="flex items-center gap-2 mb-2">
+                    <label className="text-sm font-bold text-slate-700">Hotwords (STT)</label>
+                    <Info size={14} className="text-slate-400" />
+                  </div>
+                  <input 
+                    type="text" 
+                    placeholder="Enter hotwords separated by commas"
+                    className="w-full p-3 border border-slate-200 rounded-xl text-sm outline-none focus:ring-2 focus:ring-blue-100 focus:border-blue-300"
+                  />
+                </div>
+
+                {/* Knowledge Base Card */}
+                <div className="border border-slate-200 rounded-xl p-4 flex items-center justify-between hover:border-slate-300 transition-colors">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-lg bg-blue-50 flex items-center justify-center">
+                      <Database size={18} className="text-blue-500" />
+                    </div>
+                    <div>
+                      <h4 className="text-sm font-bold text-slate-700">Knowledge Base</h4>
+                      <p className="text-xs text-slate-400">Enable your persona to reference information...</p>
+                    </div>
+                  </div>
+                  <button className="px-4 py-2 border border-slate-200 rounded-lg text-xs font-bold text-slate-600 hover:bg-slate-50 transition-colors">
+                    Configure
+                  </button>
+                </div>
+
+                {/* Guard Rails Card */}
+                <div className="border border-slate-200 rounded-xl p-4 flex items-center justify-between hover:border-slate-300 transition-colors">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-lg bg-amber-50 flex items-center justify-center">
+                      <Shield size={18} className="text-amber-500" />
+                    </div>
+                    <div>
+                      <h4 className="text-sm font-bold text-slate-700">Guard Rails</h4>
+                      <p className="text-xs text-slate-400">Set safety boundaries for responses...</p>
+                    </div>
+                  </div>
+                  <button 
+                    onClick={() => setKnowledgeSubTab('guardrail')}
+                    className="px-4 py-2 border border-slate-200 rounded-lg text-xs font-bold text-slate-600 hover:bg-slate-50 transition-colors"
+                  >
+                    Configure
+                  </button>
+                </div>
+              </div>
+            </section>
+        )
+
+        }
       </div>
 
       {/* ============ FOOTER ACTIONS - FIXED AT BOTTOM ============ */}

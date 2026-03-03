@@ -41,7 +41,7 @@ const HomePage = () => {
       color: 'from-blue-400 to-blue-600',
       bgLight: 'from-blue-50 to-blue-100',
       shadowColor: 'shadow-blue-500/20',
-      path: '#',
+      path: '/congen',
       status: 'Coming Soon',
       stats: null,
     },
