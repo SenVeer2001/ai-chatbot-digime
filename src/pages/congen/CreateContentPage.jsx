@@ -2,94 +2,89 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { 
-  Monitor, CheckCircle2, Star, Plus, Image as ImageIcon, Type, MousePointer2,
+  CheckCircle2, Star, Plus, Image as ImageIcon, Type, MousePointer2,
   ChevronRight, Sparkles, FolderUp, ArrowRight, ArrowLeft, GripVertical, 
   Trash2, PlayCircle, BookOpen, CheckSquare, Files, MessageCircle, 
-  ChevronDown, Award, X, Upload, FileText, Video, Edit3, Eye, Save,
-  Settings, Layers, BookMarked, Users, Clock, Calendar, Check
+  ChevronDown, Award, X, FileText, Video, Edit3, Save,
+  Layers, BookMarked, Users, Clock, Calendar, Check, Circle,
+  HelpCircle, Eye, SkipForward, ExternalLink, Upload, Settings,
+  RotateCcw, Pause, Volume2
 } from 'lucide-react';
 import { useApp } from '../../hooks/useApp';
 import Header from '../../components/layout/Header';
 
-
 // ==================== WELCOME SCREEN ====================
 const WelcomeScreen = ({ onGetStarted }) => {
   return (
-    <div className="min-h-[calc(100vh-80px)] flex items-center justify-center p-6 relative overflow-hidden">
+    <div className="min-h-[calc(100vh-80px)] flex items-center justify-center p-4 md:p-6 relative overflow-hidden">
       
       {/* Abstract Background Decorations */}
       <div className="absolute top-1/4 left-10 text-slate-200 pointer-events-none">
-        <Plus size={20} />
+        <Plus size={16} />
       </div>
       <div className="absolute top-1/2 right-20 text-slate-200 pointer-events-none">
-        <Plus size={20} />
+        <Plus size={16} />
       </div>
-      <div className="absolute bottom-1/4 left-1/4 w-64 h-64 bg-purple-100 rounded-full blur-3xl opacity-40"></div>
-      <div className="absolute top-1/3 right-1/4 w-48 h-48 bg-blue-100 rounded-full blur-3xl opacity-40"></div>
+      <div className="absolute bottom-1/4 left-1/4 w-48 h-48 bg-purple-100 rounded-full blur-3xl opacity-30"></div>
+      <div className="absolute top-1/3 right-1/4 w-40 h-40 bg-blue-100 rounded-full blur-3xl opacity-30"></div>
 
       {/* Main Modal Card */}
-      <div className="w-full max-w-2xl bg-white rounded-[32px] shadow-2xl shadow-blue-100/50 p-10 md:p-12 flex flex-col items-center text-center relative z-10">
+      <div className="w-full max-w-xl bg-white rounded-3xl shadow-2xl shadow-blue-100/50 p-6 md:p-10 flex flex-col items-center text-center relative z-10">
         
         {/* Logo Section */}
-        <div className="flex flex-col items-center mb-8">
-          <div className="relative flex items-center justify-center mb-3">
-            <div className="w-14 h-14 bg-gradient-to-br from-green-500 to-emerald-600 rounded-xl skew-x-[-12deg] flex items-center justify-center shadow-lg">
-              <span className="text-white font-black text-2xl -skew-x-[-12deg]">C</span>
+        <div className="flex flex-col items-center mb-6">
+          <div className="relative flex items-center justify-center mb-2">
+            <div className="w-12 h-12 bg-gradient-to-br from-green-500 to-emerald-600 rounded-xl skew-x-[-12deg] flex items-center justify-center shadow-lg">
+              <span className="text-white font-black text-xl -skew-x-[-12deg]">C</span>
             </div>
-            <div className="w-14 h-14 bg-gradient-to-br from-orange-400 to-amber-500 rounded-xl absolute left-5 -z-10 skew-x-[-12deg] shadow-md"></div>
+            <div className="w-12 h-12 bg-gradient-to-br from-orange-400 to-amber-500 rounded-xl absolute left-4 -z-10 skew-x-[-12deg] shadow-md"></div>
           </div>
-          <span className="text-[11px] font-bold text-orange-500 tracking-[0.2em] uppercase">Content Generator</span>
+          <span className="text-[10px] font-bold text-orange-500 tracking-[0.2em] uppercase">Content Generator</span>
         </div>
 
         {/* Text Content */}
-        <h1 className="text-3xl md:text-4xl font-bold text-slate-800 mb-4 tracking-tight">
+        <h1 className="text-2xl md:text-3xl font-bold text-slate-800 mb-3 tracking-tight">
           Welcome to ConGen
         </h1>
-        <p className="text-slate-500 text-sm max-w-md leading-relaxed mb-10">
+        <p className="text-slate-500 text-sm max-w-md leading-relaxed mb-8">
           Create professional content with AI assistance. Build courses, documents, resumes, and corporate materials in minutes.
         </p>
 
         {/* Illustration Section */}
-        <div className="relative w-full max-w-sm h-44 mb-10 flex justify-center items-end">
-          {/* Laptop Centerpiece */}
-          <div className="relative w-44 h-28 border-4 border-slate-200 rounded-xl bg-white flex items-center justify-center shadow-sm">
-            <CheckCircle2 size={48} className="text-green-500 fill-green-50" />
-            <div className="absolute -bottom-2 w-52 h-1.5 bg-slate-200 rounded-full"></div>
+        <div className="relative w-full max-w-sm h-36 mb-8 flex justify-center items-end">
+          <div className="relative w-36 h-24 border-4 border-slate-200 rounded-xl bg-white flex items-center justify-center shadow-sm">
+            <CheckCircle2 size={40} className="text-green-500 fill-green-50" />
+            <div className="absolute -bottom-1.5 w-44 h-1 bg-slate-200 rounded-full"></div>
           </div>
 
-          {/* Floating Elements */}
-          <div className="absolute top-2 left-8 w-10 h-10 rounded-full bg-purple-50 border border-purple-200 flex items-center justify-center">
-            <Layers size={18} className="text-purple-400" />
+          <div className="absolute top-2 left-8 w-9 h-9 rounded-full bg-purple-50 border border-purple-200 flex items-center justify-center">
+            <Layers size={16} className="text-purple-400" />
           </div>
-          <div className="absolute top-2 right-8 w-10 h-10 rounded-full bg-orange-50 border border-orange-200 flex items-center justify-center">
-            <BookMarked size={18} className="text-orange-400" />
+          <div className="absolute top-2 right-8 w-9 h-9 rounded-full bg-orange-50 border border-orange-200 flex items-center justify-center">
+            <BookMarked size={16} className="text-orange-400" />
           </div>
           
-          <div className="absolute top-0 left-1/4 p-2 text-orange-400">
-            <Star size={18} fill="currentColor" />
+          <div className="absolute top-0 left-1/4 p-1.5 text-orange-400">
+            <Star size={16} fill="currentColor" />
           </div>
-          <div className="absolute top-10 left-1/3 p-1.5 bg-white shadow-md border border-slate-100 rounded-lg text-cyan-500">
-            <ImageIcon size={14} />
+          <div className="absolute top-8 left-1/3 p-1 bg-white shadow-md border border-slate-100 rounded-lg text-cyan-500">
+            <ImageIcon size={12} />
           </div>
-          <div className="absolute top-8 right-1/4 p-1.5 bg-white shadow-md border border-slate-100 rounded-lg text-blue-500">
-            <Type size={14} />
+          <div className="absolute top-6 right-1/4 p-1 bg-white shadow-md border border-slate-100 rounded-lg text-blue-500">
+            <Type size={12} />
           </div>
-          <div className="absolute bottom-10 left-1/4 p-1.5 bg-white shadow-md border border-slate-100 rounded-lg text-slate-400 tracking-tighter font-bold text-[8px]">
-            TT
-          </div>
-          <div className="absolute bottom-12 right-1/3 w-3 h-3 rounded-full border-2 border-cyan-400"></div>
         </div>
 
         {/* Features List */}
-        <div className="grid grid-cols-3 gap-4 w-full mb-8">
+        <div className="grid grid-cols-3 gap-3 w-full mb-6">
           {[
             { icon: Sparkles, label: 'AI Powered', color: 'text-purple-500' },
             { icon: Clock, label: 'Save Time', color: 'text-blue-500' },
             { icon: Award, label: 'Pro Quality', color: 'text-amber-500' },
           ].map((item, i) => (
-            <div key={i} className="flex flex-col items-center gap-2 p-3 rounded-xl bg-slate-50">
-              <item.icon size={20} className={item.color} />
-              <span className="text-xs font-medium text-slate-600">{item.label}</span>
+            <div key={i} className="flex flex-col items-center gap-1.5 p-2.5 rounded-xl bg-slate-50">
+              <item.icon size={18} className={item.color} />
+              <span className="text-[11px] font-medium text-slate-600">{item.label}</span>
             </div>
           ))}
         </div>
@@ -97,24 +92,22 @@ const WelcomeScreen = ({ onGetStarted }) => {
         {/* Action Button */}
         <button 
           onClick={onGetStarted}
-          className="w-full py-4 bg-gradient-to-r from-slate-800 to-slate-900 text-white font-bold rounded-2xl hover:from-slate-900 hover:to-black transition-all tracking-wide text-sm shadow-lg shadow-slate-200 flex items-center justify-center gap-2"
+          className="w-full py-3 bg-gradient-to-r from-slate-800 to-slate-900 text-white font-bold rounded-xl hover:from-slate-900 hover:to-black transition-all text-sm shadow-lg shadow-slate-200 flex items-center justify-center gap-2"
         >
           Get Started
-          <ArrowRight size={18} />
+          <ArrowRight size={16} />
         </button>
 
-        <p className="text-xs text-slate-400 mt-4">
+        <p className="text-[11px] text-slate-400 mt-3">
           No credit card required • Free to start
         </p>
       </div>
 
-      {/* Floating Hand Graphic */}
       <div className="absolute right-[8%] top-1/2 translate-y-8 hidden lg:block">
         <div className="relative">
-          <div className="p-3 bg-gradient-to-br from-blue-500 to-purple-500 rounded-xl text-white shadow-xl rotate-12">
-            <MousePointer2 size={28} fill="currentColor" />
+          <div className="p-2.5 bg-gradient-to-br from-blue-500 to-purple-500 rounded-xl text-white shadow-xl rotate-12">
+            <MousePointer2 size={24} fill="currentColor" />
           </div>
-          <div className="absolute -left-12 top-0 w-10 h-16 border-2 border-slate-300 rounded-full border-dashed opacity-40"></div>
         </div>
       </div>
     </div>
@@ -148,104 +141,84 @@ const AboutCourseStep = ({ formData, setFormData, onNext, onBack }) => {
   };
 
   return (
-    <div className="p-6 md:p-10">
-      {/* Header Illustration & Title */}
-      <div className="flex flex-col items-center text-center mb-10">
-        <div className="flex items-center gap-6 mb-6">
-          <div className="w-14 h-10 border-2 border-slate-300 rounded-lg bg-slate-50"></div>
-          <div className="relative">
-            <ArrowRight className="text-slate-400" />
-            <Sparkles className="absolute -top-4 -left-2 text-purple-400 w-5 h-5" />
-          </div>
-          <div className="w-14 h-14 bg-gradient-to-br from-purple-200 to-blue-200 rounded-xl flex items-center justify-center shadow-sm">
-            <div className="w-10 h-10 bg-white/90 rounded-lg p-2">
-              <div className="w-full h-1 bg-slate-200 mb-1 rounded"></div>
-              <div className="w-2/3 h-1 bg-slate-200 rounded"></div>
-            </div>
-          </div>
-        </div>
-        <h1 className="text-2xl md:text-3xl font-bold text-slate-800 mb-2">Let's start building your content</h1>
-        <p className="text-slate-500 text-sm max-w-xl">Share your vision and source materials, and we'll create engaging content designed for your audience.</p>
+    <div className="p-4 md:p-6">
+      <div className="flex flex-col items-center text-center mb-6">  
+        <h1 className="text-xl md:text-2xl font-bold text-slate-800 mb-1.5">Let's start building your content</h1>
+        <p className="text-slate-500 text-sm max-w-xl leading-relaxed">Share your vision and source materials.</p>
       </div>
 
-      {/* Form Section */}
-      <div className="space-y-6 max-w-3xl mx-auto">
+      <div className="space-y-4 max-w-3xl mx-auto">
         <div className="flex justify-between items-center">
-          <h2 className="text-lg font-bold text-slate-800">Content Information</h2>
-          <button className="flex items-center gap-2 px-4 py-1.5 border border-orange-400 text-orange-500 rounded-full text-sm font-medium hover:bg-orange-50 transition-colors">
-            <Sparkles size={14} />
+          <h2 className="text-base font-bold text-slate-800">Content Information</h2>
+          <button className="flex items-center gap-1.5 px-3 py-1.5 border border-orange-400 text-orange-500 rounded-full text-xs font-medium hover:bg-orange-50 transition-colors">
+            <Sparkles size={12} />
             Edit with AI
           </button>
         </div>
 
-        {/* Input: Title */}
-        <div className="space-y-2">
-          <label className="text-sm font-bold text-slate-700">
-            Enter Content Title <span className="text-red-500">*</span>
+        <div className="space-y-1.5">
+          <label className="text-sm font-semibold text-slate-700">
+            Content Title <span className="text-red-500">*</span>
           </label>
           <input 
             type="text"
             value={formData.title}
             onChange={(e) => setFormData({ ...formData, title: e.target.value })}
             placeholder="e.g., Learn AI with Prof. Dutta"
-            className="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-100 focus:border-blue-400 outline-none transition-all"
+            className="w-full px-3 py-2.5 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-100 focus:border-blue-400 outline-none transition-all"
           />
         </div>
 
-        {/* Input: Style & Tone */}
-        <div className="space-y-2">
-          <label className="text-sm font-bold text-slate-700">
-            Content Style & Tone 
-            <span className="text-blue-500 text-[10px] ml-2 font-normal">(autogenerated)</span>
+        <div className="space-y-1.5">
+          <label className="text-sm font-semibold text-slate-700">
+            Style & Tone 
+            <span className="text-blue-500 text-[10px] ml-1.5 font-normal">(autogenerated)</span>
           </label>
           <input 
             type="text"
             value={formData.style}
             onChange={(e) => setFormData({ ...formData, style: e.target.value })}
-            placeholder="Motivational, practical, career-driven"
-            className="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl text-slate-600 focus:ring-2 focus:ring-blue-100 focus:border-blue-400 outline-none"
+            placeholder="Motivational, practical"
+            className="w-full px-3 py-2.5 text-sm bg-slate-50 border border-slate-200 rounded-xl text-slate-600 focus:ring-2 focus:ring-blue-100 focus:border-blue-400 outline-none"
           />
         </div>
 
-        {/* Textarea: Target Audience */}
-        <div className="space-y-2">
-          <label className="text-sm font-bold text-slate-700">
+        <div className="space-y-1.5">
+          <label className="text-sm font-semibold text-slate-700">
             Target Audience 
-            <span className="text-blue-500 text-[10px] ml-2 font-normal">(autogenerated)</span>
+            <span className="text-blue-500 text-[10px] ml-1.5 font-normal">(autogenerated)</span>
+          </label>
+          <textarea 
+            rows={2}
+            value={formData.audience}
+            onChange={(e) => setFormData({ ...formData, audience: e.target.value })}
+            placeholder="Students, professionals, beginners..."
+            className="w-full px-3 py-2.5 text-sm bg-slate-50 border border-slate-200 rounded-xl text-slate-600 resize-none focus:ring-2 focus:ring-blue-100 focus:border-blue-400 outline-none"
+          />
+        </div>
+
+        <div className="space-y-1.5">
+          <label className="text-sm font-semibold text-slate-700">
+            Learning Goals 
+            <span className="text-blue-500 text-[10px] ml-1.5 font-normal">(autogenerated)</span>
           </label>
           <textarea 
             rows={3}
-            value={formData.audience}
-            onChange={(e) => setFormData({ ...formData, audience: e.target.value })}
-            placeholder="Students, professionals, beginners who want to learn..."
-            className="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl text-slate-600 resize-none focus:ring-2 focus:ring-blue-100 focus:border-blue-400 outline-none"
-          />
-        </div>
-
-        {/* Textarea: Learning Goals */}
-        <div className="space-y-2">
-          <label className="text-sm font-bold text-slate-700">
-            Learning Goals 
-            <span className="text-blue-500 text-[10px] ml-2 font-normal">(autogenerated)</span>
-          </label>
-          <textarea 
-            rows={4}
             value={formData.goals}
             onChange={(e) => setFormData({ ...formData, goals: e.target.value })}
-            placeholder="Learners will understand core concepts, gain hands-on experience..."
-            className="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl text-slate-600 resize-none focus:ring-2 focus:ring-blue-100 focus:border-blue-400 outline-none"
+            placeholder="Learners will understand core concepts..."
+            className="w-full px-3 py-2.5 text-sm bg-slate-50 border border-slate-200 rounded-xl text-slate-600 resize-none focus:ring-2 focus:ring-blue-100 focus:border-blue-400 outline-none"
           />
         </div>
 
-        {/* Module Selection */}
-        <div className="space-y-3">
-          <label className="text-sm font-bold text-slate-700">How Many Modules Do You Want?</label>
+        <div className="space-y-2">
+          <label className="text-sm font-semibold text-slate-700">Number of Modules</label>
           <div className="flex flex-wrap gap-2">
             {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((num) => (
               <button
                 key={num}
                 onClick={() => setSelectedModules(num)}
-                className={`w-12 h-10 rounded-lg border-2 font-bold text-sm transition-all ${
+                className={`w-10 h-10 rounded-lg border-2 font-bold text-xs transition-all ${
                   selectedModules === num 
                     ? 'border-blue-500 bg-blue-50 text-blue-600' 
                     : 'border-slate-200 text-slate-400 hover:border-slate-300'
@@ -255,40 +228,38 @@ const AboutCourseStep = ({ formData, setFormData, onNext, onBack }) => {
               </button>
             ))}
           </div>
-          <p className="text-[11px] text-blue-500">
+          <p className="text-[10px] text-blue-500">
             Each module can contain videos, articles, quizzes, and discussions.
           </p>
         </div>
 
-        {/* File Upload Zone */}
-        <div className="space-y-3">
-          <label className="text-sm font-bold text-slate-700">Upload Source Materials</label>
-          <label className="border-2 border-dashed border-slate-200 rounded-2xl p-10 flex flex-col items-center justify-center bg-slate-50/50 hover:bg-slate-50 hover:border-blue-300 transition-colors cursor-pointer group">
+        <div className="space-y-2">
+          <label className="text-sm font-semibold text-slate-700">Upload Source Materials</label>
+          <label className="border-2 border-dashed border-slate-200 rounded-xl p-6 md:p-8 flex flex-col items-center justify-center bg-slate-50/50 hover:bg-slate-50 hover:border-blue-300 transition-colors cursor-pointer group">
             <input type="file" multiple className="hidden" onChange={handleFileUpload} />
-            <FolderUp size={40} className="text-blue-500 mb-3 group-hover:scale-110 transition-transform" />
-            <p className="text-slate-600 font-medium text-sm">
+            <FolderUp size={32} className="text-blue-500 mb-2 group-hover:scale-110 transition-transform" />
+            <p className="text-slate-600 font-medium text-xs text-center">
               Drag & drop files or <span className="text-blue-500 underline">browse</span>
             </p>
-            <p className="text-xs text-slate-400 mt-2">PDF, DOC, PPT, XLS (Max 3 MB each)</p>
+            <p className="text-[10px] text-slate-400 mt-1">PDF, DOC, PPT, XLS (Max 3 MB)</p>
           </label>
 
-          {/* Uploaded Files */}
           {uploadedFiles.length > 0 && (
-            <div className="space-y-2 mt-4">
+            <div className="space-y-1.5 mt-3">
               {uploadedFiles.map((file) => (
-                <div key={file.id} className="flex items-center justify-between p-3 bg-slate-50 rounded-xl border border-slate-200">
-                  <div className="flex items-center gap-3">
-                    <FileText size={18} className="text-blue-500" />
-                    <div>
-                      <p className="text-sm font-medium text-slate-700">{file.name}</p>
-                      <p className="text-xs text-slate-400">{file.size}</p>
+                <div key={file.id} className="flex items-center justify-between p-2.5 bg-slate-50 rounded-lg border border-slate-200">
+                  <div className="flex items-center gap-2">
+                    <FileText size={16} className="text-blue-500 flex-shrink-0" />
+                    <div className="min-w-0">
+                      <p className="text-xs font-medium text-slate-700 truncate">{file.name}</p>
+                      <p className="text-[10px] text-slate-400">{file.size}</p>
                     </div>
                   </div>
                   <button 
                     onClick={() => setUploadedFiles(uploadedFiles.filter(f => f.id !== file.id))}
-                    className="p-1.5 hover:bg-red-50 rounded-lg transition-colors"
+                    className="p-1 hover:bg-red-50 rounded-lg transition-colors flex-shrink-0"
                   >
-                    <X size={16} className="text-red-400" />
+                    <X size={14} className="text-red-400" />
                   </button>
                 </div>
               ))}
@@ -296,39 +267,38 @@ const AboutCourseStep = ({ formData, setFormData, onNext, onBack }) => {
           )}
         </div>
 
-        {/* Disclaimer & Footer */}
-        <div className="pt-4 space-y-6">
-          <div className="flex items-start gap-3">
+        <div className="pt-3 space-y-4">
+          <div className="flex items-start gap-2">
             <input 
               type="checkbox" 
               checked={agreed}
               onChange={(e) => setAgreed(e.target.checked)}
-              className="mt-1.5 rounded border-slate-300 text-orange-500 focus:ring-orange-400" 
+              className="mt-0.5 rounded border-slate-300 text-orange-500 focus:ring-orange-400 flex-shrink-0" 
             />
-            <p className="text-[11px] text-slate-500 leading-relaxed">
-              <span className="text-red-400">All uploaded files will be used by AI to generate content.</span> By uploading, you confirm the materials are your own or you hold legal rights.
+            <p className="text-[10px] text-slate-500 leading-relaxed">
+              <span className="text-red-400">All uploaded files will be used by AI to generate content.</span> By uploading, you confirm ownership.
             </p>
           </div>
 
-          <div className="flex gap-3">
+          <div className="flex gap-2">
             <button 
               onClick={onBack}
-              className="flex-1 py-3.5 border border-slate-200 text-slate-600 font-semibold rounded-xl hover:bg-slate-50 transition-colors flex items-center justify-center gap-2"
+              className="flex-1 py-2.5 text-sm border border-slate-200 text-slate-600 font-semibold rounded-xl hover:bg-slate-50 transition-colors flex items-center justify-center gap-1.5"
             >
-              <ArrowLeft size={18} />
+              <ArrowLeft size={16} />
               Back
             </button>
             <button 
               onClick={handleNext}
               disabled={!formData.title || !agreed}
-              className={`flex-1 py-3.5 font-bold rounded-xl flex items-center justify-center gap-2 transition-all ${
+              className={`flex-1 py-2.5 text-sm font-bold rounded-xl flex items-center justify-center gap-1.5 transition-all ${
                 formData.title && agreed
                   ? 'bg-gradient-to-r from-orange-400 to-amber-500 text-white shadow-lg shadow-orange-100 hover:scale-[1.02]'
                   : 'bg-slate-200 text-slate-400 cursor-not-allowed'
               }`}
             >
               Generate Modules
-              <ArrowRight size={18} />
+              <ArrowRight size={16} />
             </button>
           </div>
         </div>
@@ -384,99 +354,97 @@ const ManageModulesStep = ({ formData, setFormData, onNext, onBack }) => {
   };
 
   return (
-    <div className="p-6 md:p-10">
-      {/* Header Info */}
-      <div className="mb-8">
-        <h1 className="text-2xl font-bold text-slate-800 mb-2">{formData.title || 'Your Content'}</h1>
-        <p className="text-sm text-slate-500 max-w-3xl">
-          {formData.goals || 'Manage your modules and set the number of activities for each.'}
+    <div className="p-4 md:p-6">
+      <div className="mb-6">
+        <h1 className="text-xl md:text-2xl font-bold text-slate-800 mb-1.5">{formData.title || 'Your Content'}</h1>
+        <p className="text-xs text-slate-500 max-w-3xl line-clamp-2">
+          {formData.goals || 'Manage your modules and set the number of activities.'}
         </p>
       </div>
 
-      {/* Module Table */}
       <div className="overflow-x-auto border border-slate-200 rounded-xl bg-white">
-        <table className="w-full text-left">
+        <table className="w-full text-left min-w-[800px]">
           <thead>
-            <tr className="bg-slate-50 text-[12px] font-bold text-slate-700 border-b border-slate-200">
-              <th className="p-4 w-1/3">Module Name</th>
-              <th className="p-4 text-center w-20">Thumbnail</th>
-              <th className="p-4 text-center">Article</th>
-              <th className="p-4 text-center">Video</th>
-              <th className="p-4 text-center">Quiz</th>
-              <th className="p-4 text-center">Resources</th>
-              <th className="p-4 text-center">Discussion</th>
-              <th className="p-4 text-center w-24">Action</th>
+            <tr className="bg-slate-50 text-[11px] font-bold text-slate-700 border-b border-slate-200">
+              <th className="p-3 w-1/3">Module Name</th>
+              <th className="p-3 text-center w-16">Thumb</th>
+              <th className="p-3 text-center w-20">Article</th>
+              <th className="p-3 text-center w-20">Video</th>
+              <th className="p-3 text-center w-20">Quiz</th>
+              <th className="p-3 text-center w-20">Resources</th>
+              <th className="p-3 text-center w-20">Discussion</th>
+              <th className="p-3 text-center w-20">Action</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-slate-100">
             {modules.map((mod) => (
               <tr key={mod.id} className="hover:bg-slate-50/50 transition-colors">
-                <td className="p-4">
-                  <div className="flex items-center gap-3">
-                    <GripVertical size={16} className="text-slate-300 cursor-grab flex-shrink-0" />
+                <td className="p-3">
+                  <div className="flex items-center gap-2">
+                    <GripVertical size={14} className="text-slate-300 cursor-grab flex-shrink-0" />
                     <input 
                       type="text" 
                       value={mod.name}
                       onChange={(e) => updateModule(mod.id, 'name', e.target.value)}
-                      className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm bg-white focus:border-blue-400 outline-none"
+                      className="w-full px-2.5 py-1.5 text-xs border border-slate-200 rounded-lg bg-white focus:border-blue-400 outline-none"
                     />
                   </div>
                 </td>
-                <td className="p-4">
-                  <button className="w-10 h-10 border border-dashed border-slate-300 rounded-lg flex items-center justify-center text-slate-400 hover:border-blue-400 hover:text-blue-400 transition-all mx-auto">
-                    <Plus size={16} />
+                <td className="p-3">
+                  <button className="w-8 h-8 border border-dashed border-slate-300 rounded-lg flex items-center justify-center text-slate-400 hover:border-blue-400 hover:text-blue-400 transition-all mx-auto">
+                    <Plus size={14} />
                   </button>
                 </td>
-                <td className="p-4">
+                <td className="p-3">
                   <input 
                     type="number" 
                     value={mod.article}
                     onChange={(e) => updateModule(mod.id, 'article', parseInt(e.target.value) || 0)}
-                    className="w-14 p-2 border border-slate-200 rounded-lg text-center text-sm focus:border-blue-400 outline-none mx-auto block"
+                    className="w-12 p-1.5 text-xs border border-slate-200 rounded-lg text-center focus:border-blue-400 outline-none mx-auto block"
                   />
                 </td>
-                <td className="p-4">
+                <td className="p-3">
                   <input 
                     type="number" 
                     value={mod.video}
                     onChange={(e) => updateModule(mod.id, 'video', parseInt(e.target.value) || 0)}
-                    className="w-14 p-2 border border-slate-200 rounded-lg text-center text-sm focus:border-blue-400 outline-none mx-auto block"
+                    className="w-12 p-1.5 text-xs border border-slate-200 rounded-lg text-center focus:border-blue-400 outline-none mx-auto block"
                   />
                 </td>
-                <td className="p-4">
+                <td className="p-3">
                   <input 
                     type="number" 
                     value={mod.quiz}
                     onChange={(e) => updateModule(mod.id, 'quiz', parseInt(e.target.value) || 0)}
-                    className="w-14 p-2 border border-slate-200 rounded-lg text-center text-sm focus:border-blue-400 outline-none mx-auto block"
+                    className="w-12 p-1.5 text-xs border border-slate-200 rounded-lg text-center focus:border-blue-400 outline-none mx-auto block"
                   />
                 </td>
-                <td className="p-4">
+                <td className="p-3">
                   <input 
                     type="number" 
                     value={mod.resources}
                     onChange={(e) => updateModule(mod.id, 'resources', parseInt(e.target.value) || 0)}
-                    className="w-14 p-2 border border-slate-200 rounded-lg text-center text-sm focus:border-blue-400 outline-none mx-auto block"
+                    className="w-12 p-1.5 text-xs border border-slate-200 rounded-lg text-center focus:border-blue-400 outline-none mx-auto block"
                   />
                 </td>
-                <td className="p-4">
+                <td className="p-3">
                   <input 
                     type="number" 
                     value={mod.discussion}
                     onChange={(e) => updateModule(mod.id, 'discussion', parseInt(e.target.value) || 0)}
-                    className="w-14 p-2 border border-slate-200 rounded-lg text-center text-sm focus:border-blue-400 outline-none mx-auto block"
+                    className="w-12 p-1.5 text-xs border border-slate-200 rounded-lg text-center focus:border-blue-400 outline-none mx-auto block"
                   />
                 </td>
-                <td className="p-4">
-                  <div className="flex items-center justify-center gap-2">
-                    <button className="p-2 hover:bg-orange-50 rounded-lg transition-colors">
-                      <Sparkles size={16} className="text-orange-400" />
+                <td className="p-3">
+                  <div className="flex items-center justify-center gap-1.5">
+                    <button className="p-1.5 hover:bg-orange-50 rounded-lg transition-colors">
+                      <Sparkles size={14} className="text-orange-400" />
                     </button>
                     <button 
                       onClick={() => removeModule(mod.id)}
-                      className="p-2 hover:bg-red-50 rounded-lg transition-colors"
+                      className="p-1.5 hover:bg-red-50 rounded-lg transition-colors"
                     >
-                      <Trash2 size={16} className="text-red-400" />
+                      <Trash2 size={14} className="text-red-400" />
                     </button>
                   </div>
                 </td>
@@ -488,26 +456,25 @@ const ManageModulesStep = ({ formData, setFormData, onNext, onBack }) => {
 
       <button 
         onClick={addModule}
-        className="mt-4 flex items-center gap-2 text-blue-500 text-sm font-bold hover:underline"
+        className="mt-3 flex items-center gap-1.5 text-blue-500 text-xs font-bold hover:underline"
       >
-        <Plus size={16} /> Add Module
+        <Plus size={14} /> Add Module
       </button>
 
-      {/* Footer Actions */}
-      <div className="mt-10 flex gap-3">
+      <div className="mt-6 flex gap-2">
         <button 
           onClick={onBack}
-          className="flex-1 py-3.5 border border-orange-400 text-orange-500 font-semibold rounded-xl hover:bg-orange-50 transition-colors flex items-center justify-center gap-2"
+          className="flex-1 py-2.5 text-sm border border-orange-400 text-orange-500 font-semibold rounded-xl hover:bg-orange-50 transition-colors flex items-center justify-center gap-1.5"
         >
-          <ArrowLeft size={18} />
+          <ArrowLeft size={16} />
           Back
         </button>
         <button 
           onClick={handleNext}
-          className="flex-1 py-3.5 bg-gradient-to-r from-orange-400 to-amber-500 text-white font-bold rounded-xl shadow-lg shadow-orange-100 hover:scale-[1.02] transition-all flex items-center justify-center gap-2"
+          className="flex-1 py-2.5 text-sm bg-gradient-to-r from-orange-400 to-amber-500 text-white font-bold rounded-xl shadow-lg shadow-orange-100 hover:scale-[1.02] transition-all flex items-center justify-center gap-1.5"
         >
           Generate Activities
-          <ArrowRight size={18} />
+          <ArrowRight size={16} />
         </button>
       </div>
     </div>
@@ -517,101 +484,95 @@ const ManageModulesStep = ({ formData, setFormData, onNext, onBack }) => {
 // ==================== STEP 3: COURSE ACTIVITY ====================
 const CourseActivityStep = ({ formData, setFormData, onNext, onBack }) => {
   const [expandedModule, setExpandedModule] = useState(1);
-
   const modules = formData.modules || [];
 
   const getActivityIcon = (type) => {
     const icons = {
-      video: <PlayCircle size={16} className="text-blue-500" />,
-      article: <BookOpen size={16} className="text-green-500" />,
-      quiz: <CheckSquare size={16} className="text-purple-500" />,
-      resources: <Files size={16} className="text-amber-500" />,
-      discussion: <MessageCircle size={16} className="text-cyan-500" />
+      video: <PlayCircle size={14} className="text-blue-500" />,
+      article: <BookOpen size={14} className="text-green-500" />,
+      quiz: <CheckSquare size={14} className="text-purple-500" />,
+      resources: <Files size={14} className="text-amber-500" />,
+      discussion: <MessageCircle size={14} className="text-cyan-500" />
     };
-    return icons[type] || <Files size={16} />;
+    return icons[type] || <Files size={14} />;
   };
 
   return (
-    <div className="p-6 md:p-10">
-      {/* Header */}
-      <div className="mb-8">
-        <h1 className="text-2xl font-bold text-slate-800 mb-2">Course Activities</h1>
-        <p className="text-sm text-slate-500">Review and customize the generated activities for each module.</p>
+    <div className="p-4 md:p-6">
+      <div className="mb-6">
+        <h1 className="text-xl md:text-2xl font-bold text-slate-800 mb-1.5">Course Activities</h1>
+        <p className="text-xs text-slate-500">Review and customize the generated activities.</p>
       </div>
 
-      {/* Modules Accordion */}
-      <div className="space-y-4">
+      <div className="space-y-3">
         {modules.map((mod) => (
           <div key={mod.id} className="border border-slate-200 rounded-xl overflow-hidden bg-white">
-            {/* Module Header */}
             <button
               onClick={() => setExpandedModule(expandedModule === mod.id ? null : mod.id)}
-              className="w-full p-5 flex items-center justify-between hover:bg-slate-50 transition-colors"
+              className="w-full p-4 flex items-center justify-between hover:bg-slate-50 transition-colors"
             >
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-100 to-purple-100 flex items-center justify-center font-bold text-blue-600">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-blue-100 to-purple-100 flex items-center justify-center font-bold text-blue-600 text-sm flex-shrink-0">
                   {mod.id}
                 </div>
-                <div className="text-left">
-                  <h3 className="font-bold text-slate-800">{mod.name}</h3>
-                  <div className="flex gap-3 mt-1 text-xs text-slate-400">
+                <div className="text-left min-w-0">
+                  <h3 className="font-bold text-sm text-slate-800 truncate">{mod.name}</h3>
+                  <div className="flex gap-2.5 mt-0.5 text-[10px] text-slate-400 flex-wrap">
                     <span className="flex items-center gap-1">
-                      <PlayCircle size={12} /> {mod.video} videos
+                      <PlayCircle size={10} /> {mod.video}
                     </span>
                     <span className="flex items-center gap-1">
-                      <BookOpen size={12} /> {mod.article} articles
+                      <BookOpen size={10} /> {mod.article}
                     </span>
                     <span className="flex items-center gap-1">
-                      <CheckSquare size={12} /> {mod.quiz} quiz
+                      <CheckSquare size={10} /> {mod.quiz}
                     </span>
                   </div>
                 </div>
               </div>
               <ChevronDown 
-                size={20} 
-                className={`text-slate-400 transition-transform ${expandedModule === mod.id ? 'rotate-180' : ''}`} 
+                size={18} 
+                className={`text-slate-400 transition-transform flex-shrink-0 ${expandedModule === mod.id ? 'rotate-180' : ''}`} 
               />
             </button>
 
-            {/* Module Content */}
             {expandedModule === mod.id && (
-              <div className="border-t border-slate-100 p-5 bg-slate-50/50">
-                <div className="grid gap-3">
-                  {/* Generate sample activities */}
+              <div className="border-t border-slate-100 p-4 bg-slate-50/50">
+                <div className="grid gap-2">
                   {[
                     ...Array(mod.video).fill('video'),
                     ...Array(mod.article).fill('article'),
                     ...Array(mod.quiz).fill('quiz'),
                   ].map((type, i) => (
-                    <div key={i} className="flex items-center gap-4 p-4 bg-white rounded-xl border border-slate-100">
-                      <div className="w-10 h-10 rounded-lg bg-slate-50 flex items-center justify-center">
+                    <div key={i} className="flex items-center gap-3 p-3 bg-white rounded-lg border border-slate-100">
+                      <div className="w-8 h-8 rounded-lg bg-slate-50 flex items-center justify-center flex-shrink-0">
                         {getActivityIcon(type)}
                       </div>
-                      <div className="flex-1">
+                      <div className="flex-1 min-w-0">
                         <input
                           type="text"
-                          defaultValue={`${type.charAt(0).toUpperCase() + type.slice(1)} ${i + 1}: Sample ${type} content`}
-                          className="w-full text-sm font-medium text-slate-700 bg-transparent outline-none focus:bg-slate-50 px-2 py-1 rounded"
+                          defaultValue={`${type.charAt(0).toUpperCase() + type.slice(1)} ${i + 1}`}
+                          className="w-full text-xs font-medium text-slate-700 bg-transparent outline-none focus:bg-slate-50 px-2 py-1 rounded"
                         />
-                        <p className="text-xs text-slate-400 px-2 capitalize">{type}</p>
+                        <p className="text-[10px] text-slate-400 px-2 capitalize">{type}</p>
                       </div>
-                      <div className="flex items-center gap-2">
-                        <button className="p-2 hover:bg-slate-100 rounded-lg">
-                          <Edit3 size={14} className="text-slate-400" />
+                      <div className="flex items-center gap-1 flex-shrink-0">
+                        <button className="p-1.5 hover:bg-slate-100 rounded-lg">
+                          <Edit3 size={12} className="text-slate-400" />
                         </button>
-                        <button className="p-2 hover:bg-orange-50 rounded-lg">
-                          <Sparkles size={14} className="text-orange-400" />
+                        <button className="p-1.5 hover:bg-orange-50 rounded-lg">
+                          <Sparkles size={12} className="text-orange-400" />
                         </button>
-                        <button className="p-2 hover:bg-red-50 rounded-lg">
-                          <Trash2 size={14} className="text-red-400" />
+                        <button className="p-1.5 hover:bg-red-50 rounded-lg">
+                          <Trash2 size={12} className="text-red-400" />
                         </button>
                       </div>
                     </div>
                   ))}
                 </div>
 
-                <button className="mt-4 flex items-center gap-2 text-blue-500 text-sm font-medium hover:underline">
-                  <Plus size={16} /> Add Activity
+                <button className="mt-3 flex items-center gap-1.5 text-blue-500 text-xs font-medium hover:underline">
+                  <Plus size={14} /> Add Activity
                 </button>
               </div>
             )}
@@ -619,21 +580,20 @@ const CourseActivityStep = ({ formData, setFormData, onNext, onBack }) => {
         ))}
       </div>
 
-      {/* Footer Actions */}
-      <div className="mt-10 flex gap-3">
+      <div className="mt-6 flex gap-2">
         <button 
           onClick={onBack}
-          className="flex-1 py-3.5 border border-orange-400 text-orange-500 font-semibold rounded-xl hover:bg-orange-50 transition-colors flex items-center justify-center gap-2"
+          className="flex-1 py-2.5 text-sm border border-orange-400 text-orange-500 font-semibold rounded-xl hover:bg-orange-50 transition-colors flex items-center justify-center gap-1.5"
         >
-          <ArrowLeft size={18} />
+          <ArrowLeft size={16} />
           Back
         </button>
         <button 
           onClick={onNext}
-          className="flex-1 py-3.5 bg-gradient-to-r from-orange-400 to-amber-500 text-white font-bold rounded-xl shadow-lg shadow-orange-100 hover:scale-[1.02] transition-all flex items-center justify-center gap-2"
+          className="flex-1 py-2.5 text-sm bg-gradient-to-r from-orange-400 to-amber-500 text-white font-bold rounded-xl shadow-lg shadow-orange-100 hover:scale-[1.02] transition-all flex items-center justify-center gap-1.5"
         >
           Preview Course
-          <ArrowRight size={18} />
+          <ArrowRight size={16} />
         </button>
       </div>
     </div>
@@ -641,129 +601,421 @@ const CourseActivityStep = ({ formData, setFormData, onNext, onBack }) => {
 };
 
 // ==================== STEP 4: PREVIEW ====================
-const PreviewStep = ({ formData, onBack, onPublish }) => {
+const PreviewStep = ({ formData, onBack, onSkip, onPublish }) => {
   const modules = formData.modules || [];
 
   return (
-    <div className="p-6 md:p-10">
-      {/* Course Header Card */}
-      <div className="bg-gradient-to-br from-blue-100 to-purple-100 rounded-2xl p-6 md:p-8 mb-6">
-        <div className="flex flex-col md:flex-row justify-between items-start gap-6">
-          <div className="flex gap-4">
-            <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-purple-500 to-blue-500 flex items-center justify-center text-white font-bold text-2xl shadow-lg">
+    <div className="p-4 md:p-6">
+      <div className="bg-gradient-to-br from-blue-100 to-purple-100 rounded-2xl p-4 md:p-6 mb-4">
+        <div className="flex flex-col md:flex-row justify-between items-start gap-4">
+          <div className="flex gap-3">
+            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-500 to-blue-500 flex items-center justify-center text-white font-bold text-lg shadow-lg flex-shrink-0">
               {formData.title?.charAt(0) || 'C'}
             </div>
-            <div>
-              <h1 className="text-xl font-bold text-slate-800">{formData.title || 'Your Course'}</h1>
-              <p className="text-sm text-slate-600 mt-1">Created with ConGen AI</p>
-              <p className="text-[10px] text-slate-400 uppercase tracking-wider mt-0.5">CREATOR</p>
+            <div className="min-w-0">
+              <h1 className="text-base md:text-lg font-bold text-slate-800 truncate">{formData.title || 'Your Course'}</h1>
+              <p className="text-xs text-slate-600 mt-0.5">Created with ConGen AI</p>
             </div>
           </div>
-          <button className="px-5 py-2.5 bg-blue-500 text-white rounded-xl text-sm font-bold shadow-md hover:bg-blue-600 transition-all">
-            Set Course Price
+          <button className="px-4 py-2 bg-blue-500 text-white rounded-lg text-xs font-bold shadow-md hover:bg-blue-600 transition-all flex-shrink-0">
+            Set Price
           </button>
         </div>
 
-        <div className="mt-6">
-          <span className="bg-blue-600 text-white text-[10px] font-bold px-3 py-1.5 rounded-lg uppercase">
-            Publish As : Individual + Group
+        <div className="mt-4">
+          <span className="bg-blue-600 text-white text-[10px] font-bold px-2.5 py-1 rounded-lg uppercase">
+            Individual + Group
           </span>
         </div>
 
-        <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="space-y-2">
-            <h3 className="text-sm font-bold text-slate-700 flex items-center gap-2">
-              <Calendar size={14} /> Registration
+        <div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="space-y-1">
+            <h3 className="text-xs font-bold text-slate-700 flex items-center gap-1.5">
+              <Calendar size={12} /> Registration
             </h3>
-            <p className="text-xs text-slate-600">Start : {new Date().toLocaleDateString()}</p>
-            <p className="text-xs text-slate-600">End : {new Date(Date.now() + 30*24*60*60*1000).toLocaleDateString()}</p>
-            <p className="text-xs text-slate-600">Batch No : IGS001</p>
-            <p className="text-xs text-slate-600 font-medium">( Max 100 Students )</p>
+            <p className="text-[11px] text-slate-600">Start: {new Date().toLocaleDateString()}</p>
+            <p className="text-[11px] text-slate-600">Batch: IGS001</p>
           </div>
 
-          <div className="space-y-2">
-            <p className="text-xs text-slate-600 font-bold">Course Fees : <span className="text-slate-400 line-through">$100</span></p>
-            <p className="text-xs text-slate-600 font-bold">Discount : <span className="text-slate-400">$10</span></p>
-            <p className="text-sm font-black text-slate-800">Payable Fees : $90</p>
+          <div className="space-y-1">
+            <p className="text-[11px] text-slate-600 font-bold">Fees: <span className="text-slate-400 line-through">$100</span></p>
+            <p className="text-sm font-black text-slate-800">Payable: $90</p>
           </div>
 
-          <div className="space-y-2">
-            <p className="text-xs text-slate-600 font-bold flex items-center gap-2">
-              <Users size={14} /> Batch Details
+          <div className="space-y-1">
+            <p className="text-[11px] text-slate-600 font-bold flex items-center gap-1.5">
+              <Users size={12} /> Batch
             </p>
-            <p className="text-xs text-slate-600">Duration: {modules.length * 2} Weeks</p>
-            <div className="flex items-center gap-2 mt-2 text-slate-700">
-              <Award size={16} />
-              <p className="text-xs font-bold">Certificate : <span className="font-medium">Provided</span></p>
+            <p className="text-[11px] text-slate-600">Duration: {modules.length * 2} Weeks</p>
+            <div className="flex items-center gap-1.5 text-slate-700">
+              <Award size={14} />
+              <p className="text-[11px] font-bold">Certificate: Yes</p>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Modules List */}
-      <div className="bg-white rounded-xl shadow-sm overflow-hidden border border-slate-100">
+      <div className="bg-white rounded-xl shadow-sm overflow-hidden border border-slate-100 mb-4">
         {modules.map((mod, idx) => (
-          <div key={mod.id} className={`p-5 flex items-center gap-5 ${idx !== modules.length - 1 ? 'border-b border-slate-100' : ''}`}>
-            <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-blue-50 to-purple-50 flex items-center justify-center flex-shrink-0">
-              <span className="text-2xl font-bold text-blue-500">{mod.id}</span>
+          <div key={mod.id} className={`p-4 flex items-center gap-3 ${idx !== modules.length - 1 ? 'border-b border-slate-100' : ''}`}>
+            <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-blue-50 to-purple-50 flex items-center justify-center flex-shrink-0">
+              <span className="text-lg font-bold text-blue-500">{mod.id}</span>
             </div>
             
-            <div className="flex-1">
-              <h4 className="text-sm font-bold text-slate-800">
+            <div className="flex-1 min-w-0">
+              <h4 className="text-xs font-bold text-slate-800 truncate">
                 <span className="text-blue-500">Module {mod.id}:</span> {mod.name.replace(`Module ${mod.id}: `, '')}
               </h4>
-              <p className="text-xs font-bold text-slate-600 mt-2 mb-2">What's included</p>
               
-              <div className="flex flex-wrap gap-4 text-slate-400 text-[11px] font-medium">
-                <span className="flex items-center gap-1.5"><PlayCircle size={14}/> {mod.video} videos</span>
-                <span className="flex items-center gap-1.5"><BookOpen size={14}/> {mod.article} readings</span>
-                <span className="flex items-center gap-1.5"><CheckSquare size={14}/> {mod.quiz} quiz</span>
-                <span className="flex items-center gap-1.5"><Files size={14}/> {mod.resources} resources</span>
-                <span className="flex items-center gap-1.5"><MessageCircle size={14}/> {mod.discussion} discussion</span>
+              <div className="flex flex-wrap gap-2.5 text-slate-400 text-[10px] font-medium mt-1.5">
+                <span className="flex items-center gap-1"><PlayCircle size={10}/> {mod.video}</span>
+                <span className="flex items-center gap-1"><BookOpen size={10}/> {mod.article}</span>
+                <span className="flex items-center gap-1"><CheckSquare size={10}/> {mod.quiz}</span>
               </div>
             </div>
-
-            <ChevronDown className="text-slate-300 flex-shrink-0" size={20} />
           </div>
         ))}
       </div>
 
-      {/* Summary Stats */}
-      <div className="mt-6 grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
         {[
-          { label: 'Total Modules', value: modules.length, icon: Layers, color: 'text-purple-500' },
-          { label: 'Total Videos', value: modules.reduce((acc, m) => acc + m.video, 0), icon: Video, color: 'text-blue-500' },
-          { label: 'Total Quizzes', value: modules.reduce((acc, m) => acc + m.quiz, 0), icon: CheckSquare, color: 'text-green-500' },
-          { label: 'Est. Duration', value: `${modules.length * 2}h`, icon: Clock, color: 'text-amber-500' },
+          { label: 'Modules', value: modules.length, icon: Layers, color: 'text-purple-500' },
+          { label: 'Videos', value: modules.reduce((acc, m) => acc + m.video, 0), icon: Video, color: 'text-blue-500' },
+          { label: 'Quizzes', value: modules.reduce((acc, m) => acc + m.quiz, 0), icon: CheckSquare, color: 'text-green-500' },
+          { label: 'Duration', value: `${modules.length * 2}h`, icon: Clock, color: 'text-amber-500' },
         ].map((stat, i) => (
-          <div key={i} className="bg-white rounded-xl p-4 border border-slate-100">
-            <stat.icon size={20} className={stat.color} />
-            <p className="text-2xl font-bold text-slate-800 mt-2">{stat.value}</p>
-            <p className="text-xs text-slate-500">{stat.label}</p>
+          <div key={i} className="bg-white rounded-xl p-3 border border-slate-100">
+            <stat.icon size={16} className={stat.color} />
+            <p className="text-lg font-bold text-slate-800 mt-1.5">{stat.value}</p>
+            <p className="text-[10px] text-slate-500">{stat.label}</p>
           </div>
         ))}
       </div>
 
-      {/* Footer Actions */}
-      <div className="mt-10 flex gap-3">
+      <div className="flex gap-2">
         <button 
           onClick={onBack}
-          className="flex-1 py-3.5 border border-slate-200 text-slate-600 font-semibold rounded-xl hover:bg-slate-50 transition-colors flex items-center justify-center gap-2"
+          className="flex-1 py-2.5 text-sm border border-slate-200 text-slate-600 font-semibold rounded-xl hover:bg-slate-50 transition-colors flex items-center justify-center gap-1.5"
         >
-          <ArrowLeft size={18} />
+          <ArrowLeft size={16} />
           Back
         </button>
-        <button className="px-6 py-3.5 border border-amber-400 text-amber-600 font-semibold rounded-xl hover:bg-amber-50 transition-colors flex items-center justify-center gap-2">
-          <Save size={18} />
-          Save Draft
+        <button 
+          onClick={onSkip}
+          className="px-4 py-2.5 text-sm border border-amber-400 text-amber-600 font-semibold rounded-xl hover:bg-amber-50 transition-colors flex items-center justify-center gap-1.5"
+        >
+          <SkipForward size={16} />
+          Skip
         </button>
         <button 
           onClick={onPublish}
-          className="flex-1 py-3.5 bg-gradient-to-r from-green-500 to-emerald-600 text-white font-bold rounded-xl shadow-lg shadow-green-100 hover:scale-[1.02] transition-all flex items-center justify-center gap-2"
+          className="flex-1 py-2.5 text-sm bg-gradient-to-r from-green-500 to-emerald-600 text-white font-bold rounded-xl shadow-lg shadow-green-100 hover:scale-[1.02] transition-all flex items-center justify-center gap-1.5"
         >
-          <Check size={18} />
-          Publish Course
+          <Check size={16} />
+          Publish
         </button>
+      </div>
+    </div>
+  );
+};
+
+// ==================== STEP 5: COURSE ACTIVITY EDITOR ====================
+const CourseActivityEditorStep = ({ formData, onBack, onFinish }) => {
+  const modules = formData.modules || [];
+  const [currentModuleIndex, setCurrentModuleIndex] = useState(0);
+  const [selectedLessonIndex, setSelectedLessonIndex] = useState(0);
+  
+  const currentModule = modules[currentModuleIndex] || modules[0];
+
+  // Generate lessons for current module
+  const generateLessons = (mod) => {
+    if (!mod) return [];
+    const lessons = [];
+    for (let i = 0; i < mod.video; i++) {
+      lessons.push({ id: `v${i}`, title: `Video ${i + 1}: ${mod.name.split(':')[1]?.trim() || 'Introduction'}`, type: 'video', duration: '3 min' });
+    }
+    for (let i = 0; i < mod.article; i++) {
+      lessons.push({ id: `a${i}`, title: `Article ${i + 1}: Reading Material`, type: 'article', duration: '2 min' });
+    }
+    if (mod.discussion > 0) {
+      lessons.push({ id: 'd0', title: 'Discussion Forum', type: 'discussion', duration: '' });
+    }
+    if (mod.resources > 0) {
+      lessons.push({ id: 'r0', title: 'Additional Resources', type: 'resources', duration: '' });
+    }
+    for (let i = 0; i < mod.quiz; i++) {
+      lessons.push({ id: `q${i}`, title: `Module Quiz ${i + 1}`, type: 'quiz', duration: '5 min' });
+    }
+    return lessons;
+  };
+
+  const lessons = generateLessons(currentModule);
+  const selectedLesson = lessons[selectedLessonIndex] || lessons[0];
+
+  const progress = Math.round(((currentModuleIndex + 1) / modules.length) * 100);
+
+  const getIcon = (type) => {
+    const icons = {
+      video: <PlayCircle size={12} className="text-blue-500" />,
+      article: <BookOpen size={12} className="text-green-500" />,
+      discussion: <MessageCircle size={12} className="text-purple-500" />,
+      resources: <Files size={12} className="text-amber-500" />,
+      quiz: <HelpCircle size={12} className="text-red-500" />
+    };
+    return icons[type] || <Circle size={12} />;
+  };
+
+  const handleNextModule = () => {
+    if (currentModuleIndex < modules.length - 1) {
+      setCurrentModuleIndex(currentModuleIndex + 1);
+      setSelectedLessonIndex(0);
+    } else {
+      onFinish();
+    }
+  };
+
+  const handlePrevModule = () => {
+    if (currentModuleIndex > 0) {
+      setCurrentModuleIndex(currentModuleIndex - 1);
+      setSelectedLessonIndex(0);
+    }
+  };
+
+  return (
+    <div className="flex flex-col h-[calc(100vh-140px)]">
+      {/* Top Header */}
+      <div className="bg-white border-b border-slate-100 px-4 py-3 flex flex-col md:flex-row justify-between items-start md:items-center gap-3">
+        <div className="flex items-center gap-3 min-w-0">
+          <button 
+            onClick={onBack}
+            className="p-1.5 hover:bg-slate-100 rounded-lg"
+          >
+            <ArrowLeft size={16} className="text-slate-500" />
+          </button>
+          <div className="min-w-0">
+            <h2 className="font-bold text-slate-800 text-sm truncate">{formData.title}</h2>
+            <p className="text-[10px] text-slate-400">Module {currentModuleIndex + 1} of {modules.length}</p>
+          </div>
+        </div>
+        
+        <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2">
+            <div className="w-8 h-8 rounded-full border-2 border-blue-500 flex items-center justify-center">
+              <span className="text-[9px] font-bold text-blue-600">{progress}%</span>
+            </div>
+          </div>
+          <button className="flex items-center gap-1.5 px-3 py-1.5 border border-blue-400 text-blue-500 rounded-lg text-[11px] font-bold hover:bg-blue-50">
+            <Eye size={12} /> Preview
+          </button>
+          <button 
+            onClick={handleNextModule}
+            className="bg-blue-600 text-white px-4 py-1.5 rounded-lg text-[11px] font-bold flex items-center gap-1.5 hover:bg-blue-700 shadow-sm"
+          >
+            {currentModuleIndex < modules.length - 1 ? 'Next Module' : 'Finish'} 
+            <ChevronRight size={12} />
+          </button>
+        </div>
+      </div>
+
+      <div className="flex flex-1 overflow-hidden">
+        {/* Sidebar: Lesson List */}
+        <aside className="w-72 bg-white border-r border-slate-100 flex flex-col overflow-hidden">
+          <div className="p-3 bg-slate-50 border-b border-slate-100 flex gap-2.5">
+            <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-blue-100 to-purple-100 flex items-center justify-center font-bold text-blue-600 text-sm flex-shrink-0">
+              {currentModule?.id || 1}
+            </div>
+            <div className="min-w-0">
+              <p className="text-[9px] font-bold text-blue-500 uppercase">Module {currentModule?.id || 1}</p>
+              <h3 className="text-[11px] font-bold text-slate-800 truncate">{currentModule?.name?.split(':')[1]?.trim() || 'Module Content'}</h3>
+            </div>
+          </div>
+          
+          <div className="flex-1 overflow-y-auto p-2 space-y-1.5 bg-slate-50/30">
+            {lessons.map((lesson, idx) => (
+              <div 
+                key={lesson.id} 
+                onClick={() => setSelectedLessonIndex(idx)}
+                className={`bg-white p-2.5 rounded-lg border shadow-sm flex items-center justify-between group hover:border-blue-200 transition-all cursor-pointer ${
+                  selectedLessonIndex === idx ? 'border-blue-400 bg-blue-50' : 'border-slate-100'
+                }`}
+              >
+                <div className="flex items-center gap-2.5 min-w-0">
+                  <div className="text-slate-300 flex-shrink-0">
+                    <Circle size={10} />
+                  </div>
+                  <div className="min-w-0">
+                    <p className="text-[10px] font-bold text-slate-700 leading-snug truncate">{lesson.title}</p>
+                    <div className="flex items-center gap-1.5 text-[9px] text-slate-400 mt-0.5">
+                      {getIcon(lesson.type)} 
+                      <span className="capitalize">{lesson.type}</span>
+                      {lesson.duration && <span>• {lesson.duration}</span>}
+                    </div>
+                  </div>
+                </div>
+                <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0">
+                  <button className="p-1 hover:bg-slate-100 rounded">
+                    <Edit3 size={12} className="text-slate-400" />
+                  </button>
+                  <button className="p-1 hover:bg-red-50 rounded">
+                    <Trash2 size={12} className="text-red-400" />
+                  </button>
+                </div>
+              </div>
+            ))}
+            
+            <button className="w-full p-2 text-[10px] font-medium text-blue-500 flex items-center justify-center gap-1.5 hover:bg-blue-50 rounded-lg border border-dashed border-blue-200 mt-2">
+              <Plus size={12} /> Add Lesson
+            </button>
+          </div>
+
+          {/* Module Navigation */}
+          <div className="p-3 border-t border-slate-100 bg-white flex gap-2">
+            <button 
+              onClick={handlePrevModule}
+              disabled={currentModuleIndex === 0}
+              className={`flex-1 py-2 text-[10px] font-bold rounded-lg flex items-center justify-center gap-1 ${
+                currentModuleIndex === 0 
+                  ? 'bg-slate-100 text-slate-400 cursor-not-allowed' 
+                  : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+              }`}
+            >
+              <ArrowLeft size={12} /> Prev
+            </button>
+            <button 
+              onClick={handleNextModule}
+              className="flex-1 py-2 text-[10px] font-bold bg-blue-500 text-white rounded-lg flex items-center justify-center gap-1 hover:bg-blue-600"
+            >
+              {currentModuleIndex < modules.length - 1 ? 'Next' : 'Finish'} <ArrowRight size={12} />
+            </button>
+          </div>
+        </aside>
+
+        {/* Main Content */}
+        <main className="flex-1 overflow-y-auto p-4 bg-slate-50 space-y-4">
+          
+          {/* Video/Content Section */}
+          <div className="bg-white rounded-xl border border-slate-200 overflow-hidden shadow-sm">
+            <div className="p-3 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
+              <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider flex items-center gap-2">
+                {getIcon(selectedLesson?.type)}
+                {selectedLesson?.type || 'Content'}
+              </span>
+              <div className="flex items-center gap-2">
+                <button className="p-1.5 border border-slate-200 rounded-md hover:bg-white text-slate-400">
+                  <Upload size={12} />
+                </button>
+                <button className="p-1.5 border border-slate-200 rounded-md hover:bg-white text-slate-400">
+                  <Edit3 size={12} />
+                </button>
+              </div>
+            </div>
+            
+            {selectedLesson?.type === 'video' ? (
+              <div className="aspect-video bg-slate-900 flex items-center justify-center relative group">
+                <div className="absolute inset-0 bg-gradient-to-br from-slate-800 to-slate-900"></div>
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="text-center">
+                    <div className="w-14 h-14 bg-red-600 rounded-full flex items-center justify-center text-white shadow-xl group-hover:scale-110 transition-transform cursor-pointer mx-auto">
+                      <PlayCircle size={32} fill="white" className="text-red-600" />
+                    </div>
+                    <p className="text-white/60 text-xs mt-3">Click to add video</p>
+                    <p className="text-white/40 text-[10px] mt-1">Upload or paste YouTube URL</p>
+                  </div>
+                </div>
+                {/* Video Controls */}
+                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-3 flex items-center gap-3">
+                  <button className="p-1.5 text-white/80 hover:text-white">
+                    <Pause size={14} />
+                  </button>
+                  <div className="flex-1 h-1 bg-white/30 rounded-full overflow-hidden">
+                    <div className="h-full w-1/3 bg-red-500 rounded-full"></div>
+                  </div>
+                  <span className="text-[10px] text-white/80">0:00 / 3:00</span>
+                  <button className="p-1.5 text-white/80 hover:text-white">
+                    <Volume2 size={14} />
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <div className="p-6 flex flex-col items-center justify-center min-h-[200px] text-center">
+                <div className="w-12 h-12 rounded-full bg-slate-100 flex items-center justify-center mb-3">
+                  {getIcon(selectedLesson?.type)}
+                </div>
+                <p className="text-sm font-medium text-slate-600">{selectedLesson?.title}</p>
+                <p className="text-xs text-slate-400 mt-1">Edit content below</p>
+              </div>
+            )}
+          </div>
+
+          {/* Content Editor Section */}
+          <div className="bg-white rounded-xl border border-slate-200 overflow-hidden shadow-sm">
+            <div className="p-3 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
+              <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Content Editor</span>
+              <button className="flex items-center gap-1.5 px-2.5 py-1 border border-orange-300 text-orange-500 rounded-lg text-[10px] font-bold hover:bg-orange-50">
+                <Sparkles size={10} /> Generate with AI
+              </button>
+            </div>
+            
+            <div className="p-4 space-y-4">
+              <div>
+                <label className="text-[10px] font-bold text-slate-500 uppercase mb-1.5 block">Title</label>
+                <input 
+                  type="text"
+                  defaultValue={selectedLesson?.title}
+                  className="w-full px-3 py-2 text-sm text-slate-700 bg-slate-50 border border-slate-200 rounded-lg outline-none focus:border-blue-400"
+                />
+              </div>
+              
+              <div>
+                <label className="text-[10px] font-bold text-slate-500 uppercase mb-1.5 block">Description / Transcript</label>
+                <textarea 
+                  className="w-full p-3 text-sm text-slate-600 bg-slate-50 border border-slate-200 rounded-lg outline-none leading-relaxed focus:border-blue-400"
+                  rows={4}
+                  placeholder="Enter content description or transcript..."
+                  defaultValue="This content explains the key concepts and provides learners with practical knowledge they can apply immediately."
+                />
+              </div>
+              
+              <div>
+                <label className="text-[10px] font-bold text-slate-500 uppercase mb-1.5 block">Additional Notes</label>
+                <textarea 
+                  className="w-full p-3 text-sm text-slate-600 bg-white border border-slate-200 rounded-lg outline-none leading-relaxed focus:border-blue-400"
+                  rows={2}
+                  placeholder="Optional: Add extra notes for learners..."
+                />
+              </div>
+              
+              <div className="flex justify-end gap-2 pt-2">
+                <button className="px-4 py-2 text-[11px] font-bold border border-slate-200 rounded-lg hover:bg-slate-50 text-slate-600">
+                  Cancel
+                </button>
+                <button className="px-5 py-2 text-[11px] font-bold bg-lime-500 text-white rounded-lg hover:bg-lime-600 shadow-sm flex items-center gap-1.5">
+                  <Save size={12} /> Save Changes
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {/* Quick Actions */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+            <button className="p-3 bg-white border border-slate-200 rounded-lg hover:border-blue-300 hover:bg-blue-50 transition-colors flex flex-col items-center gap-2">
+              <Upload size={16} className="text-blue-500" />
+              <span className="text-[10px] font-medium text-slate-600">Upload Video</span>
+            </button>
+            <button className="p-3 bg-white border border-slate-200 rounded-lg hover:border-green-300 hover:bg-green-50 transition-colors flex flex-col items-center gap-2">
+              <BookOpen size={16} className="text-green-500" />
+              <span className="text-[10px] font-medium text-slate-600">Add Reading</span>
+            </button>
+            <button className="p-3 bg-white border border-slate-200 rounded-lg hover:border-purple-300 hover:bg-purple-50 transition-colors flex flex-col items-center gap-2">
+              <HelpCircle size={16} className="text-purple-500" />
+              <span className="text-[10px] font-medium text-slate-600">Add Quiz</span>
+            </button>
+            <button className="p-3 bg-white border border-slate-200 rounded-lg hover:border-amber-300 hover:bg-amber-50 transition-colors flex flex-col items-center gap-2">
+              <MessageCircle size={16} className="text-amber-500" />
+              <span className="text-[10px] font-medium text-slate-600">Discussion</span>
+            </button>
+          </div>
+        </main>
       </div>
     </div>
   );
@@ -778,7 +1030,7 @@ const CreateContentPage = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const [formData, setFormData] = useState({
     title: '',
-    style: 'Professional, engaging, and easy to understand',
+    style: 'Professional, engaging, easy to understand',
     audience: '',
     goals: '',
     moduleCount: 3,
@@ -787,14 +1039,25 @@ const CreateContentPage = () => {
   });
 
   const steps = [
-    { id: 1, title: 'About Course' },
-    { id: 2, title: 'Manage Module' },
-    { id: 3, title: 'Course Activity' },
+    { id: 1, title: 'About' },
+    { id: 2, title: 'Modules' },
+    { id: 3, title: 'Activity' },
     { id: 4, title: 'Preview' },
+    { id: 5, title: 'Editor' },
   ];
 
   const handlePublish = () => {
-    // Save to localStorage or API
+    // Go to Course Activity Editor
+    setCurrentStep(5);
+  };
+
+  const handleSkip = () => {
+    // Go to Course Activity Editor
+    setCurrentStep(5);
+  };
+
+  const handleFinish = () => {
+    // Save to localStorage
     const savedCourses = JSON.parse(localStorage.getItem('congenContents') || '[]');
     const newCourse = {
       id: Date.now(),
@@ -815,7 +1078,6 @@ const CreateContentPage = () => {
     navigate('/congen');
   };
 
-  // Show Welcome Screen
   if (showWelcome) {
     return (
       <div className="min-h-screen bg-slate-50">
@@ -825,28 +1087,42 @@ const CreateContentPage = () => {
     );
   }
 
+  // Course Activity Editor - Full Screen Mode
+  if (currentStep === 5) {
+    return (
+      <div className="min-h-screen bg-slate-50">
+        <Header user={user} title="ConGen™" />
+        <CourseActivityEditorStep 
+          formData={formData}
+          onBack={() => setCurrentStep(4)}
+          onFinish={handleFinish}
+        />
+      </div>
+    );
+  }
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
+    <div className="min-h-screen bg-slate-50">
       <Header user={user} title="ConGen™" />
 
-      <div className="max-w-5xl mx-auto px-4 py-8">
-        <div className="bg-white rounded-[28px] shadow-xl shadow-slate-200/50 overflow-hidden border border-slate-100">
+      <div className="max-w-6xl mx-auto px-3 md:px-4 py-4">
+        <div className="bg-white rounded-3xl shadow-xl shadow-slate-200/50 overflow-hidden border border-slate-100">
           
           {/* Step Navigation */}
-          <nav className="flex items-center justify-center gap-3 md:gap-4 py-6 border-b border-slate-100 text-[13px] font-medium px-4 overflow-x-auto">
-            {steps.map((step, index) => {
+          <nav className="flex items-center justify-center gap-2 md:gap-3 py-4 md:py-5 border-b border-slate-100 text-[11px] md:text-xs font-medium px-3 overflow-x-auto">
+            {steps.slice(0, 4).map((step, index) => {
               const isCompleted = currentStep > step.id;
               const isActive = currentStep === step.id;
               
               return (
                 <React.Fragment key={step.id}>
-                  <div className={`flex items-center gap-2 whitespace-nowrap ${
+                  <div className={`flex items-center gap-1.5 whitespace-nowrap ${
                     isActive ? 'text-slate-900 font-bold' : isCompleted ? 'text-blue-500' : 'text-slate-400'
                   }`}>
                     {isCompleted ? (
-                      <CheckCircle2 size={16} className="text-blue-500 fill-blue-500" />
+                      <CheckCircle2 size={14} className="text-blue-500 fill-blue-500" />
                     ) : (
-                      <span className={`w-5 h-5 rounded-full border-2 flex items-center justify-center text-[10px] font-bold ${
+                      <span className={`w-5 h-5 rounded-full border-2 flex items-center justify-center text-[9px] font-bold ${
                         isActive ? 'border-slate-900 text-slate-900' : 'border-slate-300 text-slate-400'
                       }`}>
                         {step.id}
@@ -856,8 +1132,8 @@ const CreateContentPage = () => {
                       {step.title}
                     </span>
                   </div>
-                  {index < steps.length - 1 && (
-                    <ChevronRight size={14} className="text-slate-300 flex-shrink-0" />
+                  {index < 3 && (
+                    <ChevronRight size={12} className="text-slate-300 flex-shrink-0" />
                   )}
                 </React.Fragment>
               );
@@ -896,6 +1172,7 @@ const CreateContentPage = () => {
             <PreviewStep 
               formData={formData}
               onBack={() => setCurrentStep(3)}
+              onSkip={handleSkip}
               onPublish={handlePublish}
             />
           )}
