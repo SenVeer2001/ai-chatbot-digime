@@ -1,5 +1,5 @@
 // pages/CreateContentPage.jsx
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { 
   CheckCircle2, Star, Plus, Image as ImageIcon, Type, MousePointer2,
@@ -7,8 +7,8 @@ import {
   Trash2, PlayCircle, BookOpen, CheckSquare, Files, MessageCircle, 
   ChevronDown, Award, X, FileText, Video, Edit3, Save,
   Layers, BookMarked, Users, Clock, Calendar, Check, Circle,
-  HelpCircle, Eye, SkipForward, ExternalLink, Upload, Settings,
-  RotateCcw, Pause, Volume2
+  HelpCircle, Eye, SkipForward, Upload,
+  RotateCcw, Pause, Volume2, VolumeX, Maximize2, Play, RefreshCw
 } from 'lucide-react';
 import { useApp } from '../../hooks/useApp';
 import Header from '../../components/layout/Header';
@@ -18,7 +18,6 @@ const WelcomeScreen = ({ onGetStarted }) => {
   return (
     <div className="min-h-[calc(100vh-80px)] flex items-center justify-center p-4 md:p-6 relative overflow-hidden">
       
-      {/* Abstract Background Decorations */}
       <div className="absolute top-1/4 left-10 text-slate-200 pointer-events-none">
         <Plus size={16} />
       </div>
@@ -28,10 +27,8 @@ const WelcomeScreen = ({ onGetStarted }) => {
       <div className="absolute bottom-1/4 left-1/4 w-48 h-48 bg-purple-100 rounded-full blur-3xl opacity-30"></div>
       <div className="absolute top-1/3 right-1/4 w-40 h-40 bg-blue-100 rounded-full blur-3xl opacity-30"></div>
 
-      {/* Main Modal Card */}
       <div className="w-full max-w-xl bg-white rounded-3xl shadow-2xl shadow-blue-100/50 p-6 md:p-10 flex flex-col items-center text-center relative z-10">
         
-        {/* Logo Section */}
         <div className="flex flex-col items-center mb-6">
           <div className="relative flex items-center justify-center mb-2">
             <div className="w-12 h-12 bg-gradient-to-br from-green-500 to-emerald-600 rounded-xl skew-x-[-12deg] flex items-center justify-center shadow-lg">
@@ -42,7 +39,6 @@ const WelcomeScreen = ({ onGetStarted }) => {
           <span className="text-[10px] font-bold text-orange-500 tracking-[0.2em] uppercase">Content Generator</span>
         </div>
 
-        {/* Text Content */}
         <h1 className="text-2xl md:text-3xl font-bold text-slate-800 mb-3 tracking-tight">
           Welcome to ConGen
         </h1>
@@ -50,7 +46,6 @@ const WelcomeScreen = ({ onGetStarted }) => {
           Create professional content with AI assistance. Build courses, documents, resumes, and corporate materials in minutes.
         </p>
 
-        {/* Illustration Section */}
         <div className="relative w-full max-w-sm h-36 mb-8 flex justify-center items-end">
           <div className="relative w-36 h-24 border-4 border-slate-200 rounded-xl bg-white flex items-center justify-center shadow-sm">
             <CheckCircle2 size={40} className="text-green-500 fill-green-50" />
@@ -75,7 +70,6 @@ const WelcomeScreen = ({ onGetStarted }) => {
           </div>
         </div>
 
-        {/* Features List */}
         <div className="grid grid-cols-3 gap-3 w-full mb-6">
           {[
             { icon: Sparkles, label: 'AI Powered', color: 'text-purple-500' },
@@ -89,7 +83,6 @@ const WelcomeScreen = ({ onGetStarted }) => {
           ))}
         </div>
 
-        {/* Action Button */}
         <button 
           onClick={onGetStarted}
           className="w-full py-3 bg-gradient-to-r from-slate-800 to-slate-900 text-white font-bold rounded-xl hover:from-slate-900 hover:to-black transition-all text-sm shadow-lg shadow-slate-200 flex items-center justify-center gap-2"
@@ -399,6 +392,7 @@ const ManageModulesStep = ({ formData, setFormData, onNext, onBack }) => {
                   <input 
                     type="number" 
                     value={mod.article}
+                    min={0}
                     onChange={(e) => updateModule(mod.id, 'article', parseInt(e.target.value) || 0)}
                     className="w-12 p-1.5 text-xs border border-slate-200 rounded-lg text-center focus:border-blue-400 outline-none mx-auto block"
                   />
@@ -407,6 +401,7 @@ const ManageModulesStep = ({ formData, setFormData, onNext, onBack }) => {
                   <input 
                     type="number" 
                     value={mod.video}
+                    min={0}
                     onChange={(e) => updateModule(mod.id, 'video', parseInt(e.target.value) || 0)}
                     className="w-12 p-1.5 text-xs border border-slate-200 rounded-lg text-center focus:border-blue-400 outline-none mx-auto block"
                   />
@@ -415,6 +410,7 @@ const ManageModulesStep = ({ formData, setFormData, onNext, onBack }) => {
                   <input 
                     type="number" 
                     value={mod.quiz}
+                    min={0}
                     onChange={(e) => updateModule(mod.id, 'quiz', parseInt(e.target.value) || 0)}
                     className="w-12 p-1.5 text-xs border border-slate-200 rounded-lg text-center focus:border-blue-400 outline-none mx-auto block"
                   />
@@ -423,6 +419,7 @@ const ManageModulesStep = ({ formData, setFormData, onNext, onBack }) => {
                   <input 
                     type="number" 
                     value={mod.resources}
+                    min={0}
                     onChange={(e) => updateModule(mod.id, 'resources', parseInt(e.target.value) || 0)}
                     className="w-12 p-1.5 text-xs border border-slate-200 rounded-lg text-center focus:border-blue-400 outline-none mx-auto block"
                   />
@@ -431,6 +428,7 @@ const ManageModulesStep = ({ formData, setFormData, onNext, onBack }) => {
                   <input 
                     type="number" 
                     value={mod.discussion}
+                    min={0}
                     onChange={(e) => updateModule(mod.id, 'discussion', parseInt(e.target.value) || 0)}
                     className="w-12 p-1.5 text-xs border border-slate-200 rounded-lg text-center focus:border-blue-400 outline-none mx-auto block"
                   />
@@ -719,20 +717,42 @@ const PreviewStep = ({ formData, onBack, onSkip, onPublish }) => {
   );
 };
 
-// ==================== STEP 5: COURSE ACTIVITY EDITOR ====================
+// ==================== STEP 5: COURSE ACTIVITY EDITOR WITH VIDEO & DRAG-DROP ====================
 const CourseActivityEditorStep = ({ formData, onBack, onFinish }) => {
   const modules = formData.modules || [];
   const [currentModuleIndex, setCurrentModuleIndex] = useState(0);
   const [selectedLessonIndex, setSelectedLessonIndex] = useState(0);
   
+  // Video Player States - ONE VIDEO FOR ALL
+  const videoRef = useRef(null);
+  const [videoLoaded, setVideoLoaded] = useState(false);
+  const [videoError, setVideoError] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [isMuted, setIsMuted] = useState(false);
+  const [currentTime, setCurrentTime] = useState(0);
+  const [duration, setDuration] = useState(0);
+
+  // Drag and Drop States
+  const [lessons, setLessons] = useState([]);
+  const [draggedIndex, setDraggedIndex] = useState(null);
+  const [dragOverIndex, setDragOverIndex] = useState(null);
+  
   const currentModule = modules[currentModuleIndex] || modules[0];
+
+  // *** SINGLE VIDEO URL FROM PUBLIC FOLDER ***
+  const VIDEO_URL = '/AvatarGirl.mp4'; // Place your video in public folder
 
   // Generate lessons for current module
   const generateLessons = (mod) => {
     if (!mod) return [];
     const lessons = [];
     for (let i = 0; i < mod.video; i++) {
-      lessons.push({ id: `v${i}`, title: `Video ${i + 1}: ${mod.name.split(':')[1]?.trim() || 'Introduction'}`, type: 'video', duration: '3 min' });
+      lessons.push({ 
+        id: `v${i}`, 
+        title: `Video ${i + 1}: ${mod.name.split(':')[1]?.trim() || 'Introduction'}`, 
+        type: 'video', 
+        duration: '3 min'
+      });
     }
     for (let i = 0; i < mod.article; i++) {
       lessons.push({ id: `a${i}`, title: `Article ${i + 1}: Reading Material`, type: 'article', duration: '2 min' });
@@ -749,10 +769,121 @@ const CourseActivityEditorStep = ({ formData, onBack, onFinish }) => {
     return lessons;
   };
 
-  const lessons = generateLessons(currentModule);
-  const selectedLesson = lessons[selectedLessonIndex] || lessons[0];
+  // Initialize lessons when module changes
+  useEffect(() => {
+    setLessons(generateLessons(currentModule));
+    setSelectedLessonIndex(0);
+  }, [currentModuleIndex]);
 
+  const selectedLesson = lessons[selectedLessonIndex] || lessons[0];
   const progress = Math.round(((currentModuleIndex + 1) / modules.length) * 100);
+
+  // Video control functions
+  const togglePlay = () => {
+    if (videoRef.current) {
+      if (isPlaying) {
+        videoRef.current.pause();
+      } else {
+        videoRef.current.play().catch(err => console.log('Play error:', err));
+      }
+    }
+  };
+
+  const toggleMute = () => {
+    if (videoRef.current) {
+      videoRef.current.muted = !isMuted;
+      setIsMuted(!isMuted);
+    }
+  };
+
+  const handleTimeUpdate = () => {
+    if (videoRef.current) {
+      setCurrentTime(videoRef.current.currentTime);
+    }
+  };
+
+  const handleLoadedMetadata = () => {
+    if (videoRef.current) {
+      setDuration(videoRef.current.duration);
+      setVideoLoaded(true);
+    }
+  };
+
+  const handleSeek = (e) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const pos = (e.clientX - rect.left) / rect.width;
+    if (videoRef.current && duration) {
+      videoRef.current.currentTime = pos * duration;
+    }
+  };
+
+  const handleFullscreen = () => {
+    if (videoRef.current) {
+      if (videoRef.current.requestFullscreen) {
+        videoRef.current.requestFullscreen();
+      }
+    }
+  };
+
+  const formatTime = (time) => {
+    if (!time || isNaN(time)) return '0:00';
+    const mins = Math.floor(time / 60);
+    const secs = Math.floor(time % 60);
+    return `${mins}:${secs.toString().padStart(2, '0')}`;
+  };
+
+  // Drag and Drop Functions
+  const handleDragStart = (e, index) => {
+    setDraggedIndex(index);
+    e.dataTransfer.effectAllowed = 'move';
+    e.currentTarget.style.opacity = '0.5';
+  };
+
+  const handleDragEnd = (e) => {
+    e.currentTarget.style.opacity = '1';
+    setDraggedIndex(null);
+    setDragOverIndex(null);
+  };
+
+  const handleDragOver = (e, index) => {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'move';
+    if (draggedIndex !== index) {
+      setDragOverIndex(index);
+    }
+  };
+
+  const handleDragLeave = () => {
+    setDragOverIndex(null);
+  };
+
+  const handleDrop = (e, dropIndex) => {
+    e.preventDefault();
+    
+    if (draggedIndex === null || draggedIndex === dropIndex) {
+      setDragOverIndex(null);
+      return;
+    }
+
+    const newLessons = [...lessons];
+    const draggedLesson = newLessons[draggedIndex];
+    
+    newLessons.splice(draggedIndex, 1);
+    newLessons.splice(dropIndex, 0, draggedLesson);
+    
+    setLessons(newLessons);
+    
+    if (selectedLessonIndex === draggedIndex) {
+      setSelectedLessonIndex(dropIndex);
+    } else if (draggedIndex < selectedLessonIndex && dropIndex >= selectedLessonIndex) {
+      setSelectedLessonIndex(selectedLessonIndex - 1);
+    } else if (draggedIndex > selectedLessonIndex && dropIndex <= selectedLessonIndex) {
+      setSelectedLessonIndex(selectedLessonIndex + 1);
+    }
+    
+    setDraggedIndex(null);
+    setDragOverIndex(null);
+  };
 
   const getIcon = (type) => {
     const icons = {
@@ -768,7 +899,6 @@ const CourseActivityEditorStep = ({ formData, onBack, onFinish }) => {
   const handleNextModule = () => {
     if (currentModuleIndex < modules.length - 1) {
       setCurrentModuleIndex(currentModuleIndex + 1);
-      setSelectedLessonIndex(0);
     } else {
       onFinish();
     }
@@ -777,19 +907,15 @@ const CourseActivityEditorStep = ({ formData, onBack, onFinish }) => {
   const handlePrevModule = () => {
     if (currentModuleIndex > 0) {
       setCurrentModuleIndex(currentModuleIndex - 1);
-      setSelectedLessonIndex(0);
     }
   };
 
   return (
-    <div className="flex flex-col h-[calc(100vh-140px)]">
+    <div className="flex flex-col h-[calc(100vh-140px)] max-w-7xl mx-auto bg-slate-50 rounded-xl shadow-sm border border-slate-200 overflow-hidden">
       {/* Top Header */}
       <div className="bg-white border-b border-slate-100 px-4 py-3 flex flex-col md:flex-row justify-between items-start md:items-center gap-3">
         <div className="flex items-center gap-3 min-w-0">
-          <button 
-            onClick={onBack}
-            className="p-1.5 hover:bg-slate-100 rounded-lg"
-          >
+          <button onClick={onBack} className="p-1.5 hover:bg-slate-100 rounded-lg">
             <ArrowLeft size={16} className="text-slate-500" />
           </button>
           <div className="min-w-0">
@@ -799,10 +925,8 @@ const CourseActivityEditorStep = ({ formData, onBack, onFinish }) => {
         </div>
         
         <div className="flex items-center gap-3">
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-full border-2 border-blue-500 flex items-center justify-center">
-              <span className="text-[9px] font-bold text-blue-600">{progress}%</span>
-            </div>
+          <div className="w-8 h-8 rounded-full border-2 border-blue-500 flex items-center justify-center">
+            <span className="text-[9px] font-bold text-blue-600">{progress}%</span>
           </div>
           <button className="flex items-center gap-1.5 px-3 py-1.5 border border-blue-400 text-blue-500 rounded-lg text-[11px] font-bold hover:bg-blue-50">
             <Eye size={12} /> Preview
@@ -818,7 +942,7 @@ const CourseActivityEditorStep = ({ formData, onBack, onFinish }) => {
       </div>
 
       <div className="flex flex-1 overflow-hidden">
-        {/* Sidebar: Lesson List */}
+        {/* Sidebar with Drag & Drop */}
         <aside className="w-72 bg-white border-r border-slate-100 flex flex-col overflow-hidden">
           <div className="p-3 bg-slate-50 border-b border-slate-100 flex gap-2.5">
             <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-blue-100 to-purple-100 flex items-center justify-center font-bold text-blue-600 text-sm flex-shrink-0">
@@ -834,14 +958,20 @@ const CourseActivityEditorStep = ({ formData, onBack, onFinish }) => {
             {lessons.map((lesson, idx) => (
               <div 
                 key={lesson.id} 
+                draggable
+                onDragStart={(e) => handleDragStart(e, idx)}
+                onDragEnd={handleDragEnd}
+                onDragOver={(e) => handleDragOver(e, idx)}
+                onDragLeave={handleDragLeave}
+                onDrop={(e) => handleDrop(e, idx)}
                 onClick={() => setSelectedLessonIndex(idx)}
-                className={`bg-white p-2.5 rounded-lg border shadow-sm flex items-center justify-between group hover:border-blue-200 transition-all cursor-pointer ${
+                className={`bg-white p-2.5 rounded-lg border shadow-sm flex items-center justify-between group hover:border-blue-200 transition-all cursor-move ${
                   selectedLessonIndex === idx ? 'border-blue-400 bg-blue-50' : 'border-slate-100'
-                }`}
+                } ${dragOverIndex === idx && draggedIndex !== idx ? 'border-t-4 border-t-blue-500' : ''}`}
               >
                 <div className="flex items-center gap-2.5 min-w-0">
-                  <div className="text-slate-300 flex-shrink-0">
-                    <Circle size={10} />
+                  <div className="text-slate-400 flex-shrink-0 cursor-grab active:cursor-grabbing">
+                    <GripVertical size={14} />
                   </div>
                   <div className="min-w-0">
                     <p className="text-[10px] font-bold text-slate-700 leading-snug truncate">{lesson.title}</p>
@@ -853,10 +983,19 @@ const CourseActivityEditorStep = ({ formData, onBack, onFinish }) => {
                   </div>
                 </div>
                 <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0">
-                  <button className="p-1 hover:bg-slate-100 rounded">
+                  <button onClick={(e) => e.stopPropagation()} className="p-1 hover:bg-slate-100 rounded">
                     <Edit3 size={12} className="text-slate-400" />
                   </button>
-                  <button className="p-1 hover:bg-red-50 rounded">
+                  <button 
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setLessons(lessons.filter((_, i) => i !== idx));
+                      if (selectedLessonIndex === idx && idx > 0) {
+                        setSelectedLessonIndex(idx - 1);
+                      }
+                    }}
+                    className="p-1 hover:bg-red-50 rounded"
+                  >
                     <Trash2 size={12} className="text-red-400" />
                   </button>
                 </div>
@@ -868,7 +1007,6 @@ const CourseActivityEditorStep = ({ formData, onBack, onFinish }) => {
             </button>
           </div>
 
-          {/* Module Navigation */}
           <div className="p-3 border-t border-slate-100 bg-white flex gap-2">
             <button 
               onClick={handlePrevModule}
@@ -893,8 +1031,8 @@ const CourseActivityEditorStep = ({ formData, onBack, onFinish }) => {
         {/* Main Content */}
         <main className="flex-1 overflow-y-auto p-4 bg-slate-50 space-y-4">
           
-          {/* Video/Content Section */}
-          <div className="bg-white rounded-xl border border-slate-200 overflow-hidden shadow-sm">
+          {/* Video Section - SINGLE VIDEO */}
+          <div className="bg-white rounded-xl border max-h-[500px]  border-slate-200 overflow-hidden shadow-sm">
             <div className="p-3 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
               <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider flex items-center gap-2">
                 {getIcon(selectedLesson?.type)}
@@ -902,39 +1040,108 @@ const CourseActivityEditorStep = ({ formData, onBack, onFinish }) => {
               </span>
               <div className="flex items-center gap-2">
                 <button className="p-1.5 border border-slate-200 rounded-md hover:bg-white text-slate-400">
-                  <Upload size={12} />
-                </button>
-                <button className="p-1.5 border border-slate-200 rounded-md hover:bg-white text-slate-400">
                   <Edit3 size={12} />
                 </button>
               </div>
             </div>
             
             {selectedLesson?.type === 'video' ? (
-              <div className="aspect-video bg-slate-900 flex items-center justify-center relative group">
-                <div className="absolute inset-0 bg-gradient-to-br from-slate-800 to-slate-900"></div>
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="text-center">
-                    <div className="w-14 h-14 bg-red-600 rounded-full flex items-center justify-center text-white shadow-xl group-hover:scale-110 transition-transform cursor-pointer mx-auto">
-                      <PlayCircle size={32} fill="white" className="text-red-600" />
+              <div className="aspect-video bg-slate-900 flex items-center justify-center relative group ">
+                
+                {/* Single Video Element */}
+                <video
+                  ref={videoRef}
+                  className={`w-full h-full object-cover ${videoLoaded && !videoError ? 'block' : 'hidden'}`}
+                  onLoadedData={() => setVideoLoaded(true)}
+                  onLoadedMetadata={handleLoadedMetadata}
+                  onTimeUpdate={handleTimeUpdate}
+                  onPlay={() => setIsPlaying(true)}
+                  onPause={() => setIsPlaying(false)}
+                  onEnded={() => setIsPlaying(false)}
+                  onError={() => setVideoError(true)}
+                  playsInline
+                >
+                  <source src={VIDEO_URL} type="video/mp4" />
+                </video>
+
+                {/* Loading State */}
+                {!videoLoaded && !videoError && (
+                  <div className="absolute inset-0 flex items-center justify-center bg-slate-900">
+                    <div className="text-center">
+                      <div className="w-10 h-10 border-3 border-blue-400/30 border-t-blue-400 rounded-full animate-spin mx-auto mb-3"></div>
+                      <p className="text-white/60 text-xs">Loading video...</p>
                     </div>
-                    <p className="text-white/60 text-xs mt-3">Click to add video</p>
-                    <p className="text-white/40 text-[10px] mt-1">Upload or paste YouTube URL</p>
                   </div>
-                </div>
+                )}
+
+                {/* Error State */}
+                {videoError && (
+                  <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-slate-800 to-slate-900">
+                    <div className="text-center">
+                      <div className="w-14 h-14 bg-red-600/20 rounded-full flex items-center justify-center mx-auto mb-3">
+                        <PlayCircle size={28} className="text-red-400" />
+                      </div>
+                      <p className="text-white/80 text-sm font-medium">Video not found</p>
+                      <p className="text-white/50 text-[11px] mt-1">Place video at: public/sample-video.mp4</p>
+                    </div>
+                  </div>
+                )}
+
                 {/* Video Controls */}
-                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-3 flex items-center gap-3">
-                  <button className="p-1.5 text-white/80 hover:text-white">
-                    <Pause size={14} />
-                  </button>
-                  <div className="flex-1 h-1 bg-white/30 rounded-full overflow-hidden">
-                    <div className="h-full w-1/3 bg-red-500 rounded-full"></div>
-                  </div>
-                  <span className="text-[10px] text-white/80">0:00 / 3:00</span>
-                  <button className="p-1.5 text-white/80 hover:text-white">
-                    <Volume2 size={14} />
-                  </button>
-                </div>
+                {videoLoaded && !videoError && (
+                  <>
+                    {/* Play/Pause Overlay */}
+                    <div 
+                      className="absolute inset-0 flex items-center justify-center cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity"
+                      onClick={togglePlay}
+                    >
+                      <div className="w-16 h-16 bg-black/40 backdrop-blur-sm rounded-full flex items-center justify-center">
+                        {isPlaying ? (
+                          <Pause size={32} className="text-white" />
+                        ) : (
+                          <Play size={32} className="text-white ml-1" />
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Bottom Controls */}
+                    <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 via-black/60 to-transparent p-3 pt-8 opacity-0 group-hover:opacity-100 transition-opacity">
+                      {/* Progress Bar */}
+                      <div 
+                        className="w-full h-1.5 bg-white/30 rounded-full overflow-hidden cursor-pointer mb-3 group/progress"
+                        onClick={handleSeek}
+                      >
+                        <div 
+                          className="h-full bg-red-500 rounded-full relative"
+                          style={{ width: `${duration ? (currentTime / duration) * 100 : 0}%` }}
+                        >
+                          <div className="absolute right-0 top-1/2 -translate-y-1/2 w-3 h-3 bg-red-500 rounded-full scale-0 group-hover/progress:scale-100 transition-transform"></div>
+                        </div>
+                      </div>
+
+                      {/* Control Buttons */}
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-3">
+                          <button onClick={togglePlay} className="p-1.5 text-white hover:text-white/80 transition-colors">
+                            {isPlaying ? <Pause size={18} /> : <Play size={18} />}
+                          </button>
+                          
+                          <button onClick={toggleMute} className="p-1.5 text-white/80 hover:text-white transition-colors">
+                            {isMuted ? <VolumeX size={16} /> : <Volume2 size={16} />}
+                          </button>
+
+                          <span className="text-[11px] text-white/80 font-medium">
+                            {formatTime(currentTime)} / {formatTime(duration)}
+                          </span>
+                        </div>
+
+                        <button onClick={handleFullscreen} className="p-1.5 text-white/80 hover:text-white transition-colors">
+                          <Maximize2 size={16} />
+                        </button>
+                      </div>
+                    </div>
+                  </>
+                )}
               </div>
             ) : (
               <div className="p-6 flex flex-col items-center justify-center min-h-[200px] text-center">
@@ -947,7 +1154,7 @@ const CourseActivityEditorStep = ({ formData, onBack, onFinish }) => {
             )}
           </div>
 
-          {/* Content Editor Section */}
+          {/* Content Editor */}
           <div className="bg-white rounded-xl border border-slate-200 overflow-hidden shadow-sm">
             <div className="p-3 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
               <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Content Editor</span>
@@ -961,7 +1168,14 @@ const CourseActivityEditorStep = ({ formData, onBack, onFinish }) => {
                 <label className="text-[10px] font-bold text-slate-500 uppercase mb-1.5 block">Title</label>
                 <input 
                   type="text"
-                  defaultValue={selectedLesson?.title}
+                  value={selectedLesson?.title || ''}
+                  onChange={(e) => {
+                    const newLessons = [...lessons];
+                    if (newLessons[selectedLessonIndex]) {
+                      newLessons[selectedLessonIndex].title = e.target.value;
+                      setLessons(newLessons);
+                    }
+                  }}
                   className="w-full px-3 py-2 text-sm text-slate-700 bg-slate-50 border border-slate-200 rounded-lg outline-none focus:border-blue-400"
                 />
               </div>
@@ -972,16 +1186,6 @@ const CourseActivityEditorStep = ({ formData, onBack, onFinish }) => {
                   className="w-full p-3 text-sm text-slate-600 bg-slate-50 border border-slate-200 rounded-lg outline-none leading-relaxed focus:border-blue-400"
                   rows={4}
                   placeholder="Enter content description or transcript..."
-                  defaultValue="This content explains the key concepts and provides learners with practical knowledge they can apply immediately."
-                />
-              </div>
-              
-              <div>
-                <label className="text-[10px] font-bold text-slate-500 uppercase mb-1.5 block">Additional Notes</label>
-                <textarea 
-                  className="w-full p-3 text-sm text-slate-600 bg-white border border-slate-200 rounded-lg outline-none leading-relaxed focus:border-blue-400"
-                  rows={2}
-                  placeholder="Optional: Add extra notes for learners..."
                 />
               </div>
               
@@ -990,7 +1194,7 @@ const CourseActivityEditorStep = ({ formData, onBack, onFinish }) => {
                   Cancel
                 </button>
                 <button className="px-5 py-2 text-[11px] font-bold bg-lime-500 text-white rounded-lg hover:bg-lime-600 shadow-sm flex items-center gap-1.5">
-                  <Save size={12} /> Save Changes
+                  <Save size={12} /> Save
                 </button>
               </div>
             </div>
@@ -1046,18 +1250,10 @@ const CreateContentPage = () => {
     { id: 5, title: 'Editor' },
   ];
 
-  const handlePublish = () => {
-    // Go to Course Activity Editor
-    setCurrentStep(5);
-  };
-
-  const handleSkip = () => {
-    // Go to Course Activity Editor
-    setCurrentStep(5);
-  };
+  const handlePublish = () => setCurrentStep(5);
+  const handleSkip = () => setCurrentStep(5);
 
   const handleFinish = () => {
-    // Save to localStorage
     const savedCourses = JSON.parse(localStorage.getItem('congenContents') || '[]');
     const newCourse = {
       id: Date.now(),
@@ -1087,7 +1283,6 @@ const CreateContentPage = () => {
     );
   }
 
-  // Course Activity Editor - Full Screen Mode
   if (currentStep === 5) {
     return (
       <div className="min-h-screen bg-slate-50">
@@ -1108,7 +1303,6 @@ const CreateContentPage = () => {
       <div className="max-w-6xl mx-auto px-3 md:px-4 py-4">
         <div className="bg-white rounded-3xl shadow-xl shadow-slate-200/50 overflow-hidden border border-slate-100">
           
-          {/* Step Navigation */}
           <nav className="flex items-center justify-center gap-2 md:gap-3 py-4 md:py-5 border-b border-slate-100 text-[11px] md:text-xs font-medium px-3 overflow-x-auto">
             {steps.slice(0, 4).map((step, index) => {
               const isCompleted = currentStep > step.id;
@@ -1140,7 +1334,6 @@ const CreateContentPage = () => {
             })}
           </nav>
 
-          {/* Step Content */}
           {currentStep === 1 && (
             <AboutCourseStep 
               formData={formData}
