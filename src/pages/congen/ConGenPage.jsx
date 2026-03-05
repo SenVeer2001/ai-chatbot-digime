@@ -17,7 +17,7 @@ const sampleCourses = [
     id: 1,
     title: "Machine Learning & Artificial Intelligence",
     badges: [{ text: "Placement", color: "bg-green-100 text-green-600" }, { text: "Job Ready", color: "bg-purple-100 text-purple-600" }],
-    image: "https://images.unsplash.com/photo-1620712943543-bcc4638d9f8e?auto=format&fit=crop&q=80&w=400",
+    image: "https://images.pexels.com/photos/8294605/pexels-photo-8294605.jpeg?auto=format&fit=crop&q=80&w=400",
     duration: "30 Weeks",
     videos: "45+ Videos",
     level: "12 Pass",
