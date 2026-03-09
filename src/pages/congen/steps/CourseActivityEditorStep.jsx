@@ -7,6 +7,13 @@ import {
     Youtube, Link, Pencil,
     ChevronLeft
 } from "lucide-react";
+import AddActivityPopup from "../Addactivity";
+
+// ⭐ NEW IMPORTS - Add these
+import QuizEditor from "../editors/QuizEditor";
+import ArticleEditor from "../editors/ArticleEditor";
+import DiscussionEditor from "../editors/DiscussionEditor";
+import ResourcesEditor from "../editors/ResourcesEditor";
 
 // Default YouTube video URL
 const DEFAULT_YOUTUBE_URL = 'https://youtu.be/2uhJ75NcKsA';
@@ -48,6 +55,7 @@ export const CourseActivityEditorStep = ({ formData, onBack, onFinish }) => {
     const modules = formData.modules || [];
     const [currentModuleIndex, setCurrentModuleIndex] = useState(0);
     const [selectedLessonIndex, setSelectedLessonIndex] = useState(0);
+    const [openAddActivity, setOpenAddActivity] = useState(false);
 
     // Edit States
     const [isEditingVideo, setIsEditingVideo] = useState(false);
@@ -93,7 +101,7 @@ export const CourseActivityEditorStep = ({ formData, onBack, onFinish }) => {
                 title: VIDEO_NAMES[i % VIDEO_NAMES.length],
                 type: 'video',
                 duration: '3 min',
-                youtubeUrl: '' // Start empty, will show default
+                youtubeUrl: ''
             });
         }
 
@@ -188,7 +196,6 @@ export const CourseActivityEditorStep = ({ formData, onBack, onFinish }) => {
 
     const handleEditVideoClick = () => {
         setIsEditingVideo(true);
-        // Show the actual URL if set, otherwise show empty (not the default)
         setTempYoutubeUrl(selectedLesson?.youtubeUrl || '');
     };
 
@@ -234,6 +241,14 @@ export const CourseActivityEditorStep = ({ formData, onBack, onFinish }) => {
     const handleInlineTitleCancel = () => {
         setEditingLessonId(null);
         setEditingTitleText('');
+    };
+
+    // ⭐ NEW: Handle lesson update from editors
+    const handleLessonUpdate = (updatedLesson) => {
+        const newLessons = lessons.map((lesson, idx) =>
+            idx === selectedLessonIndex ? { ...lesson, ...updatedLesson } : lesson
+        );
+        setLessons(newLessons);
     };
 
     // Drag and Drop Functions
@@ -325,235 +340,15 @@ export const CourseActivityEditorStep = ({ formData, onBack, onFinish }) => {
         }
     };
 
-    return (
-        <div className="min-h-screen  md:p-6">
-            <div className="max-w-7xl mx-auto grid grid-cols-12 gap-4">
+    // ⭐ NEW: Render content based on lesson type
+    const renderLessonContent = () => {
+        if (!selectedLesson) return null;
 
-                {/* LEFT PANEL - Module Activities */}
-                <div className="col-span-12 lg:col-span-4 bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
-
-                    {/* Module Header */}
-                    {/* LEFT PANEL - Module Header */}
-                    <div className="p-4 border-b border-slate-100">
-                        <div className="flex gap-4">
-                            {/* Module Thumbnail */}
-                            <div className="w-20 h-20 flex-shrink-0">
-
-                                <img
-                                    src={currentModule.thumbnail || "https://images.pexels.com/photos/3861969/pexels-photo-3861969.jpeg"}
-                                    alt="Module Thumbnail"
-                                    className="w-full h-full rounded-lg object-cover shadow-sm"
-                                />
-
-                            </div>
-
-                            <div className="flex flex-col flex-1 min-w-0">
-                                {/* Module Title Section */}
-                                <div className="mb-1">
-                                    <h2 className="text-blue-600 text-base font-medium leading-tight">
-                                        Module: {currentModule?.id || 1}
-                                    </h2>
-                                    <h3 className="text-blue-600 text-sm font-normal leading-tight truncate">
-                                        {currentModule?.name || 'Explore AI applications and benefits'}
-                                    </h3>
-                                </div>
-
-                                {/* Module Activity Heading */}
-
-
-                                {/* Notification Text */}
-
-                            </div>
-
-                        </div>
-
-                        <h6 className="text-slate-700 font-semibold text-[12px] mb-1 mt-2">
-                            Module Activity
-                        </h6>
-
-                        {/* Stats Bar */}
-                        <div className="flex  flex-wrap items-center gap-x-3 gap-y-1 text-slate-600 text-xs mb-1">
-                            <div className="flex items-center gap-1">
-                                <PlayCircle size={14} className="text-blue-500" />
-                                <span className="font-medium">{currentModule?.video || 0} videos</span>
-                            </div>
-                            <div className="flex items-center gap-1">
-                                <BookOpen size={14} className="text-green-500" />
-                                <span className="font-medium">{currentModule?.article || 0} reading</span>
-                            </div>
-                            <div className="flex items-center gap-1">
-                                <HelpCircle size={14} className="text-red-500" />
-                                <span className="font-medium">{currentModule?.quiz || 0} quiz</span>
-                            </div>
-                            <div className="flex items-center gap-1">
-                                <Files size={14} className="text-amber-500" />
-                                <span className="font-medium">{currentModule?.resources || 0} resources</span>
-                            </div>
-                            <div className="flex items-center gap-1">
-                                <MessageCircle size={14} className="text-purple-500" />
-                                <span className="font-medium">{currentModule?.discussion || 0} discussion</span>
-                            </div>
-                        </div>
-
-                        <p className="text-rose-500 text-[12px] leading-snug">
-                            You can manage module activities edit, reorder, delete, or recreate manually or via Congen AI.
-                        </p>
-
-                        {/* Progress Bar */}
-                        <div className="mt-3 flex items-center justify-between">
-                            <span className="text-xs text-slate-500">Module {currentModuleIndex + 1} of {modules.length}</span>
-                            <div className="w-20 h-1.5 bg-slate-200 rounded-full overflow-hidden">
-                                <div className="h-full bg-blue-500 rounded-full transition-all" style={{ width: `${progress}%` }} />
-                            </div>
-                        </div>
-                    </div>
-
-
-                    {/* Activities List */}
-                    <div className="p-3 space-y-2 ">
-                        {lessons.map((lesson, idx) => (
-                            <div
-                                key={lesson.id}
-                                draggable
-                                onDragStart={(e) => handleDragStart(e, idx)}
-                                onDragEnd={handleDragEnd}
-                                onDragOver={(e) => handleDragOver(e, idx)}
-                                onDragLeave={handleDragLeave}
-                                onDrop={(e) => handleDrop(e, idx)}
-                                onClick={() => {
-                                    setSelectedLessonIndex(idx);
-                                    setEditingLessonId(null); // Cancel any inline editing when selecting another lesson
-                                }}
-                                className={`flex items-center justify-between border rounded-lg p-3 cursor-pointer transition-all ${selectedLessonIndex === idx
-                                    ? "border-blue-500 bg-blue-50"
-                                    : "bg-gray-50 hover:bg-slate-100 border-slate-200"
-                                    } ${dragOverIndex === idx && draggedIndex !== idx ? 'border-t-4 border-t-blue-500' : ''}`}
-                            >
-                                <div className="flex items-center gap-2 min-w-0 flex-1">
-                                    <div className="text-slate-400 flex-shrink-0 cursor-grab active:cursor-grabbing">
-                                        <GripVertical size={14} />
-                                    </div>
-
-                                    {/* Title - View or Edit Mode */}
-                                    {editingLessonId === lesson.id ? (
-                                        <div className="flex-1 min-w-0 flex items-center gap-1">
-                                            <input
-                                                type="text"
-                                                value={editingTitleText}
-                                                onChange={(e) => setEditingTitleText(e.target.value)}
-                                                className="flex-1 px-2 py-1 text-sm border border-blue-400 rounded focus:outline-none focus:ring-1 focus:ring-blue-100 bg-white"
-                                                autoFocus
-                                                onClick={(e) => e.stopPropagation()}
-                                            />
-                                            <button
-                                                onClick={(e) => {
-                                                    e.stopPropagation();
-                                                    handleInlineTitleSave();
-                                                }}
-                                                className="p-1 text-green-600 hover:bg-green-50 rounded"
-                                            >
-                                                <Check size={12} />
-                                            </button>
-                                            <button
-                                                onClick={(e) => {
-                                                    e.stopPropagation();
-                                                    handleInlineTitleCancel();
-                                                }}
-                                                className="p-1 text-slate-500 hover:bg-slate-100 rounded"
-                                            >
-                                                <X size={12} />
-                                            </button>
-                                        </div>
-                                    ) : (
-                                        <div className="min-w-0 flex-1">
-                                            <p className="text-sm text-slate-700 truncate">{lesson.title}</p>
-                                            <p className="text-xs text-slate-500">{getTypeLabel(lesson.type)}</p>
-                                        </div>
-                                    )}
-                                </div>
-
-                                <div className="flex gap-2 text-slate-400 flex-shrink-0">
-                                    {editingLessonId !== lesson.id && (
-                                        <button
-                                            onClick={(e) => {
-                                                e.stopPropagation();
-                                                handleInlineTitleEdit(lesson.id, lesson.title);
-                                            }}
-                                            className="p-1 hover:bg-slate-200 rounded"
-                                        >
-                                            <Pencil size={14} />
-                                        </button>
-                                    )}
-                                    <button
-                                        onClick={(e) => {
-                                            e.stopPropagation();
-                                            if (lessons.length > 1) {
-                                                setLessons(lessons.filter((_, i) => i !== idx));
-                                                if (selectedLessonIndex === idx && idx > 0) {
-                                                    setSelectedLessonIndex(idx - 1);
-                                                }
-                                            }
-                                        }}
-                                        className="p-1 hover:bg-red-100 rounded"
-                                    >
-                                        <Trash2 size={14} />
-                                    </button>
-                                </div>
-                            </div>
-                        ))}
-
-                        {/* Add Lesson Button */}
-                        <button className="w-full p-2 text-xs font-medium text-blue-500 flex items-center justify-center gap-1.5 hover:bg-blue-50 rounded-lg border border-dashed border-blue-300 mt-2">
-                            <Plus size={14} /> Add Activity
-                        </button>
-                    </div>
-                </div>
-
-                {/* RIGHT PANEL - Content Editor */}
-                <div className="col-span-12 lg:col-span-8 space-y-4">
-
-                    {/* Top Header Bar */}
-                    <div className="bg-white rounded-xl shadow-sm border border-slate-200 px-4 py-3 flex flex-col md:flex-row justify-between items-start md:items-center gap-3">
-                        <div className="flex items-center gap-3 min-w-0">
-                            <button onClick={onBack} className="p-1.5 hover:bg-slate-100 rounded-lg">
-                                <ArrowLeft size={16} className="text-slate-500" />
-                            </button>
-                            <div className="min-w-0">
-                                <h2 className="font-bold text-slate-800 text-sm truncate">{formData.title}</h2>
-                                <p className="text-[10px] text-slate-400">Editing: {selectedLesson?.title}</p>
-                            </div>
-                        </div>
-
-                        <div className="flex items-center gap-3">
-
-                            <button className="flex items-center gap-1.5 px-3 py-1.5 border border-blue-400 text-blue-500 rounded-lg text-[11px] font-bold hover:bg-blue-50">
-                                <Eye size={12} /> Preview
-                            </button>
-                            <button
-                                onClick={handlePrevModule}
-                                disabled={currentModuleIndex === 0}
-                                className={`flex items-center gap-1.5 px-3 py-1.5  rounded-lg  text-[11px] font-bold ${currentModuleIndex === 0
-                                    ? 'bg-slate-100 text-slate-400 cursor-not-allowed'
-                                    : 'border border-blue-400 text-blue-500 rounded-lg'
-                                    }`}
-                            >
-                                <ChevronLeft size={12} />
-                                {currentModuleIndex < modules.length - 1 ? 'Previous Module' : 'Finish'}
-
-                            </button>
-
-                            <button
-                                onClick={handleNextModule}
-                                className="bg-blue-600 text-white px-4 py-1.5 rounded-lg text-[11px] font-bold flex items-center gap-1.5 hover:bg-blue-700 shadow-sm"
-                            >
-                                {currentModuleIndex < modules.length - 1 ? 'Next Module' : 'Finish'}
-                                <ChevronRight size={12} />
-                            </button>
-                        </div>
-                    </div>
-
-                    {/* VIDEO SECTION */}
-                    {selectedLesson?.type === 'video' && (
+        switch (selectedLesson.type) {
+            case 'video':
+                return (
+                    <>
+                        {/* VIDEO SECTION - Existing Code */}
                         <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
                             <div className="flex justify-between items-center border-b border-slate-100 p-3 bg-slate-50/50">
                                 <p className="font-medium text-sm text-slate-700 flex items-center gap-2">
@@ -571,7 +366,6 @@ export const CourseActivityEditorStep = ({ formData, onBack, onFinish }) => {
                             </div>
 
                             <div className="p-4">
-                                {/* Always show video (default or custom) when not editing */}
                                 {!isEditingVideo && (
                                     <div className="rounded-lg overflow-hidden bg-black">
                                         <iframe
@@ -585,14 +379,12 @@ export const CourseActivityEditorStep = ({ formData, onBack, onFinish }) => {
                                     </div>
                                 )}
 
-                                {/* Edit Mode - URL Input */}
                                 {isEditingVideo && (
                                     <div className="space-y-3">
-                                        {/* Live Preview */}
                                         {getYoutubeVideoId(tempYoutubeUrl) && (
                                             <div className="rounded-lg overflow-hidden bg-black">
                                                 <iframe
-                                                    className="w-full  h-[300px] md:h-[400px] lg:h-[500px]"
+                                                    className="w-full h-[300px] md:h-[400px] lg:h-[500px]"
                                                     src={`https://www.youtube.com/embed/${getYoutubeVideoId(tempYoutubeUrl)}`}
                                                     title="YouTube video preview"
                                                     frameBorder="0"
@@ -602,7 +394,6 @@ export const CourseActivityEditorStep = ({ formData, onBack, onFinish }) => {
                                             </div>
                                         )}
 
-                                        {/* URL Input */}
                                         <div className="flex gap-2">
                                             <div className="flex-1 relative">
                                                 <div className="absolute left-3 top-1/2 -translate-y-1/2">
@@ -630,7 +421,6 @@ export const CourseActivityEditorStep = ({ formData, onBack, onFinish }) => {
                                             </button>
                                         </div>
 
-                                        {/* Helper Text */}
                                         <p className="text-[10px] text-slate-400">
                                             Leave empty to use default video. Supported formats: youtube.com/watch?v=..., youtu.be/...
                                         </p>
@@ -638,110 +428,347 @@ export const CourseActivityEditorStep = ({ formData, onBack, onFinish }) => {
                                 )}
                             </div>
                         </div>
-                    )}
 
-                    {/* NON-VIDEO CONTENT */}
-                    {selectedLesson?.type !== 'video' && (
+                        {/* TRANSCRIPT SECTION - Existing Code */}
                         <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
                             <div className="flex justify-between items-center border-b border-slate-100 p-3 bg-slate-50/50">
-                                <p className="font-medium text-sm text-slate-700 flex items-center gap-2">
-                                    {getIcon(selectedLesson?.type)}
-                                    <span className="capitalize">{selectedLesson?.type}</span>
-                                </p>
-                                <button className="p-1.5 hover:bg-slate-200 rounded-md text-slate-500">
-                                    <Pencil size={14} />
-                                </button>
+                                <p className="font-medium text-sm text-slate-700">Transcript</p>
+                                {!isEditingTranscript && (
+                                    <button
+                                        onClick={handleEditTranscriptClick}
+                                        className="p-1.5 hover:bg-slate-200 rounded-md text-slate-500 hover:text-blue-500 transition-colors"
+                                    >
+                                        <Pencil size={14} />
+                                    </button>
+                                )}
                             </div>
-                            <div className="p-6 flex flex-col items-center justify-center min-h-[200px] text-center">
-                                <div className="w-14 h-14 rounded-full bg-slate-100 flex items-center justify-center mb-3">
-                                    {getIcon(selectedLesson?.type)}
-                                </div>
-                                <p className="text-sm font-medium text-slate-600">{selectedLesson?.title}</p>
-                                <p className="text-xs text-slate-400 mt-1">Edit content below</p>
+
+                            <div className="p-4 space-y-4">
+                                {!isEditingTranscript && (
+                                    <>
+                                        <div>
+                                            <p className="text-sm font-medium text-slate-700 mb-1">Transcript (Main)</p>
+                                            <p className="text-sm text-slate-600 bg-slate-50 p-3 rounded-lg border border-slate-200 leading-relaxed">
+                                                {transcriptMain}
+                                            </p>
+                                        </div>
+                                        <div>
+                                            <p className="text-sm font-medium text-slate-700 mb-1">Read More Text</p>
+                                            <p className="text-sm text-slate-600 bg-slate-50 p-3 rounded-lg border border-slate-200 leading-relaxed">
+                                                {transcriptReadMore}
+                                            </p>
+                                        </div>
+                                    </>
+                                )}
+
+                                {isEditingTranscript && (
+                                    <>
+                                        <div>
+                                            <p className="text-sm font-medium text-slate-700 mb-1">Transcript (Main)</p>
+                                            <textarea
+                                                className="w-full border border-slate-200 rounded-lg p-3 text-sm focus:border-blue-400 outline-none resize-none"
+                                                rows={4}
+                                                value={tempTranscriptMain}
+                                                onChange={(e) => setTempTranscriptMain(e.target.value)}
+                                                placeholder="Enter main transcript..."
+                                            />
+                                        </div>
+                                        <div>
+                                            <p className="text-sm font-medium text-slate-700 mb-1">Read More Text</p>
+                                            <textarea
+                                                className="w-full border border-slate-200 rounded-lg p-3 text-sm focus:border-blue-400 outline-none resize-none"
+                                                rows={3}
+                                                value={tempTranscriptReadMore}
+                                                onChange={(e) => setTempTranscriptReadMore(e.target.value)}
+                                                placeholder="Enter additional content..."
+                                            />
+                                        </div>
+
+                                        <div className="flex justify-end gap-2 pt-2">
+                                            <button
+                                                onClick={handleCancelTranscriptEdit}
+                                                className="px-4 py-2 text-sm font-medium border border-slate-200 rounded-lg hover:bg-slate-50 text-slate-600"
+                                            >
+                                                Cancel
+                                            </button>
+                                            <button
+                                                onClick={handleSaveTranscript}
+                                                className="px-4 py-2 text-sm font-medium bg-green-500 text-white rounded-lg hover:bg-green-600 flex items-center gap-1.5"
+                                            >
+                                                <Save size={14} /> Save
+                                            </button>
+                                        </div>
+                                    </>
+                                )}
                             </div>
                         </div>
-                    )}
+                    </>
+                );
 
-                    {/* TRANSCRIPT SECTION */}
+            case 'article':
+                return <ArticleEditor lesson={selectedLesson} onUpdate={handleLessonUpdate} />;
+
+            case 'discussion':
+                return <DiscussionEditor lesson={selectedLesson} onUpdate={handleLessonUpdate} />;
+
+            case 'quiz':
+                return <QuizEditor lesson={selectedLesson} onUpdate={handleLessonUpdate} />;
+
+            case 'resources':
+                return <ResourcesEditor lesson={selectedLesson} onUpdate={handleLessonUpdate} />;
+
+            default:
+                return (
                     <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
                         <div className="flex justify-between items-center border-b border-slate-100 p-3 bg-slate-50/50">
-                            <p className="font-medium text-sm text-slate-700">Transcript</p>
-                            {!isEditingTranscript && (
-                                <button
-                                    onClick={handleEditTranscriptClick}
-                                    className="p-1.5 hover:bg-slate-200 rounded-md text-slate-500 hover:text-blue-500 transition-colors"
-                                >
-                                    <Pencil size={14} />
-                                </button>
-                            )}
+                            <p className="font-medium text-sm text-slate-700 flex items-center gap-2">
+                                {getIcon(selectedLesson?.type)}
+                                <span className="capitalize">{selectedLesson?.type}</span>
+                            </p>
+                            <button className="p-1.5 hover:bg-slate-200 rounded-md text-slate-500">
+                                <Pencil size={14} />
+                            </button>
+                        </div>
+                        <div className="p-6 flex flex-col items-center justify-center min-h-[200px] text-center">
+                            <div className="w-14 h-14 rounded-full bg-slate-100 flex items-center justify-center mb-3">
+                                {getIcon(selectedLesson?.type)}
+                            </div>
+                            <p className="text-sm font-medium text-slate-600">{selectedLesson?.title}</p>
+                            <p className="text-xs text-slate-400 mt-1">Content editor coming soon</p>
+                        </div>
+                    </div>
+                );
+        }
+    };
+
+    return (
+        <div className="min-h-screen md:p-6">
+            <div className="max-w-7xl mx-auto grid grid-cols-12 gap-4 items-start">
+
+                {/* ⭐ LEFT PANEL - STICKY/FIXED */}
+                <div className="col-span-12 lg:col-span-4 lg:sticky lg:top-6 lg:self-start">
+                    <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden max-h-[calc(100vh-48px)] flex flex-col">
+
+                        {/* Module Header */}
+                        <div className="p-4 border-b border-slate-100 flex-shrink-0">
+                            <div className="flex gap-4">
+                                {/* Module Thumbnail */}
+                                <div className="w-20 h-20 flex-shrink-0">
+                                    <img
+                                        src={currentModule.thumbnail || "https://images.pexels.com/photos/3861969/pexels-photo-3861969.jpeg"}
+                                        alt="Module Thumbnail"
+                                        className="w-full h-full rounded-lg object-cover shadow-sm"
+                                    />
+                                </div>
+
+                                <div className="flex flex-col flex-1 min-w-0">
+                                    {/* Module Title Section */}
+                                    <div className="mb-1">
+                                        <h2 className="text-blue-600 text-base font-medium leading-tight">
+                                            Module: {currentModule?.id || 1}
+                                        </h2>
+                                        <h3 className="text-blue-600 text-sm font-normal leading-tight truncate">
+                                            {currentModule?.name || 'Explore AI applications and benefits'}
+                                        </h3>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <h6 className="text-slate-700 font-semibold text-[12px] mb-1 mt-2">
+                                Module Activity
+                            </h6>
+
+                            {/* Stats Bar */}
+                            <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-slate-600 text-xs mb-1">
+                                <div className="flex items-center gap-1">
+                                    <PlayCircle size={14} className="text-blue-500" />
+                                    <span className="font-medium">{currentModule?.video || 0} videos</span>
+                                </div>
+                                <div className="flex items-center gap-1">
+                                    <BookOpen size={14} className="text-green-500" />
+                                    <span className="font-medium">{currentModule?.article || 0} reading</span>
+                                </div>
+                                <div className="flex items-center gap-1">
+                                    <HelpCircle size={14} className="text-red-500" />
+                                    <span className="font-medium">{currentModule?.quiz || 0} quiz</span>
+                                </div>
+                                <div className="flex items-center gap-1">
+                                    <Files size={14} className="text-amber-500" />
+                                    <span className="font-medium">{currentModule?.resources || 0} resources</span>
+                                </div>
+                                <div className="flex items-center gap-1">
+                                    <MessageCircle size={14} className="text-purple-500" />
+                                    <span className="font-medium">{currentModule?.discussion || 0} discussion</span>
+                                </div>
+                            </div>
+
+                            <p className="text-rose-500 text-[12px] leading-snug">
+                                You can manage module activities edit, reorder, delete, or recreate manually or via Congen AI.
+                            </p>
+
+                            {/* Progress Bar */}
+                            <div className="mt-3 flex items-center justify-between">
+                                <span className="text-xs text-slate-500">Module {currentModuleIndex + 1} of {modules.length}</span>
+                                <div className="w-20 h-1.5 bg-slate-200 rounded-full overflow-hidden">
+                                    <div className="h-full bg-blue-500 rounded-full transition-all" style={{ width: `${progress}%` }} />
+                                </div>
+                            </div>
                         </div>
 
-                        <div className="p-4 space-y-4">
-                            {/* View Mode */}
-                            {!isEditingTranscript && (
-                                <>
-                                    <div>
-                                        <p className="text-sm font-medium text-slate-700 mb-1">Transcript (Main)</p>
-                                        <p className="text-sm text-slate-600 bg-slate-50 p-3 rounded-lg border border-slate-200 leading-relaxed">
-                                            {transcriptMain}
-                                        </p>
-                                    </div>
-                                    <div>
-                                        <p className="text-sm font-medium text-slate-700 mb-1">Read More Text</p>
-                                        <p className="text-sm text-slate-600 bg-slate-50 p-3 rounded-lg border border-slate-200 leading-relaxed">
-                                            {transcriptReadMore}
-                                        </p>
-                                    </div>
-                                </>
-                            )}
+                        {/* ⭐ Activities List - Scrollable within fixed panel */}
+                        <div className="p-3 space-y-2 overflow-y-auto flex-1">
+                            {lessons.map((lesson, idx) => (
+                                <div
+                                    key={lesson.id}
+                                    draggable
+                                    onDragStart={(e) => handleDragStart(e, idx)}
+                                    onDragEnd={handleDragEnd}
+                                    onDragOver={(e) => handleDragOver(e, idx)}
+                                    onDragLeave={handleDragLeave}
+                                    onDrop={(e) => handleDrop(e, idx)}
+                                    onClick={() => {
+                                        setSelectedLessonIndex(idx);
+                                        setEditingLessonId(null);
+                                    }}
+                                    className={`flex items-center justify-between border rounded-lg p-3 cursor-pointer transition-all ${selectedLessonIndex === idx
+                                        ? "border-blue-500 bg-blue-50"
+                                        : "bg-gray-50 hover:bg-slate-100 border-slate-200"
+                                        } ${dragOverIndex === idx && draggedIndex !== idx ? 'border-t-4 border-t-blue-500' : ''}`}
+                                >
+                                    <div className="flex items-center gap-2 min-w-0 flex-1">
+                                        <div className="text-slate-400 flex-shrink-0 cursor-grab active:cursor-grabbing">
+                                            <GripVertical size={14} />
+                                        </div>
 
-                            {/* Edit Mode */}
-                            {isEditingTranscript && (
-                                <>
-                                    <div>
-                                        <p className="text-sm font-medium text-slate-700 mb-1">Transcript (Main)</p>
-                                        <textarea
-                                            className="w-full border border-slate-200 rounded-lg p-3 text-sm focus:border-blue-400 outline-none resize-none"
-                                            rows={4}
-                                            value={tempTranscriptMain}
-                                            onChange={(e) => setTempTranscriptMain(e.target.value)}
-                                            placeholder="Enter main transcript..."
-                                        />
-                                    </div>
-                                    <div>
-                                        <p className="text-sm font-medium text-slate-700 mb-1">Read More Text</p>
-                                        <textarea
-                                            className="w-full border border-slate-200 rounded-lg p-3 text-sm focus:border-blue-400 outline-none resize-none"
-                                            rows={3}
-                                            value={tempTranscriptReadMore}
-                                            onChange={(e) => setTempTranscriptReadMore(e.target.value)}
-                                            placeholder="Enter additional content..."
-                                        />
+                                        {/* Title - View or Edit Mode */}
+                                        {editingLessonId === lesson.id ? (
+                                            <div className="flex-1 min-w-0 flex items-center gap-1">
+                                                <input
+                                                    type="text"
+                                                    value={editingTitleText}
+                                                    onChange={(e) => setEditingTitleText(e.target.value)}
+                                                    className="flex-1 px-2 py-1 text-sm border border-blue-400 rounded focus:outline-none focus:ring-1 focus:ring-blue-100 bg-white"
+                                                    autoFocus
+                                                    onClick={(e) => e.stopPropagation()}
+                                                />
+                                                <button
+                                                    onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        handleInlineTitleSave();
+                                                    }}
+                                                    className="p-1 text-green-600 hover:bg-green-50 rounded"
+                                                >
+                                                    <Check size={12} />
+                                                </button>
+                                                <button
+                                                    onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        handleInlineTitleCancel();
+                                                    }}
+                                                    className="p-1 text-slate-500 hover:bg-slate-100 rounded"
+                                                >
+                                                    <X size={12} />
+                                                </button>
+                                            </div>
+                                        ) : (
+                                            <div className="min-w-0 flex-1">
+                                                <p className="text-sm text-slate-700 truncate">{lesson.title}</p>
+                                                <p className="text-xs text-slate-500">{getTypeLabel(lesson.type)}</p>
+                                            </div>
+                                        )}
                                     </div>
 
-                                    {/* Save/Cancel Buttons - Only show in edit mode */}
-                                    <div className="flex justify-end gap-2 pt-2">
+                                    <div className="flex gap-2 text-slate-400 flex-shrink-0">
+                                        {editingLessonId !== lesson.id && (
+                                            <button
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    handleInlineTitleEdit(lesson.id, lesson.title);
+                                                }}
+                                                className="p-1 hover:bg-slate-200 rounded"
+                                            >
+                                                <Pencil size={14} />
+                                            </button>
+                                        )}
                                         <button
-                                            onClick={handleCancelTranscriptEdit}
-                                            className="px-4 py-2 text-sm font-medium border border-slate-200 rounded-lg hover:bg-slate-50 text-slate-600"
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                if (lessons.length > 1) {
+                                                    setLessons(lessons.filter((_, i) => i !== idx));
+                                                    if (selectedLessonIndex === idx && idx > 0) {
+                                                        setSelectedLessonIndex(idx - 1);
+                                                    }
+                                                }
+                                            }}
+                                            className="p-1 hover:bg-red-100 rounded"
                                         >
-                                            Cancel
-                                        </button>
-                                        <button
-                                            onClick={handleSaveTranscript}
-                                            className="px-4 py-2 text-sm font-medium bg-green-500 text-white rounded-lg hover:bg-green-600 flex items-center gap-1.5"
-                                        >
-                                            <Save size={14} /> Save
+                                            <Trash2 size={14} />
                                         </button>
                                     </div>
-                                </>
-                            )}
+                                </div>
+                            ))}
+
+                            {/* Add Lesson Button */}
+                            <button
+                                onClick={() => setOpenAddActivity(true)}
+                                className="w-full p-2 text-xs font-medium text-blue-500 flex items-center justify-center gap-1.5 hover:bg-blue-50 rounded-lg border border-dashed border-blue-300 mt-2">
+                                <Plus size={14} /> Add Activity
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                {/* ⭐ RIGHT PANEL - SCROLLABLE */}
+                <div className="col-span-12 lg:col-span-8 space-y-4">
+
+                    {/* Top Header Bar */}
+                    <div className="bg-white rounded-xl shadow-sm border border-slate-200 px-4 py-3 flex flex-col md:flex-row justify-between items-start md:items-center gap-3">
+                        <div className="flex items-center gap-3 min-w-0">
+                            <button onClick={onBack} className="p-1.5 hover:bg-slate-100 rounded-lg">
+                                <ArrowLeft size={16} className="text-slate-500" />
+                            </button>
+                            <div className="min-w-0">
+                                <h2 className="font-bold text-slate-800 text-sm truncate">{formData.title}</h2>
+                                <p className="text-[10px] text-slate-400">Editing: {selectedLesson?.title}</p>
+                            </div>
+                        </div>
+
+                        <div className="flex items-center gap-3">
+                            <button className="flex items-center gap-1.5 px-3 py-1.5 border border-blue-400 text-blue-500 rounded-lg text-[11px] font-bold hover:bg-blue-50">
+                                <Eye size={12} /> Preview
+                            </button>
+                            <button
+                                onClick={handlePrevModule}
+                                disabled={currentModuleIndex === 0}
+                                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[11px] font-bold ${currentModuleIndex === 0
+                                    ? 'bg-slate-100 text-slate-400 cursor-not-allowed'
+                                    : 'border border-blue-400 text-blue-500 rounded-lg'
+                                    }`}
+                            >
+                                <ChevronLeft size={12} />
+                                Previous Module
+                            </button>
+
+                            <button
+                                onClick={handleNextModule}
+                                className="bg-blue-600 text-white px-4 py-1.5 rounded-lg text-[11px] font-bold flex items-center gap-1.5 hover:bg-blue-700 shadow-sm"
+                            >
+                                {currentModuleIndex < modules.length - 1 ? 'Next Module' : 'Finish'}
+                                <ChevronRight size={12} />
+                            </button>
                         </div>
                     </div>
 
+                    {/* ⭐ DYNAMIC CONTENT BASED ON LESSON TYPE */}
+                    {renderLessonContent()}
 
                 </div>
             </div>
+
+            <AddActivityPopup
+                isOpen={openAddActivity}
+                onClose={() => setOpenAddActivity(false)}
+            />
         </div>
     );
 };
