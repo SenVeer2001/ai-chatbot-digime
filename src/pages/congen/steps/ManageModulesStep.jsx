@@ -434,17 +434,10 @@ export const ManageModulesStep = ({ formData, setFormData, onNext, onBack }) => 
         <h1 className="text-xl md:text-2xl font-bold text-slate-800 mb-1.5">
           {formData.title || 'Learn Ai with Prof.Dutta'}
         </h1>
-        <p className="text-xs text-slate-500 max-w-3xl line-clamp-2">
+        <p className="text-xs text-slate-500 max-w-6xl line-clamp-2">
           {formData.goals || 'Learners will understand core concepts of Artificial Intelligence and develop problem solving skills.'}
         </p>
-        <div className="flex items-center gap-2 mt-2">
-          <span className="text-xs text-blue-500 font-medium bg-blue-50 px-2 py-1 rounded-full">
-            {modules.length} Module{modules.length !== 1 ? 's' : ''} Generated
-          </span>
-          <span className="text-xs text-slate-400">
-            Drag to reorder
-          </span>
-        </div>
+        
       </div>
 
       {/* Modules Table */}
@@ -606,7 +599,7 @@ export const ManageModulesStep = ({ formData, setFormData, onNext, onBack }) => 
       </button>
 
       {/* Summary */}
-      <div className="mt-4 p-3 bg-slate-50 rounded-xl border border-slate-200">
+      {/* <div className="mt-4 p-3 bg-slate-50 rounded-xl border border-slate-200">
         <div className="flex flex-wrap gap-4 text-xs text-slate-600">
           <span><strong className="text-slate-700">{modules.length}</strong> Modules</span>
           <span><strong className="text-slate-700">{modules.reduce((acc, m) => acc + (m.video || 0), 0)}</strong> Videos</span>
@@ -615,7 +608,7 @@ export const ManageModulesStep = ({ formData, setFormData, onNext, onBack }) => 
           <span><strong className="text-slate-700">{modules.reduce((acc, m) => acc + (m.resources || 0), 0)}</strong> Resources</span>
           <span><strong className="text-slate-700">{modules.reduce((acc, m) => acc + (m.discussion || 0), 0)}</strong> Discussions</span>
         </div>
-      </div>
+      </div> */}
 
       {/* Action Buttons */}
       <div className="mt-6 flex gap-2">

@@ -296,7 +296,7 @@ export const AboutCourseStep = ({ formData, setFormData, onNext, onBack }) => {
           </label>
           <textarea 
             rows={3}
-            value={formData.audience || 'Students, fresh graduates, and working professionals in India who want to build strong AI fundamentals.'}
+            value={formData.audience || 'Students, fresh graduates, and working professionals in India who want to build strong AI fundamentals, develop practical skills, and prepare for careers in technology, data, automation, and emerging digital industries.'}
             onChange={(e) => setFormData({ ...formData, audience: e.target.value })}
             className="w-full border border-slate-200 rounded-md p-2 mt-1 text-sm focus:border-blue-400 outline-none resize-none"
           />
@@ -426,9 +426,9 @@ export const AboutCourseStep = ({ formData, setFormData, onNext, onBack }) => {
           </button>
           <button 
             onClick={handleNext}
-            disabled={!(formData.title || 'Learn Ai with Prof.Dutta') || !agreed}
+            disabled={!(formData.title || 'Learn With AI') || !agreed}
             className={`px-6 py-2.5 text-sm font-medium rounded-full flex items-center gap-1.5 transition-all ${
-              (formData.title || 'Learn Ai with Prof.Dutta') && agreed
+              (formData.title || 'Learn with AI') && agreed
                 ? 'bg-yellow-500 text-white hover:bg-yellow-600'
                 : 'bg-slate-200 text-slate-400 cursor-not-allowed'
             }`}

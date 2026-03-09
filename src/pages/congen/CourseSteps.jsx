@@ -172,7 +172,7 @@ export const WelcomeScreen = ({ onGetStarted }) => {
           Welcome to ConGen
         </h1>
         <p className="text-slate-500 text-sm max-w-md leading-relaxed mb-8">
-          Create professional content with AI assistance. Build courses, documents, resumes, and corporate materials in minutes.
+         You've successfully started your free trial! Before diving in, please answer a few questions to help us tailor your experience.
         </p>
 
         <div className="relative w-full max-w-sm h-36 mb-8 flex justify-center items-end">
@@ -220,9 +220,7 @@ export const WelcomeScreen = ({ onGetStarted }) => {
           <ArrowRight size={16} />
         </button>
 
-        <p className="text-[11px] text-slate-400 mt-3">
-          No credit card required • Free to start
-        </p>
+      
       </div>
 
       <div className="absolute right-[8%] top-1/2 translate-y-8 hidden lg:block">
@@ -267,121 +265,5 @@ export const WelcomeScreen = ({ onGetStarted }) => {
 
 
 // ==================== last me hoga  ====================
-export const PreviewStep = ({ formData, onBack, onSkip, onPublish }) => {
-  const modules = formData.modules || [];
 
-  return (
-    <div className="p-4 md:p-6">
-      <div className="bg-gradient-to-br from-blue-100 to-purple-100 rounded-2xl p-4 md:p-6 mb-4">
-        <div className="flex flex-col md:flex-row justify-between items-start gap-4">
-          <div className="flex gap-3">
-            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-500 to-blue-500 flex items-center justify-center text-white font-bold text-lg shadow-lg flex-shrink-0">
-              {formData.title?.charAt(0) || 'C'}
-            </div>
-            <div className="min-w-0">
-              <h1 className="text-base md:text-lg font-bold text-slate-800 truncate">{formData.title || 'Your Course'}</h1>
-              <p className="text-xs text-slate-600 mt-0.5">Created with ConGen AI</p>
-            </div>
-          </div>
-          <button className="px-4 py-2 bg-blue-500 text-white rounded-lg text-xs font-bold shadow-md hover:bg-blue-600 transition-all flex-shrink-0">
-            Set Price
-          </button>
-        </div>
-
-        <div className="mt-4">
-          <span className="bg-blue-600 text-white text-[10px] font-bold px-2.5 py-1 rounded-lg uppercase">
-            Individual + Group
-          </span>
-        </div>
-
-        <div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="space-y-1">
-            <h3 className="text-xs font-bold text-slate-700 flex items-center gap-1.5">
-              <Calendar size={12} /> Registration
-            </h3>
-            <p className="text-[11px] text-slate-600">Start: {new Date().toLocaleDateString()}</p>
-            <p className="text-[11px] text-slate-600">Batch: IGS001</p>
-          </div>
-
-          <div className="space-y-1">
-            <p className="text-[11px] text-slate-600 font-bold">Fees: <span className="text-slate-400 line-through">$100</span></p>
-            <p className="text-sm font-black text-slate-800">Payable: $90</p>
-          </div>
-
-          <div className="space-y-1">
-            <p className="text-[11px] text-slate-600 font-bold flex items-center gap-1.5">
-              <Users size={12} /> Batch
-            </p>
-            <p className="text-[11px] text-slate-600">Duration: {modules.length * 2} Weeks</p>
-            <div className="flex items-center gap-1.5 text-slate-700">
-              <Award size={14} />
-              <p className="text-[11px] font-bold">Certificate: Yes</p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div className="bg-white rounded-xl shadow-sm overflow-hidden border border-slate-100 mb-4">
-        {modules.map((mod, idx) => (
-          <div key={mod.id} className={`p-4 flex items-center gap-3 ${idx !== modules.length - 1 ? 'border-b border-slate-100' : ''}`}>
-            <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-blue-50 to-purple-50 flex items-center justify-center flex-shrink-0">
-              <span className="text-lg font-bold text-blue-500">{mod.id}</span>
-            </div>
-            
-            <div className="flex-1 min-w-0">
-              <h4 className="text-xs font-bold text-slate-800 truncate">
-                <span className="text-blue-500">Module {mod.id}:</span> {mod.name.replace(`Module ${mod.id}: `, '')}
-              </h4>
-              
-              <div className="flex flex-wrap gap-2.5 text-slate-400 text-[10px] font-medium mt-1.5">
-                <span className="flex items-center gap-1"><PlayCircle size={10}/> {mod.video}</span>
-                <span className="flex items-center gap-1"><BookOpen size={10}/> {mod.article}</span>
-                <span className="flex items-center gap-1"><CheckSquare size={10}/> {mod.quiz}</span>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
-        {[
-          { label: 'Modules', value: modules.length, icon: Layers, color: 'text-purple-500' },
-          { label: 'Videos', value: modules.reduce((acc, m) => acc + m.video, 0), icon: Video, color: 'text-blue-500' },
-          { label: 'Quizzes', value: modules.reduce((acc, m) => acc + m.quiz, 0), icon: CheckSquare, color: 'text-green-500' },
-          { label: 'Duration', value: `${modules.length * 2}h`, icon: Clock, color: 'text-amber-500' },
-        ].map((stat, i) => (
-          <div key={i} className="bg-white rounded-xl p-3 border border-slate-100">
-            <stat.icon size={16} className={stat.color} />
-            <p className="text-lg font-bold text-slate-800 mt-1.5">{stat.value}</p>
-            <p className="text-[10px] text-slate-500">{stat.label}</p>
-          </div>
-        ))}
-      </div>
-
-      <div className="flex gap-2">
-        <button 
-          onClick={onBack}
-          className="flex-1 py-2.5 text-sm border border-slate-200 text-slate-600 font-semibold rounded-xl hover:bg-slate-50 transition-colors flex items-center justify-center gap-1.5"
-        >
-          <ArrowLeft size={16} />
-          Back
-        </button>
-        <button 
-          onClick={onSkip}
-          className="px-4 py-2.5 text-sm border border-amber-400 text-amber-600 font-semibold rounded-xl hover:bg-amber-50 transition-colors flex items-center justify-center gap-1.5"
-        >
-          <SkipForward size={16} />
-          Skip
-        </button>
-        <button 
-          onClick={onPublish}
-          className="flex-1 py-2.5 text-sm bg-gradient-to-r from-green-500 to-emerald-600 text-white font-bold rounded-xl shadow-lg shadow-green-100 hover:scale-[1.02] transition-all flex items-center justify-center gap-1.5"
-        >
-          <Check size={16} />
-          Publish
-        </button>
-      </div>
-    </div>
-  );
-};
 

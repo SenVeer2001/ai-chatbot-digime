@@ -12,11 +12,12 @@ import {
 } from 'lucide-react';
 import { useApp } from '../../hooks/useApp';
 import Header from '../../components/layout/Header';
-import { PreviewStep, WelcomeScreen } from './CourseSteps';
+import { WelcomeScreen } from './CourseSteps';
 import AboutCourseStep from './steps/AboutCourseStep';
 import ManageModulesStep from './steps/ManageModulesStep';
 import CourseActivityStep from './steps/CourseActivityStep';
 import CourseActivityEditorStep from './steps/CourseActivityEditorStep';
+import HelpPopup from './HelpPopup';
 
 // ==================== MAIN CREATE CONTENT PAGE ====================
 const CreateContentPage = () => {
@@ -25,10 +26,11 @@ const CreateContentPage = () => {
 
   const [showWelcome, setShowWelcome] = useState(true);
   const [currentStep, setCurrentStep] = useState(1);
+   const [isHelpOpen, setIsHelpOpen] = useState(false);
   const [formData, setFormData] = useState({
     title: 'Learn with AI',
     style: 'Motivational, practical, career-driven, and industry-oriented',
-    audience: 'Students, fresh graduates, and working professionals in India who want to build strong AI fundamentals.',
+    audience: 'Students, fresh graduates, and working professionals in India who want to build strong AI fundamentals, develop practical skills, and prepare for careers in technology, data, automation, and emerging digital industries.',
     goals: 'Learners will understand core concepts of Artificial Intelligence, gain hands-on experience with real-world AI tools and applications, develop problem-solving and analytical skills, and build a clear career roadmap for roles such as AI Engineer, Data Analyst, Machine Learning Specialist, or Tech Entrepreneur.',
     moduleCount: 1, // Start with 1 instead of 3
     modules: [],
@@ -45,6 +47,12 @@ const CreateContentPage = () => {
 
   const handlePublish = () => setCurrentStep(5);
   const handleSkip = () => setCurrentStep(5);
+
+   const openHelp = () => setIsHelpOpen(true);
+  
+  // Function to close help popup
+  const closeHelp = () => setIsHelpOpen(false);
+
 
   const handleFinish = () => {
     const savedCourses = JSON.parse(localStorage.getItem('congenContents') || '[]');
@@ -76,7 +84,7 @@ const CreateContentPage = () => {
     );
   }
 
-  if (currentStep === 5) {
+  if (currentStep === 4) {
     return (
       <div className="min-h-screen ">
         <Header user={user} title="ConGen™" />
@@ -92,7 +100,16 @@ const CreateContentPage = () => {
   return (
     <div className="min-h-screen ">
       <Header user={user} title="ConGen™" />
+     
+       <button
+        onClick={openHelp}
+        className='fixed top-[100px] right-10 z-50 p-2 rounded-full bg-blue-600 hover:bg-blue-700 transition-colors shadow-lg'
+      >
+        <HelpCircle size={20} className="text-white" />
+      </button>
 
+      {/* Help Popup Component */}
+      <HelpPopup isOpen={isHelpOpen} onClose={closeHelp} />
       <div className="max-w-6xl mx-auto px-3 md:px-4 py-4">
         <div className="bg-white rounded-3xl shadow-xl shadow-slate-200/50 overflow-hidden border border-slate-100">
 
@@ -152,14 +169,7 @@ const CreateContentPage = () => {
             />
           )}
 
-          {currentStep === 4 && (
-            <PreviewStep
-              formData={formData}
-              onBack={() => setCurrentStep(3)}
-              onSkip={handleSkip}
-              onPublish={handlePublish}
-            />
-          )}
+         
         </div>
       </div>
     </div>

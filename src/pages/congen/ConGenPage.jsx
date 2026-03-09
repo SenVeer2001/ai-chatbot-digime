@@ -1,8 +1,9 @@
 // pages/ConGenPage.jsx
-import { 
+import {
   Plus, Play, Search, BookOpen, FileText, Briefcase, Scale,
-  Calendar, Video, GraduationCap, Clock, ChevronRight, 
-  Users, BarChart3, ArrowRight
+  Calendar, Video, GraduationCap, Clock, ChevronRight,
+  Users, BarChart3, ArrowRight,
+  HelpCircle
 } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -95,26 +96,25 @@ const sampleCourses = [
 
 // Content Card Component
 const ContentCard = ({ content, onClick }) => (
-  <div 
+  <div
     onClick={onClick}
     className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden flex flex-col hover:shadow-lg transition-all hover:-translate-y-1 cursor-pointer group"
   >
     {/* Image Section */}
     <div className="relative">
       <div className="aspect-[16/10] overflow-hidden">
-        <img 
-          src={content.image} 
-          alt={content.title} 
-          className="w-full h-full object-cover " 
+        <img
+          src={content.image}
+          alt={content.title}
+          className="w-full h-full object-cover "
         />
       </div>
-      
+
       {/* Status Badge */}
-      <span className={`absolute top-3 right-3 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wide ${
-        content.status === 'published' 
-          ? 'bg-green-500 text-white' 
+      <span className={`absolute top-3 right-3 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wide ${content.status === 'published'
+          ? 'bg-green-500 text-white'
           : 'bg-amber-500 text-white'
-      }`}>
+        }`}>
         {content.status}
       </span>
 
@@ -150,19 +150,19 @@ const ContentCard = ({ content, onClick }) => (
       {/* Stats Grid */}
       <div className="grid grid-cols-2 gap-y-3 gap-x-2 text-slate-500 mb-4">
         <div className="flex items-center gap-2 text-xs">
-          <Calendar size={14} className="text-slate-400" /> 
+          <Calendar size={14} className="text-slate-400" />
           <span>{content.duration}</span>
         </div>
         <div className="flex items-center gap-2 text-xs">
-          <FileText size={14} className="text-slate-400" /> 
+          <FileText size={14} className="text-slate-400" />
           <span>{content.videos}</span>
         </div>
         <div className="flex items-center gap-2 text-xs">
-          <GraduationCap size={14} className="text-slate-400" /> 
+          <GraduationCap size={14} className="text-slate-400" />
           <span>{content.level}</span>
         </div>
         <div className="flex items-center gap-2 text-xs">
-          <Clock size={14} className="text-slate-400" /> 
+          <Clock size={14} className="text-slate-400" />
           <span>{content.commitment}</span>
         </div>
       </div>
@@ -206,14 +206,14 @@ const ConGenPage = () => {
   useEffect(() => {
     try {
       localStorage.setItem('congenContents', JSON.stringify(contents));
-    } catch {}
+    } catch { }
   }, [contents]);
 
   // Action Cards Data - Your 4 Cards
   const actionCards = [
 
 
-     {
+    {
       id: 'corporate_content',
       title: 'Create Content',
       desc: 'Create professional presentations, reports, and corporate training materials.',
@@ -253,7 +253,7 @@ const ConGenPage = () => {
       iconBg: 'bg-blue-100',
       onClick: () => navigate('/congen/resume'),
     },
-   
+
   ];
 
   const filters = [
@@ -269,9 +269,13 @@ const ConGenPage = () => {
       {/* Header */}
       <Header user={user} title={"ConGen™"} />
 
+      
+
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-6 py-5 space-y-6">
-        
+
+
+
         {/* Action Cards - 4 Cards in Grid */}
         <section>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-5 max-w-4xl mx-auto">
@@ -289,7 +293,7 @@ const ConGenPage = () => {
                       <IconComponent size={32} className="text-white" />
                     </div>
                   </div>
-                  
+
                   {/* Content Section */}
                   <div className="p-3 flex flex-col flex-grow">
                     <h3 className="font-bold text-lg mb-2 text-slate-800 group-hover:text-purple-600 transition-colors">
@@ -301,7 +305,7 @@ const ConGenPage = () => {
                   {/* Arrow Footer */}
                   <div className="px-5 pb-5">
                     <div className="flex items-center gap-2 text-sm font-medium text-slate-400 group-hover:text-purple-500 transition-colors">
-                      Get Started 
+                      Get Started
                       <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
                     </div>
                   </div>
@@ -321,10 +325,10 @@ const ConGenPage = () => {
               <h2 className="text-2xl font-bold text-slate-800">Your Content Library</h2>
               <p className="text-sm text-slate-500">{contents.length} items • {contents.filter(c => c.status === 'published').length} published</p>
             </div>
-            
+
             <div className="flex items-center gap-3 flex-wrap">
               {/* Filter Pills */}
-              <div className="flex items-center gap-1 p-1 bg-white rounded-xl border border-slate-200 overflow-x-auto">
+              {/* <div className="flex items-center gap-1 p-1 bg-white rounded-xl border border-slate-200 overflow-x-auto">
                 {filters.map((filter) => (
                   <button
                     key={filter.id}
@@ -338,10 +342,10 @@ const ConGenPage = () => {
                     {filter.label}
                   </button>
                 ))}
-              </div>
+              </div> */}
 
               {/* Search */}
-              <div className="flex items-center px-4 py-2.5 rounded-xl bg-white border border-slate-200">
+              <div className="flex items-center px-4 py-2.5 rounded-xl min-w-[300px] bg-white border border-slate-200">
                 <Search size={18} className="text-slate-400" />
                 <input
                   type="text"
@@ -370,8 +374,8 @@ const ConGenPage = () => {
 
             {/* Content Cards */}
             {filteredContents.map((content) => (
-              <ContentCard 
-                key={content.id} 
+              <ContentCard
+                key={content.id}
                 content={content}
                 onClick={() => navigate(`/congen/${content.id}`, { state: { content } })}
               />
@@ -388,7 +392,7 @@ const ConGenPage = () => {
               <p className="text-sm text-slate-500 mb-4">
                 {searchQuery ? `No results for "${searchQuery}"` : "Start by creating your first content"}
               </p>
-              <button 
+              <button
                 onClick={() => navigate('/congen/create')}
                 className="px-6 py-2.5 bg-purple-500 text-white rounded-xl font-medium hover:bg-purple-600 transition-colors inline-flex items-center gap-2"
               >

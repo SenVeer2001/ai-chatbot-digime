@@ -189,7 +189,7 @@ export const CourseActivityStep = ({ formData, setFormData, onNext, onBack }) =>
 
                                     {/* Buttons */}
                                     <div className="flex items-center gap-3">
-                                        <button className="border border-blue-500 text-blue-600 px-4 py-2 rounded-full text-xs font-medium hover:bg-blue-50 transition-colors flex items-center gap-2">
+                                        <button  onClick={onNext} className="border border-blue-500 text-blue-600 px-4 py-2 rounded-full text-xs font-medium hover:bg-blue-50 transition-colors flex items-center gap-2">
                                             {/* <RefreshCw size={14} /> */}
                                             Update Module Activity
                                         </button>
@@ -236,14 +236,7 @@ export const CourseActivityStep = ({ formData, setFormData, onNext, onBack }) =>
                     Back
                 </button>
 
-                <button
-                    onClick={onNext}
-                    className="px-6 py-3 bg-amber-500 text-white font-semibold rounded-full hover:bg-amber-600 transition-colors flex items-center justify-center gap-2 shadow-lg shadow-amber-100"
-                >
-                    Skip For Now
-                    <ArrowRight size={16} />
-                </button>
-
+                
                 <button
                     onClick={onNext}
                     className="flex-1 py-3 bg-gradient-to-r from-green-500 to-emerald-600 text-white font-bold rounded-xl shadow-lg shadow-green-100 hover:scale-[1.02] transition-all flex items-center justify-center gap-2"
