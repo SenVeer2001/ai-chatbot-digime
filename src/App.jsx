@@ -19,6 +19,8 @@ import ProfilePage from './pages/ProfilePage';
 import AvatarInteractionPage from './pages/AvatarInteractionPage';
 import ConGenPage from './pages/congen/ConGenPage';
 import CreateContentPage from './pages/congen/CreateContentPage';
+import CoursePreviewPage from './pages/congen/CoursePreviewPage';
+import CourseDetailsPage from './pages/congen/CourseDetailsPage';
 
 
 
@@ -37,33 +39,38 @@ const ProtectedRoute = ({ children }) => {
 function App() {
   return (
     < Theme>
-    <AppProvider>
-      <Router>
-        <FloatingChatbot />
-        <Routes>
-          <Route path="/" element={<LandingPage />} />
-          <Route path="/auth" element={<AuthPage />} />
-          <Route path="/dashboard" element={<ProtectedRoute><HomePage /></ProtectedRoute>} />
-          <Route path="/digime" element={<ProtectedRoute><DIGIMEPage /></ProtectedRoute>} />
-          <Route path="/digime/create" element={<ProtectedRoute><CreateDigiMeePage /></ProtectedRoute>} />
-          <Route path="/digime/:id" element={<ProtectedRoute><DIGIMEDetailPage /></ProtectedRoute>} />
-          <Route path="/digime/test/:id" element={<ProtectedRoute><AvatarInteractionPage/></ProtectedRoute>} />
+      <AppProvider>
+        <Router>
+          <FloatingChatbot />
+          <Routes>
+            <Route path="/" element={<LandingPage />} />
+            <Route path="/auth" element={<AuthPage />} />
+            <Route path="/dashboard" element={<ProtectedRoute><HomePage /></ProtectedRoute>} />
+            <Route path="/digime" element={<ProtectedRoute><DIGIMEPage /></ProtectedRoute>} />
+            <Route path="/digime/create" element={<ProtectedRoute><CreateDigiMeePage /></ProtectedRoute>} />
+            <Route path="/digime/:id" element={<ProtectedRoute><DIGIMEDetailPage /></ProtectedRoute>} />
+            <Route path="/digime/test/:id" element={<ProtectedRoute><AvatarInteractionPage /></ProtectedRoute>} />
             {/* NEW ROUTE for creating persona */}
-  <Route path="/digime/persona/create" element={<ProtectedRoute><AvatarInteractionPage /></ProtectedRoute>} />
+            <Route path="/digime/persona/create" element={<ProtectedRoute><AvatarInteractionPage /></ProtectedRoute>} />
 
-          <Route path="/aicha" element={<ProtectedRoute><AICHAPage /></ProtectedRoute>} />
-          <Route path="/aicha/:id" element={<ProtectedRoute><AICHADetailPage /></ProtectedRoute>} />
+            <Route path="/aicha" element={<ProtectedRoute><AICHAPage /></ProtectedRoute>} />
+            <Route path="/aicha/:id" element={<ProtectedRoute><AICHADetailPage /></ProtectedRoute>} />
 
-          <Route path="/congen" element={<ProtectedRoute><ConGenPage /></ProtectedRoute>} />
-          <Route path="/congen/content" element={<ProtectedRoute><CreateContentPage /></ProtectedRoute>} />
+            <Route path="/congen" element={<ProtectedRoute><ConGenPage /></ProtectedRoute>} />
+            <Route path="/congen/content" element={<ProtectedRoute><CreateContentPage /></ProtectedRoute>} />
+           <Route path="/congen" element={<ProtectedRoute><ConGenPage /></ProtectedRoute>} />
+            <Route path="/congen/create" element={<ProtectedRoute><CreateContentPage /></ProtectedRoute>} />
+             <Route path="/congen/preview" element={<ProtectedRoute><CoursePreviewPage /></ProtectedRoute>} />
+              <Route path="/congen/course/:id" element={<ProtectedRoute><CourseDetailsPage /></ProtectedRoute>} />
 
-          <Route path="/projects" element={<ProtectedRoute><ProjectsPage /></ProtectedRoute>} />
-          <Route path="/profile" element={<ProfilePage />} />
-          <Route path="/tools" element={<ProtectedRoute><ToolsPage /></ProtectedRoute>} />
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
-      </Router>
-    </AppProvider>
+
+            <Route path="/projects" element={<ProtectedRoute><ProjectsPage /></ProtectedRoute>} />
+            <Route path="/profile" element={<ProfilePage />} />
+            <Route path="/tools" element={<ProtectedRoute><ToolsPage /></ProtectedRoute>} />
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+        </Router>
+      </AppProvider>
 
     </Theme>
   );

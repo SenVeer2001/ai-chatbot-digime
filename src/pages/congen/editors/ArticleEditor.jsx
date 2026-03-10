@@ -43,23 +43,28 @@ const ArticleEditor = ({ lesson, onUpdate }) => {
     
     const [articleData, setArticleData] = useState({
         title: lesson?.title || 'Article Title',
-        coverImage: lesson?.coverImage || '',
+        coverImage: lesson?.coverImage || 'https://images.pexels.com/photos/36285980/pexels-photo-36285980.jpeg',
         estimatedTime: lesson?.estimatedTime || '5 min read',
         sections: lesson?.sections || [
             {
                 id: 1,
                 heading: 'Introduction',
-                content: '<p>This is the introduction section of the article. It provides an overview of what the reader will learn.</p>'
+                content: 'The COVID-19 pandemic created an unprecedented global health crisis. Artificial Intelligence supported healthcare systems, governments, and researchers by enabling faster diagnosis, data-driven decisions, and improved patient care.'
             },
             {
                 id: 2,
-                heading: 'Key Concepts',
-                content: '<p>This section covers the main concepts and ideas that are essential to understand the topic.</p><ul><li>Concept 1: Description</li><li>Concept 2: Description</li><li>Concept 3: Description</li></ul>'
+                heading: 'Role of AI During the COVID-19 Pandemic',
+                content: 'AI helped detect outbreak trends, analyze X-rays and CT scans, optimize hospital resource allocation, and accelerate drug and vaccine development through advanced machine learning models.'
+            },
+             {
+                id: 3,
+                heading: 'Benefits of AI',
+                content: 'AI improved healthcare efficiency, reduced operational costs, enhanced public awareness through automated systems, and enabled faster, more accurate decision-making during the pandemic response.'
             },
             {
-                id: 3,
+                id: 4,
                 heading: 'Conclusion',
-                content: '<p>In conclusion, we have covered the important aspects of this topic. Remember to practice and apply these concepts.</p>'
+                content: 'The COVID-19 pandemic demonstrated the transformative potential of Artificial Intelligence in global healthcare. Despite challenges such as privacy concerns and infrastructure gaps, AI proved to be a powerful tool in building a more resilient and responsive healthcare system.'
             }
         ]
     });
@@ -153,11 +158,8 @@ const ArticleEditor = ({ lesson, onUpdate }) => {
     return (
         <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
             {/* Header */}
-            <div className="flex justify-between items-center border-b border-slate-100 p-3 bg-gradient-to-r from-green-50 to-emerald-50">
-                <p className="font-medium text-sm text-slate-700 flex items-center gap-2">
-                    <BookOpen size={16} className="text-green-500" />
-                    Article / Reading
-                </p>
+            <div className="flex justify-end items-center border-b border-slate-100 p-3 bg-gradient-to-r from-green-50 to-emerald-50">
+               
                 <div className="flex items-center gap-2">
                     <span className="text-xs bg-green-100 text-green-600 px-2 py-1 rounded-full font-medium">
                         {articleData.sections.length} Sections
@@ -173,7 +175,7 @@ const ArticleEditor = ({ lesson, onUpdate }) => {
                 </div>
             </div>
 
-            <div className="p-4 space-y-4">
+            <div className="p-2 space-y-4">
                 {/* ==================== VIEW MODE ==================== */}
                 {!isEditing ? (
                     <>
@@ -181,7 +183,7 @@ const ArticleEditor = ({ lesson, onUpdate }) => {
                         {articleData.coverImage && (
                             <div className="rounded-lg overflow-hidden h-48 bg-slate-100">
                                 <img 
-                                    src={articleData.coverImage} 
+                                    src={articleData.coverImage|| "https://images.pexels.com/photos/36285980/pexels-photo-36285980.jpeg"} 
                                     alt="Cover" 
                                     className="w-full h-full object-cover" 
                                 />
@@ -201,40 +203,20 @@ const ArticleEditor = ({ lesson, onUpdate }) => {
                             </div>
                         </div>
 
-                        {/* Table of Contents */}
-                        <div className="bg-slate-50 rounded-lg p-4 border border-slate-200">
-                            <p className="text-xs font-bold text-slate-600 mb-3 uppercase tracking-wide">
-                                Table of Contents
-                            </p>
-                            <div className="space-y-1">
-                                {articleData.sections.map((section, idx) => (
-                                    <div 
-                                        key={section.id}
-                                        className="flex items-center gap-2 text-sm text-slate-600 hover:text-green-600 cursor-pointer py-1"
-                                    >
-                                        <span className="w-5 h-5 rounded-full bg-green-100 text-green-600 flex items-center justify-center text-xs font-bold">
-                                            {idx + 1}
-                                        </span>
-                                        {section.heading}
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
 
                         {/* Sections Content */}
-                        <div className="space-y-6">
+                        <div className="space-y-6 ">
                             {articleData.sections.map((section, idx) => (
-                                <div key={section.id} className="border-l-4 border-green-400 pl-4">
-                                    <h4 className="text-lg font-bold text-slate-800 mb-3 flex items-center gap-2">
-                                        <span className="w-6 h-6 rounded-full bg-green-500 text-white flex items-center justify-center text-xs font-bold">
+                                <div key={section.id} className="border-l-2 border-green-400 pl-2  ">
+                                    <h4 className="text-sm font-bold text-slate-800 mb-2 flex items-center gap-2">
+                                        <span className="w-6 h-6 rounded-full bg-green-500 text-white flex items-center justify-center text-[10px] font-bold">
                                             {idx + 1}
                                         </span>
                                         {section.heading}
                                     </h4>
-                                    <div 
-                                        className="prose prose-sm max-w-none text-slate-600"
-                                        dangerouslySetInnerHTML={{ __html: section.content }}
-                                    />
+                                    <p className='ml-8 text-sm '>
+                                        {section.content} 
+                                    </p>
                                 </div>
                             ))}
                         </div>

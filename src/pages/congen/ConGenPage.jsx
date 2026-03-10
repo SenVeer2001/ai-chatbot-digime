@@ -377,7 +377,7 @@ const ConGenPage = () => {
               <ContentCard
                 key={content.id}
                 content={content}
-                onClick={() => navigate(`/congen/${content.id}`, { state: { content } })}
+                onClick={() => navigate(`/congen/course/${content.id}`, { state: { content } })}
               />
             ))}
           </div>

@@ -14,6 +14,8 @@ import QuizEditor from "../editors/QuizEditor";
 import ArticleEditor from "../editors/ArticleEditor";
 import DiscussionEditor from "../editors/DiscussionEditor";
 import ResourcesEditor from "../editors/ResourcesEditor";
+import CoursePreviewMode from "../CoursePreviewPage";
+import { useNavigate } from "react-router-dom";
 
 // Default YouTube video URL
 const DEFAULT_YOUTUBE_URL = 'https://youtu.be/2uhJ75NcKsA';
@@ -56,7 +58,7 @@ export const CourseActivityEditorStep = ({ formData, onBack, onFinish }) => {
     const [currentModuleIndex, setCurrentModuleIndex] = useState(0);
     const [selectedLessonIndex, setSelectedLessonIndex] = useState(0);
     const [openAddActivity, setOpenAddActivity] = useState(false);
-
+    const navigate = useNavigate();
     // Edit States
     const [isEditingVideo, setIsEditingVideo] = useState(false);
     const [isEditingTranscript, setIsEditingTranscript] = useState(false);
@@ -74,6 +76,7 @@ export const CourseActivityEditorStep = ({ formData, onBack, onFinish }) => {
     const [lessons, setLessons] = useState([]);
     const [draggedIndex, setDraggedIndex] = useState(null);
     const [dragOverIndex, setDragOverIndex] = useState(null);
+    const [showPreview, setShowPreview] = useState(false);
 
     // Transcript states
     const [transcriptMain, setTranscriptMain] = useState("This video explains how Artificial Intelligence works in real-world applications and how businesses can use automation, data analysis, and smart decision-making systems to improve productivity and growth across different industries including healthcare, education, and marketing.");
@@ -81,7 +84,7 @@ export const CourseActivityEditorStep = ({ formData, onBack, onFinish }) => {
 
     const currentModule = modules[currentModuleIndex] || modules[0];
 
-    // Extract YouTube Video ID from URL
+
     const getYoutubeVideoId = (url) => {
         if (!url) return null;
         const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
@@ -204,7 +207,7 @@ export const CourseActivityEditorStep = ({ formData, onBack, onFinish }) => {
         setTempYoutubeUrl('');
     };
 
-    // Transcript Edit Handlers
+
     const handleEditTranscriptClick = () => {
         setIsEditingTranscript(true);
         setTempTranscriptMain(transcriptMain);
@@ -223,7 +226,7 @@ export const CourseActivityEditorStep = ({ formData, onBack, onFinish }) => {
         setTempTranscriptReadMore('');
     };
 
-    // Inline Title Edit Handlers
+
     const handleInlineTitleEdit = (lessonId, currentTitle) => {
         setEditingLessonId(lessonId);
         setEditingTitleText(currentTitle);
@@ -315,6 +318,26 @@ export const CourseActivityEditorStep = ({ formData, onBack, onFinish }) => {
         return icons[type] || <Circle size={12} />;
     };
 
+    const handlePreviewClick = () => {
+        // Save preview data to localStorage
+        const previewData = {
+            formData,
+            lessons,
+            currentModule,
+            selectedLessonIndex,
+            currentYoutubeId,
+            transcriptMain,
+            transcriptReadMore
+        };
+        localStorage.setItem('congen_preview_data', JSON.stringify(previewData));
+
+        // Navigate to preview page (opens in same tab)
+        navigate('/congen/preview');
+
+        // OR: Open in new tab
+        // window.open('/congen/preview', '_blank');
+    };
+
     const getTypeLabel = (type) => {
         const labels = {
             video: 'Watch 3 min',
@@ -340,7 +363,7 @@ export const CourseActivityEditorStep = ({ formData, onBack, onFinish }) => {
         }
     };
 
-    // ⭐ NEW: Render content based on lesson type
+
     const renderLessonContent = () => {
         if (!selectedLesson) return null;
 
@@ -543,11 +566,11 @@ export const CourseActivityEditorStep = ({ formData, onBack, onFinish }) => {
 
     return (
         <div className="min-h-screen md:p-6">
-            <div className="max-w-7xl mx-auto grid grid-cols-12 gap-4 items-start">
+            <div className="max-w-7xl mx-auto grid grid-cols-12 gap-2 items-start">
 
                 {/* ⭐ LEFT PANEL - STICKY/FIXED */}
                 <div className="col-span-12 lg:col-span-4 lg:sticky lg:top-6 lg:self-start">
-                    <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden max-h-[calc(100vh-48px)] flex flex-col">
+                    <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden max-h-[calc(100vh-48px)] flex flex-col thin-scrollbar">
 
                         {/* Module Header */}
                         <div className="p-4 border-b border-slate-100 flex-shrink-0">
@@ -615,7 +638,6 @@ export const CourseActivityEditorStep = ({ formData, onBack, onFinish }) => {
                             </div>
                         </div>
 
-                        {/* ⭐ Activities List - Scrollable within fixed panel */}
                         <div className="p-3 space-y-2 overflow-y-auto flex-1">
                             {lessons.map((lesson, idx) => (
                                 <div
@@ -734,7 +756,10 @@ export const CourseActivityEditorStep = ({ formData, onBack, onFinish }) => {
                         </div>
 
                         <div className="flex items-center gap-3">
-                            <button className="flex items-center gap-1.5 px-3 py-1.5 border border-blue-400 text-blue-500 rounded-lg text-[11px] font-bold hover:bg-blue-50">
+                            <button
+                                onClick={handlePreviewClick}  // ✅ Changed from setShowPreview(true)
+                                className="flex items-center gap-1.5 px-3 py-1.5 border border-blue-400 text-blue-500 rounded-lg text-[11px] font-bold hover:bg-blue-50"
+                            >
                                 <Eye size={12} /> Preview
                             </button>
                             <button
@@ -764,6 +789,7 @@ export const CourseActivityEditorStep = ({ formData, onBack, onFinish }) => {
 
                 </div>
             </div>
+          
 
             <AddActivityPopup
                 isOpen={openAddActivity}
