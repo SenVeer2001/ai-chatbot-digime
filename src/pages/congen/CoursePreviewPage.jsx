@@ -217,7 +217,7 @@ const CoursePreviewPage = () => {
             <Header user={user} title="ConGen™" />
 
             {/* Main Content */}
-            <div className="max-w-7xl mx-auto p-4 md:p-6 grid grid-cols-12 gap-2">
+            <div className="max-w-7xl mx-auto p-4 md:p-2 grid grid-cols-12 gap-2">
 
                 {/* LEFT PANEL - Course Navigation */}
                 <div className="col-span-12 lg:col-span-4 lg:sticky lg:top-24 lg:self-start">

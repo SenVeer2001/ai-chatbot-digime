@@ -5,7 +5,8 @@ import {
     GripVertical, Plus, PlayCircle, BookOpen, MessageCircle,
     Files, HelpCircle, Circle, Save, Sparkles, Upload, Check, X,
     Youtube, Link, Pencil,
-    ChevronLeft
+    ChevronLeft,
+    Users
 } from "lucide-react";
 import AddActivityPopup from "../Addactivity";
 
@@ -16,6 +17,7 @@ import DiscussionEditor from "../editors/DiscussionEditor";
 import ResourcesEditor from "../editors/ResourcesEditor";
 import CoursePreviewMode from "../CoursePreviewPage";
 import { useNavigate } from "react-router-dom";
+import TeamEditor from "../editors/TeamEditor";
 
 // Default YouTube video URL
 const DEFAULT_YOUTUBE_URL = 'https://youtu.be/2uhJ75NcKsA';
@@ -51,6 +53,11 @@ const DISCUSSION_NAMES = [
     "AI on Health and Well Being",
     "Ethics in AI Development",
     "Future of AI Technology"
+];
+const TEAM_NAMES = [
+    "Expert Team",
+    "Module Instructors",
+    "Course Mentors"
 ];
 
 export const CourseActivityEditorStep = ({ formData, onBack, onFinish }) => {
@@ -137,6 +144,15 @@ export const CourseActivityEditorStep = ({ formData, onBack, onFinish }) => {
                 duration: ''
             });
         }
+
+
+        // Add team to lessons
+        lessonsList.push({
+            id: 't0',
+            title: TEAM_NAMES[0],
+            type: 'team',
+            duration: ''
+        });
 
         // Add quizzes
         for (let i = 0; i < mod.quiz; i++) {
@@ -313,7 +329,8 @@ export const CourseActivityEditorStep = ({ formData, onBack, onFinish }) => {
             article: <BookOpen size={12} className="text-green-500" />,
             discussion: <MessageCircle size={12} className="text-purple-500" />,
             resources: <Files size={12} className="text-amber-500" />,
-            quiz: <HelpCircle size={12} className="text-red-500" />
+            quiz: <HelpCircle size={12} className="text-red-500" />,
+            team: <Users size={12} className="text-indigo-500" /> // ADD THIS
         };
         return icons[type] || <Circle size={12} />;
     };
@@ -337,14 +354,14 @@ export const CourseActivityEditorStep = ({ formData, onBack, onFinish }) => {
         // OR: Open in new tab
         // window.open('/congen/preview', '_blank');
     };
-
     const getTypeLabel = (type) => {
         const labels = {
             video: 'Watch 3 min',
             article: 'Read 2 min',
             discussion: 'Discussion',
             resources: 'Resources',
-            quiz: 'Quiz 5 min'
+            quiz: 'Quiz 5 min',
+            team: 'Expert Team' // ADD THIS
         };
         return labels[type] || type;
     };
@@ -540,6 +557,9 @@ export const CourseActivityEditorStep = ({ formData, onBack, onFinish }) => {
             case 'resources':
                 return <ResourcesEditor lesson={selectedLesson} onUpdate={handleLessonUpdate} />;
 
+            case 'team':
+                return <TeamEditor lesson={selectedLesson} onUpdate={handleLessonUpdate} />;
+
             default:
                 return (
                     <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
@@ -622,6 +642,11 @@ export const CourseActivityEditorStep = ({ formData, onBack, onFinish }) => {
                                 <div className="flex items-center gap-1">
                                     <MessageCircle size={14} className="text-purple-500" />
                                     <span className="font-medium">{currentModule?.discussion || 0} discussion</span>
+                                </div>
+                                {/* ✅ ADD TEAM STAT */}
+                                <div className="flex items-center gap-1">
+                                    <Users size={14} className="text-indigo-500" />
+                                    <span className="font-medium">{currentModule?.team || 1} team</span>
                                 </div>
                             </div>
 
@@ -784,12 +809,12 @@ export const CourseActivityEditorStep = ({ formData, onBack, onFinish }) => {
                         </div>
                     </div>
 
-                    {/* ⭐ DYNAMIC CONTENT BASED ON LESSON TYPE */}
+                   
                     {renderLessonContent()}
 
                 </div>
             </div>
-          
+
 
             <AddActivityPopup
                 isOpen={openAddActivity}

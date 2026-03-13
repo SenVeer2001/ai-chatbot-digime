@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Video, BookOpen, HelpCircle, Users, MessageSquare, X } from "lucide-react";
 import { Tooltip } from "react-tooltip";
 import "react-tooltip/dist/react-tooltip.css";
+import { label } from "framer-motion/client";
 
 export default function AddActivityPopup({ isOpen, onClose }) {
   const [selected, setSelected] = useState(null);
@@ -15,6 +16,7 @@ export default function AddActivityPopup({ isOpen, onClose }) {
     { id: "quiz", icon: HelpCircle, label: "Quiz" },
     { id: "group", icon: Users, label: "Group Activity" },
     { id: "discussion", icon: MessageSquare, label: "Discussion" },
+    { id: 'team',  icon: Users,label: 'Expert Team' },
   ];
 
   return (

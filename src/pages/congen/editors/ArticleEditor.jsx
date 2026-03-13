@@ -176,7 +176,7 @@ const ArticleEditor = ({ lesson, onUpdate }) => {
             </div>
 
             <div className="p-2 space-y-4">
-                {/* ==================== VIEW MODE ==================== */}
+                
                 {!isEditing ? (
                     <>
                         {/* Cover Image */}
@@ -222,7 +222,7 @@ const ArticleEditor = ({ lesson, onUpdate }) => {
                         </div>
                     </>
                 ) : (
-                    /* ==================== EDIT MODE ==================== */
+                    
                     <>
                         {/* Cover Image */}
                         <div>
@@ -361,7 +361,7 @@ const ArticleEditor = ({ lesson, onUpdate }) => {
                                         {expandedSection === idx ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
                                     </div>
 
-                                    {/* Section Content Editor */}
+                                   
                                     {expandedSection === idx && (
                                         <div className="p-4 border-t border-slate-100 bg-white">
                                             <label className="text-xs font-medium text-slate-600 mb-2 block">
