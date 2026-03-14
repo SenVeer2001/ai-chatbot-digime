@@ -106,7 +106,7 @@ const GeneralSettings = () => {
             {/* Profile Image or Placeholder */}
             <div 
               onClick={handleImageClick}
-              className="w-24 h-24 rounded-full overflow-hidden cursor-pointer border-2 border-gray-200 hover:border-blue-400 transition-all"
+              className="w-24 h-24 rounded-full overflow-hidden cursor-pointer border-2 border-gray-200 hover:border-gray-400 transition-all"
             >
               {imagePreview ? (
                 <img 
@@ -115,7 +115,7 @@ const GeneralSettings = () => {
                   className="w-full h-full object-cover"
                 />
               ) : (
-                <div className="w-full h-full bg-blue-100 flex items-center justify-center text-2xl font-bold text-blue-600">
+                <div className="w-full h-full bg-gray-100 flex items-center justify-center text-2xl font-bold text-gray-600">
                   {formData.name.charAt(0)}
                 </div>
               )}
@@ -133,7 +133,7 @@ const GeneralSettings = () => {
                   e.stopPropagation();
                   handleRemoveImage();
                 }}
-                className="absolute -top-1 -right-1 w-6 h-6 bg-red-500 rounded-full flex items-center justify-center text-white hover:bg-red-600 shadow-md"
+                className="absolute -top-1 -right-1 w-6 h-6 bg-gray-700 rounded-full flex items-center justify-center text-white hover:bg-gray-800 shadow-md"
               >
                 <X size={14} />
               </button>
@@ -148,7 +148,7 @@ const GeneralSettings = () => {
             <div className="flex gap-2">
               <button
                 onClick={handleImageClick}
-                className="flex items-center gap-2 px-4 py-2 bg-blue-50 text-blue-600 rounded-lg text-sm font-medium hover:bg-blue-100 transition-colors"
+                className="flex items-center gap-2 px-4 py-2 bg-gray-100 text-gray-700 rounded-lg text-sm font-medium hover:bg-gray-200 transition-colors"
               >
                 <Upload size={14} />
                 Upload Photo
@@ -157,7 +157,7 @@ const GeneralSettings = () => {
               {imagePreview && (
                 <button
                   onClick={handleRemoveImage}
-                  className="flex items-center gap-2 px-4 py-2 bg-red-50 text-red-600 rounded-lg text-sm font-medium hover:bg-red-100 transition-colors"
+                  className="flex items-center gap-2 px-4 py-2 bg-gray-100 text-gray-600 rounded-lg text-sm font-medium hover:bg-gray-200 transition-colors"
                 >
                   <X size={14} />
                   Remove
@@ -179,7 +179,7 @@ const GeneralSettings = () => {
               type="text"
               value={formData.name}
               onChange={(e) => handleChange('name', e.target.value)}
-              className="w-full p-3 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-blue-400"
+              className="w-full p-3 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-gray-400"
             />
           </div>
 
@@ -192,7 +192,7 @@ const GeneralSettings = () => {
               type="email"
               value={formData.email}
               onChange={(e) => handleChange('email', e.target.value)}
-              className="w-full p-3 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-blue-400"
+              className="w-full p-3 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-gray-400"
             />
           </div>
 
@@ -205,7 +205,7 @@ const GeneralSettings = () => {
               type="tel"
               value={formData.phone}
               onChange={(e) => handleChange('phone', e.target.value)}
-              className="w-full p-3 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-blue-400"
+              className="w-full p-3 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-gray-400"
             />
           </div>
 
@@ -217,7 +217,7 @@ const GeneralSettings = () => {
             <select
               value={formData.language}
               onChange={(e) => handleChange('language', e.target.value)}
-              className="w-full p-3 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-blue-400"
+              className="w-full p-3 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-gray-400"
             >
               <option>English</option>
               <option>Hindi</option>
@@ -234,7 +234,7 @@ const GeneralSettings = () => {
             <select
               value={formData.timezone}
               onChange={(e) => handleChange('timezone', e.target.value)}
-              className="w-full p-3 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-blue-400"
+              className="w-full p-3 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-gray-400"
             >
               <option value="Asia/Kolkata">Asia/Kolkata (IST)</option>
               <option value="America/New_York">America/New_York (EST)</option>
@@ -247,7 +247,7 @@ const GeneralSettings = () => {
         <div className="flex justify-end pt-4 border-t border-gray-100">
           <button
             onClick={handleSave}
-            className="flex items-center gap-2 px-6 py-2.5 bg-blue-500 text-white rounded-lg text-sm font-medium hover:bg-blue-600"
+            className="flex items-center gap-2 px-6 py-2.5 bg-gray-900 text-white rounded-lg text-sm font-medium hover:bg-gray-800"
           >
             <Save size={16} /> Save Changes
           </button>
