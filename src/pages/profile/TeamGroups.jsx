@@ -101,22 +101,22 @@ const TeamGroups = ({ members, groups, setGroups }) => {
       {!creating ? (
         <button
           onClick={() => setCreating(true)}
-          className="w-full p-4 border-2 border-dashed border-blue-300 rounded-xl text-blue-600 hover:bg-blue-50 transition-colors flex items-center justify-center gap-2 font-medium"
+          className="w-full p-4 border-2 border-dashed border-gray-300 rounded-xl text-gray-700 hover:bg-gray-50 transition-colors flex items-center justify-center gap-2 font-medium"
         >
           <Plus size={18} /> Create New Group
         </button>
       ) : (
-        <div className="p-4 bg-blue-50 border border-blue-200 rounded-xl space-y-3">
+        <div className="p-4 bg-gray-50 border border-gray-200 rounded-xl space-y-3">
           <div className="flex items-center justify-between">
             <h3 className="font-semibold text-gray-800 flex items-center gap-2">
-              <Users size={16} className="text-blue-600" /> New Group
+              <Users size={16} className="text-gray-600" /> New Group
             </h3>
             <button
               onClick={() => {
                 setCreating(false);
                 setNewGroup({ name: "", memberIds: [] });
               }}
-              className="p-1.5 rounded-lg hover:bg-white/60 text-gray-500"
+              className="p-1.5 rounded-lg hover:bg-gray-200 text-gray-500"
             >
               <X size={16} />
             </button>
@@ -131,7 +131,7 @@ const TeamGroups = ({ members, groups, setGroups }) => {
               value={newGroup.name}
               onChange={(e) => setNewGroup((p) => ({ ...p, name: e.target.value }))}
               placeholder="e.g. Content Team / Admins / QA"
-              className="w-full p-3 bg-white border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-50"
+              className="w-full p-3 bg-white border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-gray-400 focus:ring-2 focus:ring-gray-100"
             />
           </div>
 
@@ -152,7 +152,7 @@ const TeamGroups = ({ members, groups, setGroups }) => {
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 placeholder="Search members..."
-                className="w-full pl-9 pr-3 py-2 bg-white border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-blue-400"
+                className="w-full pl-9 pr-3 py-2 bg-white border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-gray-400"
               />
             </div>
 
@@ -163,7 +163,7 @@ const TeamGroups = ({ members, groups, setGroups }) => {
                   <label
                     key={m.id}
                     className={`flex items-center justify-between gap-3 p-3 rounded-lg border cursor-pointer ${
-                      checked ? "bg-blue-50 border-blue-200" : "bg-white border-gray-200 hover:bg-gray-50"
+                      checked ? "bg-gray-100 border-gray-300" : "bg-white border-gray-200 hover:bg-gray-50"
                     }`}
                   >
                     <div className="flex items-center gap-3">
@@ -171,9 +171,9 @@ const TeamGroups = ({ members, groups, setGroups }) => {
                         type="checkbox"
                         checked={checked}
                         onChange={() => toggleNewMember(m.id)}
-                        className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                        className="h-4 w-4 rounded border-gray-300 text-gray-600 focus:ring-gray-500"
                       />
-                      <div className="w-9 h-9 rounded-full bg-blue-100 text-blue-600 font-bold flex items-center justify-center uppercase">
+                      <div className="w-9 h-9 rounded-full bg-gray-200 text-gray-700 font-bold flex items-center justify-center uppercase">
                         {m.name?.[0] || "U"}
                       </div>
                       <div>
@@ -207,7 +207,7 @@ const TeamGroups = ({ members, groups, setGroups }) => {
             </button>
             <button
               onClick={createGroup}
-              className="px-4 py-2 text-sm font-semibold bg-blue-500 text-white rounded-lg hover:bg-blue-600"
+              className="px-4 py-2 text-sm font-semibold bg-gray-900 text-white rounded-lg hover:bg-gray-800"
             >
               Create Group
             </button>
@@ -227,12 +227,12 @@ const TeamGroups = ({ members, groups, setGroups }) => {
                     <input
                       value={editName}
                       onChange={(e) => setEditName(e.target.value)}
-                      className="px-3 py-2 bg-white border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-blue-400"
+                      className="px-3 py-2 bg-white border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-gray-400"
                       autoFocus
                     />
                     <button
                       onClick={() => saveEdit(g.id)}
-                      className="p-2 bg-green-100 text-green-700 rounded-lg hover:bg-green-200"
+                      className="p-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300"
                     >
                       <Check size={16} />
                     </button>
@@ -268,7 +268,7 @@ const TeamGroups = ({ members, groups, setGroups }) => {
                 )}
                 <button
                   onClick={() => deleteGroup(g.id)}
-                  className="p-2 bg-red-50 text-red-600 rounded-lg hover:bg-red-100"
+                  className="p-2 bg-gray-100 text-gray-600 rounded-lg hover:bg-gray-200"
                   title="Delete group"
                 >
                   <Trash2 size={16} />
@@ -286,15 +286,15 @@ const TeamGroups = ({ members, groups, setGroups }) => {
                   return (
                     <div
                       key={id}
-                      className="flex items-center gap-2 px-3 py-1.5 bg-blue-50 border border-blue-200 rounded-lg"
+                      className="flex items-center gap-2 px-3 py-1.5 bg-gray-100 border border-gray-200 rounded-lg"
                     >
-                      <div className="w-6 h-6 rounded-full bg-blue-100 text-blue-600 font-bold flex items-center justify-center text-xs uppercase">
+                      <div className="w-6 h-6 rounded-full bg-gray-200 text-gray-700 font-bold flex items-center justify-center text-xs uppercase">
                         {m.name?.[0] || "U"}
                       </div>
-                      <span className="text-xs font-semibold text-blue-700">{m.name}</span>
+                      <span className="text-xs font-semibold text-gray-700">{m.name}</span>
                       <button
                         onClick={() => toggleGroupMember(g.id, id)}
-                        className="text-blue-400 hover:text-red-500"
+                        className="text-gray-400 hover:text-gray-700"
                         title="Remove"
                       >
                         <X size={14} />
@@ -309,7 +309,7 @@ const TeamGroups = ({ members, groups, setGroups }) => {
 
               {/* Quick add members (minimal) */}
               <details className="group">
-                <summary className="cursor-pointer text-sm font-medium text-blue-600 flex items-center gap-2 select-none">
+                <summary className="cursor-pointer text-sm font-medium text-gray-700 flex items-center gap-2 select-none hover:text-gray-900">
                   <UserPlus size={16} />
                   Add/Remove members
                 </summary>
@@ -321,7 +321,7 @@ const TeamGroups = ({ members, groups, setGroups }) => {
                       <label
                         key={m.id}
                         className={`flex items-center justify-between gap-3 p-3 rounded-lg border cursor-pointer ${
-                          checked ? "bg-blue-50 border-blue-200" : "bg-white border-gray-200 hover:bg-gray-50"
+                          checked ? "bg-gray-100 border-gray-300" : "bg-white border-gray-200 hover:bg-gray-50"
                         }`}
                       >
                         <div className="flex items-center gap-3">
@@ -329,9 +329,9 @@ const TeamGroups = ({ members, groups, setGroups }) => {
                             type="checkbox"
                             checked={checked}
                             onChange={() => toggleGroupMember(g.id, m.id)}
-                            className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                            className="h-4 w-4 rounded border-gray-300 text-gray-600 focus:ring-gray-500"
                           />
-                          <div className="w-9 h-9 rounded-full bg-blue-100 text-blue-600 font-bold flex items-center justify-center uppercase">
+                          <div className="w-9 h-9 rounded-full bg-gray-200 text-gray-700 font-bold flex items-center justify-center uppercase">
                             {m.name?.[0] || "U"}
                           </div>
                           <div>

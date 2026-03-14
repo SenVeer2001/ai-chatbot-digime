@@ -5,7 +5,6 @@ import TeamMembers from './TeamMembers';
 import TeamRoles from './TeamRoles';
 import TeamGroups from './TeamGroups';
 
-
 const TeamSettings = () => {
   const [activeTab, setActiveTab] = useState('members');
   const [groups, setGroups] = useState([
@@ -13,15 +12,13 @@ const TeamSettings = () => {
     { id: 2, name: "Content Team", memberIds: [3], createdAt: "05 Mar 2026" },
   ]);
 
-  // Shared roles state
   const [roles, setRoles] = useState([
-    { id: 1, name: 'Owner', color: 'purple', description: 'Full access to everything', permissions: ['all'] },
-    { id: 2, name: 'Admin', color: 'blue', description: 'Can manage team and content', permissions: ['manage_team', 'manage_content'] },
-    { id: 3, name: 'Editor', color: 'green', description: 'Can edit and publish content', permissions: ['edit_content', 'publish'] },
-    { id: 4, name: 'Viewer', color: 'gray', description: 'Can only view content', permissions: ['view'] }
+    { id: 1, name: 'Owner', color: 'dark', description: 'Full access to everything', permissions: ['all'] },
+    { id: 2, name: 'Admin', color: 'medium', description: 'Can manage team and content', permissions: ['manage_team', 'manage_content'] },
+    { id: 3, name: 'Editor', color: 'light', description: 'Can edit and publish content', permissions: ['edit_content', 'publish'] },
+    { id: 4, name: 'Viewer', color: 'lighter', description: 'Can only view content', permissions: ['view'] }
   ]);
 
-  // Shared members state
   const [members, setMembers] = useState([
     { id: 1, name: 'Gajendra Singh', email: 'gajendra@webkype.com', role: 'Owner', avatar: 'https://www.caasaa.com/assets/images/Gajendra-singh-Caasaa.jpg', isYou: true, joinedAt: 'Jan 2024' },
     { id: 2, name: 'Shakti Pratap', email: 'shakti@webkype.com', role: 'Admin', avatar: 'https://www.caasaa.com/assets/images/shaktisir-caasaa.jpeg', isYou: false, joinedAt: 'Feb 2024' },
@@ -31,7 +28,7 @@ const TeamSettings = () => {
   const tabs = [
     { id: "members", label: "Team Members", icon: Users, count: members.length },
     { id: "roles", label: "Roles", icon: Shield, count: roles.length },
-    { id: "groups", label: "Groups", icon: Users, count: groups.length }, // ✅ add
+    { id: "groups", label: "Groups", icon: Users, count: groups.length },
   ];
 
   return (
@@ -48,15 +45,17 @@ const TeamSettings = () => {
           <button
             key={tab.id}
             onClick={() => setActiveTab(tab.id)}
-            className={`flex items-center gap-2 px-6 py-3 text-sm font-medium transition-all border-b-2 ${activeTab === tab.id
-                ? 'border-blue-500 text-blue-600 bg-blue-50/50'
+            className={`flex items-center gap-2 px-6 py-3 text-sm font-medium transition-all border-b-2 ${
+              activeTab === tab.id
+                ? 'border-gray-800 text-gray-800 bg-gray-50'
                 : 'border-transparent text-gray-500 hover:text-gray-700'
-              }`}
+            }`}
           >
             <tab.icon size={16} />
             {tab.label}
-            <span className={`px-1.5 py-0.5 rounded text-xs ${activeTab === tab.id ? 'bg-blue-100 text-blue-600' : 'bg-gray-100 text-gray-500'
-              }`}>
+            <span className={`px-1.5 py-0.5 rounded text-xs ${
+              activeTab === tab.id ? 'bg-gray-200 text-gray-700' : 'bg-gray-100 text-gray-500'
+            }`}>
               {tab.count}
             </span>
           </button>
@@ -79,7 +78,6 @@ const TeamSettings = () => {
             members={members}
           />
         )}
-
         {activeTab === "groups" && (
           <TeamGroups members={members} groups={groups} setGroups={setGroups} />
         )}

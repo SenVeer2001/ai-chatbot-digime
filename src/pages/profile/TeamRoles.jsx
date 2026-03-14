@@ -5,16 +5,16 @@ import { Plus, Trash2, Edit3, Check, X, Shield, Users } from 'lucide-react';
 const TeamRoles = ({ roles, setRoles, members }) => {
   const [showAddForm, setShowAddForm] = useState(false);
   const [editingRoleId, setEditingRoleId] = useState(null);
-  const [newRole, setNewRole] = useState({ name: '', description: '', color: 'blue' });
-  const [editRole, setEditRole] = useState({ name: '', description: '', color: 'blue' });
+  const [newRole, setNewRole] = useState({ name: '', description: '', color: 'dark' });
+  const [editRole, setEditRole] = useState({ name: '', description: '', color: 'dark' });
 
   const colors = [
-    { id: 'blue', class: 'bg-blue-500', light: 'bg-blue-100 text-blue-700' },
-    { id: 'green', class: 'bg-green-500', light: 'bg-green-100 text-green-700' },
-    { id: 'purple', class: 'bg-purple-500', light: 'bg-purple-100 text-purple-700' },
-    { id: 'orange', class: 'bg-orange-500', light: 'bg-orange-100 text-orange-700' },
-    { id: 'pink', class: 'bg-pink-500', light: 'bg-pink-100 text-pink-700' },
-    { id: 'gray', class: 'bg-gray-500', light: 'bg-gray-100 text-gray-700' }
+    { id: 'dark', class: 'bg-gray-700', light: 'bg-gray-200 text-gray-800' },
+    { id: 'medium', class: 'bg-gray-500', light: 'bg-gray-200 text-gray-700' },
+    { id: 'light', class: 'bg-gray-400', light: 'bg-gray-100 text-gray-700' },
+    { id: 'lighter', class: 'bg-gray-300', light: 'bg-gray-100 text-gray-600' },
+    { id: 'slate', class: 'bg-slate-600', light: 'bg-slate-100 text-slate-700' },
+    { id: 'zinc', class: 'bg-zinc-500', light: 'bg-zinc-100 text-zinc-700' }
   ];
 
   const getRoleColor = (colorId) => {
@@ -38,7 +38,7 @@ const TeamRoles = ({ roles, setRoles, members }) => {
     };
     
     setRoles([...roles, role]);
-    setNewRole({ name: '', description: '', color: 'blue' });
+    setNewRole({ name: '', description: '', color: 'dark' });
     setShowAddForm(false);
   };
 
@@ -70,7 +70,7 @@ const TeamRoles = ({ roles, setRoles, members }) => {
       {!showAddForm && (
         <button
           onClick={() => setShowAddForm(true)}
-          className=" p-4 border-2  border-gray-300 rounded-xl bg-gray-700  text-white transition-colors flex items-center justify-center gap-2"
+          className="w-full p-4 border-2 border-gray-300 rounded-xl bg-gray-900 text-white transition-colors flex items-center justify-center gap-2 hover:bg-gray-800"
         >
           <Plus size={18} /> Add New Role
         </button>
@@ -78,10 +78,10 @@ const TeamRoles = ({ roles, setRoles, members }) => {
 
       {/* Add Role Form */}
       {showAddForm && (
-        <div className="p-4 bg-blue-50 border border-blue-200 rounded-xl space-y-4">
+        <div className="p-4 bg-gray-50 border border-gray-200 rounded-xl space-y-4">
           <div className="flex items-center justify-between">
             <h3 className="font-semibold text-gray-800 flex items-center gap-2">
-              <Shield size={16} className="text-blue-600" /> Create New Role
+              <Shield size={16} className="text-gray-600" /> Create New Role
             </h3>
             <button onClick={() => setShowAddForm(false)} className="text-gray-400 hover:text-gray-600">
               <X size={18} />
@@ -94,14 +94,14 @@ const TeamRoles = ({ roles, setRoles, members }) => {
               value={newRole.name}
               onChange={(e) => setNewRole({ ...newRole, name: e.target.value })}
               placeholder="Role name"
-              className="p-3 bg-white border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-blue-400"
+              className="p-3 bg-white border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-gray-400"
             />
             <input
               type="text"
               value={newRole.description}
               onChange={(e) => setNewRole({ ...newRole, description: e.target.value })}
               placeholder="Description"
-              className="p-3 bg-white border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-blue-400"
+              className="p-3 bg-white border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-gray-400"
             />
           </div>
 
@@ -114,7 +114,7 @@ const TeamRoles = ({ roles, setRoles, members }) => {
                   key={color.id}
                   onClick={() => setNewRole({ ...newRole, color: color.id })}
                   className={`w-8 h-8 rounded-full ${color.class} flex items-center justify-center ${
-                    newRole.color === color.id ? 'ring-2 ring-offset-2 ring-blue-500' : ''
+                    newRole.color === color.id ? 'ring-2 ring-offset-2 ring-gray-500' : ''
                   }`}
                 >
                   {newRole.color === color.id && <Check size={14} className="text-white" />}
@@ -125,7 +125,7 @@ const TeamRoles = ({ roles, setRoles, members }) => {
 
           <button
             onClick={handleAddRole}
-            className="px-4 py-2.5 bg-blue-500 text-white rounded-lg text-sm font-medium hover:bg-blue-600"
+            className="px-4 py-2.5 bg-gray-900 text-white rounded-lg text-sm font-medium hover:bg-gray-800"
           >
             Create Role
           </button>
@@ -162,7 +162,7 @@ const TeamRoles = ({ roles, setRoles, members }) => {
                       key={color.id}
                       onClick={() => setEditRole({ ...editRole, color: color.id })}
                       className={`w-6 h-6 rounded-full ${color.class} ${
-                        editRole.color === color.id ? 'ring-2 ring-offset-1 ring-blue-500' : ''
+                        editRole.color === color.id ? 'ring-2 ring-offset-1 ring-gray-500' : ''
                       }`}
                     />
                   ))}
@@ -170,13 +170,13 @@ const TeamRoles = ({ roles, setRoles, members }) => {
                 <div className="flex gap-2">
                   <button
                     onClick={() => handleUpdateRole(role.id)}
-                    className="px-3 py-1.5 bg-green-500 text-white rounded-lg text-xs font-medium"
+                    className="px-3 py-1.5 bg-gray-900 text-white rounded-lg text-xs font-medium hover:bg-gray-800"
                   >
                     Save
                   </button>
                   <button
                     onClick={() => setEditingRoleId(null)}
-                    className="px-3 py-1.5 bg-gray-200 text-gray-700 rounded-lg text-xs font-medium"
+                    className="px-3 py-1.5 bg-gray-200 text-gray-700 rounded-lg text-xs font-medium hover:bg-gray-300"
                   >
                     Cancel
                   </button>
@@ -210,7 +210,7 @@ const TeamRoles = ({ roles, setRoles, members }) => {
                   {role.name !== 'Owner' && getMemberCount(role.name) === 0 && (
                     <button
                       onClick={() => handleDeleteRole(role.id)}
-                      className="p-2 bg-red-50 text-red-500 rounded-lg hover:bg-red-100"
+                      className="p-2 bg-gray-100 text-gray-600 rounded-lg hover:bg-gray-200"
                     >
                       <Trash2 size={14} />
                     </button>

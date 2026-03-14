@@ -63,11 +63,11 @@ const CompanyDetails = () => {
             <p className="font-medium text-gray-800">Company Logo</p>
             <p className="text-xs text-gray-400 mb-2">PNG, JPG up to 1MB</p>
             <div className="flex items-center gap-2">
-              <button className="flex items-center gap-2 px-3 py-1.5 bg-blue-50 text-blue-600 rounded-lg text-xs font-medium hover:bg-blue-100">
+              <button className="flex items-center gap-2 px-3 py-1.5 bg-gray-100 text-gray-700 rounded-lg text-xs font-medium hover:bg-gray-200">
                 <Upload size={12} /> {hasLogo ? 'Change Logo' : 'Upload Logo'}
               </button>
               {hasLogo && (
-                <button className="flex items-center gap-1 px-3 py-1.5 bg-red-50 text-red-600 rounded-lg text-xs font-medium hover:bg-red-100">
+                <button className="flex items-center gap-1 px-3 py-1.5 bg-gray-100 text-gray-600 rounded-lg text-xs font-medium hover:bg-gray-200">
                   <X size={12} /> Remove
                 </button>
               )}
@@ -81,13 +81,13 @@ const CompanyDetails = () => {
           {/* Company Name */}
           <div className="md:col-span-2">
             <label className="flex items-center gap-2 text-xs font-semibold text-gray-500 mb-2">
-              <Building2 size={12} /> Webkype
+              <Building2 size={12} /> Company Name
             </label>
             <input
               type="text"
               value={formData.companyName}
               onChange={(e) => handleChange('companyName', e.target.value)}
-              className="w-full p-3 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-blue-400"
+              className="w-full p-3 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-gray-400"
             />
           </div>
 
@@ -100,7 +100,7 @@ const CompanyDetails = () => {
               type="url"
               value={formData.website}
               onChange={(e) => handleChange('website', e.target.value)}
-              className="w-full p-3 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-blue-400"
+              className="w-full p-3 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-gray-400"
             />
           </div>
 
@@ -113,7 +113,7 @@ const CompanyDetails = () => {
               type="email"
               value={formData.email}
               onChange={(e) => handleChange('email', e.target.value)}
-              className="w-full p-3 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-blue-400"
+              className="w-full p-3 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-gray-400"
             />
           </div>
 
@@ -126,7 +126,7 @@ const CompanyDetails = () => {
               type="tel"
               value={formData.phone}
               onChange={(e) => handleChange('phone', e.target.value)}
-              className="w-full p-3 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-blue-400"
+              className="w-full p-3 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-gray-400"
             />
           </div>
 
@@ -139,7 +139,7 @@ const CompanyDetails = () => {
               value={formData.description}
               onChange={(e) => handleChange('description', e.target.value)}
               rows={3}
-              className="w-full p-3 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-blue-400 resize-none"
+              className="w-full p-3 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-gray-400 resize-none"
             />
           </div>
         </div>
@@ -157,7 +157,7 @@ const CompanyDetails = () => {
                 type="text"
                 value={formData.address}
                 onChange={(e) => handleChange('address', e.target.value)}
-                className="w-full p-3 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-blue-400"
+                className="w-full p-3 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-gray-400"
               />
             </div>
 
@@ -167,7 +167,7 @@ const CompanyDetails = () => {
                 type="text"
                 value={formData.city}
                 onChange={(e) => handleChange('city', e.target.value)}
-                className="w-full p-3 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-blue-400"
+                className="w-full p-3 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-gray-400"
               />
             </div>
 
@@ -177,7 +177,7 @@ const CompanyDetails = () => {
                 type="text"
                 value={formData.state}
                 onChange={(e) => handleChange('state', e.target.value)}
-                className="w-full p-3 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-blue-400"
+                className="w-full p-3 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-gray-400"
               />
             </div>
 
@@ -187,7 +187,7 @@ const CompanyDetails = () => {
                 type="text"
                 value={formData.country}
                 onChange={(e) => handleChange('country', e.target.value)}
-                className="w-full p-3 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-blue-400"
+                className="w-full p-3 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-gray-400"
               />
             </div>
 
@@ -197,7 +197,7 @@ const CompanyDetails = () => {
                 type="text"
                 value={formData.pincode}
                 onChange={(e) => handleChange('pincode', e.target.value)}
-                className="w-full p-3 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-blue-400"
+                className="w-full p-3 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-gray-400"
               />
             </div>
           </div>
@@ -216,7 +216,7 @@ const CompanyDetails = () => {
                 type="text"
                 value={formData.gst}
                 onChange={(e) => handleChange('gst', e.target.value)}
-                className="w-full p-3 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-blue-400"
+                className="w-full p-3 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-gray-400"
               />
             </div>
 
@@ -226,7 +226,7 @@ const CompanyDetails = () => {
                 type="text"
                 value={formData.pan}
                 onChange={(e) => handleChange('pan', e.target.value)}
-                className="w-full p-3 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-blue-400"
+                className="w-full p-3 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-gray-400"
               />
             </div>
           </div>
@@ -236,7 +236,7 @@ const CompanyDetails = () => {
         <div className="flex justify-end pt-4 border-t border-gray-100">
           <button
             onClick={handleSave}
-            className="flex items-center gap-2 px-6 py-2.5 bg-blue-500 text-white rounded-lg text-sm font-medium hover:bg-blue-600"
+            className="flex items-center gap-2 px-6 py-2.5 bg-gray-900 text-white rounded-lg text-sm font-medium hover:bg-gray-800"
           >
             <Save size={16} /> Save Changes
           </button>
