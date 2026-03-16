@@ -62,7 +62,7 @@ const UsageDashboard = () => {
 
       <div className="flex flex-col lg:flex-row">
         {/* Main Chart */}
-        <div className="flex-1 p-6 lg:border-r border-gray-100">
+        <div className="flex-1 p-3 lg:border-r border-gray-100">
           <div className="flex justify-between items-start mb-6">
             <div>
               <p className="text-xs text-gray-500 font-semibold">Total Spend</p>
@@ -100,6 +100,8 @@ const UsageDashboard = () => {
           </div>
         </div>
 
+       
+
         {/* Right Sidebar */}
         <div className="w-full lg:w-80 flex flex-col divide-y divide-gray-100">
           {/* Budget */}
@@ -110,7 +112,7 @@ const UsageDashboard = () => {
             </h4>
 
             <div className="w-full bg-gray-100 h-2 rounded-full mt-4 relative overflow-hidden">
-              <div className="h-2 bg-gray-700 rounded-full" style={{ width: "0%" }} />
+              <div className="h-2 bg-gray-700 rounded-full" style={{ width: "10%" }} />
               <div className="absolute right-4 -top-1 w-0.5 h-4 bg-gray-800" />
             </div>
 

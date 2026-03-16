@@ -264,6 +264,7 @@ const DocumentsSection = () => {
         </div>
       </div>
 
+
       <div className="p-5">
         <div className="grid grid-cols-12 gap-5">
           {/* Categories Sidebar */}
@@ -360,7 +361,7 @@ const DocumentsSection = () => {
                 Browse Files
               </button>
               <p className="text-xs text-gray-400 mt-3">
-                Supported: PDF, DOC, DOCX, XLS, XLSX, JPG, PNG (Max 50MB)
+                Supported: PDF, DOC, DOCX, XLS, XLSX, JPG, PNG (Max 20MB)
               </p>
             </div>
 
@@ -379,15 +380,15 @@ const DocumentsSection = () => {
                       ) : (
                         getFileIcon(doc.type)
                       )}
-                      
-                      
                       <div className="absolute inset-0 bg-black/50 flex items-center justify-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
                         <button className="p-2 bg-white rounded-lg hover:bg-gray-100 transition-colors">
                           <Eye size={16} className="text-gray-700" />
                         </button>
-                        <button className="p-2 bg-white rounded-lg hover:bg-gray-100 transition-colors">
+
+                        <button className="p-2 bg-white rounded-lg hover:bg-gray-100 transition-colors ">
                           <Download size={16} className="text-gray-700 " />
                         </button>
+
                         <button 
                           onClick={() => handleDeleteDocument(doc.id)}
                           className="p-2 bg-white rounded-lg hover:bg-gray-200 transition-colors"
@@ -453,7 +454,7 @@ const DocumentsSection = () => {
               <div className="text-center py-12">
                 <Folder size={48} className="mx-auto text-gray-300 mb-4" />
                 <h3 className="text-lg font-semibold text-gray-700 mb-2">No documents found</h3>
-                <p className="text-sm text-gray-500">
+                <p className="text-sm text-gray-500 ">
                   {searchQuery ? 'Try a different search term' : 'Upload your first document to get started'}
                 </p>
               </div>

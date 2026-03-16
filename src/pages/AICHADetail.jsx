@@ -190,7 +190,7 @@ const AICHADetailPage = () => {
   return (
     <div className="min-h-screen ">
       {/* Header */}
-       <Header user={()=>{}} title={"AICHA™"}/>
+      <Header user={() => { }} title={"AICHA™"} />
 
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-8 py-12">
@@ -214,7 +214,7 @@ const AICHADetailPage = () => {
               className="flex items-center gap-2 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-all font-medium"
             >
               <Save size={18} />
-              Save 
+              Save
             </button>
           </div>
 
@@ -606,7 +606,7 @@ const AICHADetailPage = () => {
                         placeholder="Type your message..."
                         className="flex-1 px-4 py-2 rounded-xl bg-gray-50 border-gray-200 text-gray-900 placeholder-gray-400 border focus:outline-none focus:ring-2 focus:ring-blue-500"
                       />
-                        <button
+                      <button
                         onClick={handleSendMessage}
                         className="px-4 py-2 bg-gradient-to-r from-blue-500 to-cyan-500 text-white rounded-xl hover:from-blue-600 hover:to-cyan-600"
                       >
@@ -702,37 +702,35 @@ const AICHADetailPage = () => {
                       </div>
 
                       {/* Status Badge */}
-                   <div className="flex items-center justify-between gap-4 pt-4 min-w-[350px]">
+                      <div className="flex items-center justify-between gap-4 pt-4 min-w-[350px]">
 
-  {/* Toggle Switch */}
-  <div className="flex items-center gap-3">
-    <button
-      onClick={() => setIsPublished(!isPublished)}
-      className={`relative w-11 h-6 rounded-full transition-colors ${
-        isPublished ? 'bg-green-500' : 'bg-gray-300'
-      }`}
-    >
-      <span
-        className={`absolute top-0.5 w-5 h-5 bg-white rounded-full shadow transition-all ${
-          isPublished ? 'left-5' : 'left-0.5'
-        }`}
-      />
-    </button>
-    <span className={`text-sm font-medium ${isPublished ? 'text-green-600' : 'text-red-600'}`}>
-      {isPublished ? 'Published' : 'Unpublished'}
-    </span>
-  </div>
+                        {/* Toggle Switch */}
+                        <div className="flex items-center gap-3">
+                          <button
+                            onClick={() => setIsPublished(!isPublished)}
+                            className={`relative w-11 h-6 rounded-full transition-colors ${isPublished ? 'bg-green-500' : 'bg-gray-300'
+                              }`}
+                          >
+                            <span
+                              className={`absolute top-0.5 w-5 h-5 bg-white rounded-full shadow transition-all ${isPublished ? 'left-5' : 'left-0.5'
+                                }`}
+                            />
+                          </button>
+                          <span className={`text-sm font-medium ${isPublished ? 'text-green-600' : 'text-red-600'}`}>
+                            {isPublished ? 'Published' : 'Unpublished'}
+                          </span>
+                        </div>
 
-  {/* Copy Widget Button */}
-  <button
-    onClick={handleCopyWidget}
-    className="py-2 px-4 text-sm font-medium rounded-lg border border-gray-300 bg-white text-blue-600 hover:bg-gray-50 flex items-center gap-2"
-  >
-    {copied ? <Check size={16} /> : <Copy size={16} />}
-    {copied ? 'Copied!' : 'Copy Widget'}
-  </button>
+                        {/* Copy Widget Button */}
+                        <button
+                          onClick={handleCopyWidget}
+                          className="py-2 px-4 text-sm font-medium rounded-lg border border-gray-300 bg-white text-blue-600 hover:bg-gray-50 flex items-center gap-2"
+                        >
+                          {copied ? <Check size={16} /> : <Copy size={16} />}
+                          {copied ? 'Copied!' : 'Copy Widget'}
+                        </button>
 
-</div>
+                      </div>
                     </div>
                   </div>
                 </div>

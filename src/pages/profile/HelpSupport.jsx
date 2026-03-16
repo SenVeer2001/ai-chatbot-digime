@@ -480,7 +480,7 @@ const HelpSupport = () => {
       {/* Create Ticket Modal */}
       {showTicketModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-xl w-full max-w-[540px] overflow-hidden shadow-2xl relative">
+          <div className="bg-white rounded-md w-full max-w-[540px] max-h-[640px] shadow-2xl relative overflow-x-auto">
             
             {/* Close Button */}
             <button 
@@ -491,10 +491,10 @@ const HelpSupport = () => {
             </button>
 
             {/* Header Illustration Area */}
-            <div className="bg-gray-100 h-40 flex items-center justify-center relative border-b border-gray-200">
+            <div className="bg-gray-100 h-36 flex items-center justify-center relative border-b border-gray-200">
               <div className="text-center">
                 <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center mx-auto mb-3 shadow-lg">
-                  <MessageSquare size={36} className="text-gray-600" />
+                  <MessageSquare size={30} className="text-gray-600" />
                 </div>
                 <p className="text-sm font-medium text-gray-600">We're here to help!</p>
               </div>
