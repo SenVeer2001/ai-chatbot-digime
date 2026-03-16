@@ -54,7 +54,7 @@ const UsageDashboard = () => {
           <button className="text-xs font-semibold px-3 py-1.5 border border-gray-200 rounded-full text-gray-700 flex items-center gap-2 hover:bg-gray-50">
             <Calendar size={14} /> 02/25/26 - 03/12/26 <ChevronDown size={14} />
           </button>
-          <button className="text-xs font-bold flex items-center gap-1 text-blue-600 hover:text-blue-700">
+          <button className="text-xs font-bold flex items-center gap-1 text-gray-700 hover:text-gray-900">
             <Download size={14} className="rotate-180" /> Export
           </button>
         </div>
@@ -73,7 +73,7 @@ const UsageDashboard = () => {
               <button className="text-xs text-gray-500 font-semibold flex items-center gap-1 hover:text-gray-700">
                 Group by <ChevronDown size={12} />
               </button>
-              <span className="bg-blue-50 text-blue-700 text-[10px] px-2 py-1 rounded font-bold border border-blue-100">
+              <span className="bg-gray-100 text-gray-700 text-[10px] px-2 py-1 rounded font-bold border border-gray-200">
                 1d
               </span>
             </div>
@@ -81,7 +81,8 @@ const UsageDashboard = () => {
 
           <div className="h-64 w-full relative">
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={mainData} margin={{ top: 20, right: 0, left: -30, bottom: 0 }}>
+              <BarChart data={mainData} margin={{ top: 20
+                , right: 0, left: -30, bottom: 0 }}>
                 <XAxis
                   dataKey="date"
                   axisLine={false}
@@ -90,12 +91,12 @@ const UsageDashboard = () => {
                 />
                 <YAxis hide />
                 <Tooltip cursor={{ fill: "transparent" }} content={<CustomTooltip />} />
-                <ReferenceLine y={0.06} stroke="#3b82f6" strokeDasharray="3 3" />
-                <Bar dataKey="spend" fill="#3b82f6" radius={[6, 6, 0, 0]} barSize={34} />
+                <ReferenceLine y={0.06} stroke="#6B7280" strokeDasharray="3 2" />
+                <Bar dataKey="spend" fill="#374151" radius={[6, 6, 0, 0]} barSize={34} />
               </BarChart>
             </ResponsiveContainer>
 
-            <span className="absolute top-4 left-0 text-[10px] text-blue-600 font-bold">$0.06</span>
+            <span className="absolute top-4 left-0 text-[10px] text-gray-600 font-bold">$0.06</span>
           </div>
         </div>
 
@@ -109,13 +110,13 @@ const UsageDashboard = () => {
             </h4>
 
             <div className="w-full bg-gray-100 h-2 rounded-full mt-4 relative overflow-hidden">
-              <div className="h-2 bg-blue-500 rounded-full" style={{ width: "0%" }} />
+              <div className="h-2 bg-gray-700 rounded-full" style={{ width: "0%" }} />
               <div className="absolute right-4 -top-1 w-0.5 h-4 bg-gray-800" />
             </div>
 
             <p className="text-[11px] text-gray-400 mt-4">
               Resets in 19 days.{" "}
-              <span className="text-blue-600 font-semibold underline cursor-pointer">Edit budget</span>
+              <span className="text-gray-700 font-semibold underline cursor-pointer hover:text-gray-900">Edit budget</span>
             </p>
           </div>
 
@@ -127,8 +128,8 @@ const UsageDashboard = () => {
             <div className="h-12 w-full mt-2">
               <ResponsiveContainer width="100%" height="100%">
                 <LineChart data={tokenData}>
-                  <Line type="monotone" dataKey="y" stroke="#3b82f6" strokeWidth={2} dot={false} />
-                  <ReferenceLine x={20} isFront stroke="#3b82f6" />
+                  <Line type="monotone" dataKey="y" stroke="#374151" strokeWidth={2} dot={false} />
+                  <ReferenceLine x={20} isFront stroke="#374151" />
                 </LineChart>
               </ResponsiveContainer>
             </div>
@@ -143,7 +144,7 @@ const UsageDashboard = () => {
               {[40, 70, 20, 10, 30, 5, 2, 2, 2].map((h, i) => (
                 <div
                   key={i}
-                  className="bg-blue-500/90 w-2 rounded-t-sm"
+                  className="bg-gray-700 w-2 rounded-t-sm"
                   style={{ height: `${h}%` }}
                 />
               ))}

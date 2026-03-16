@@ -296,9 +296,9 @@ const DocumentsSection = () => {
             </div>
           </div>
 
-          {/* Documents Grid */}
+          
           <div className="col-span-12 md:col-span-9">
-            {/* Search & View Toggle */}
+            
             <div className="flex items-center justify-between mb-4">
               <div className="relative flex-1 max-w-md">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={16} />
@@ -330,7 +330,7 @@ const DocumentsSection = () => {
               </div>
             </div>
 
-            {/* Drop Zone */}
+           
             <div
               onDragOver={handleDragOver}
               onDragLeave={handleDragLeave}
@@ -372,7 +372,7 @@ const DocumentsSection = () => {
                     key={doc.id}
                     className="border border-gray-200 rounded-xl overflow-hidden hover:shadow-md transition-shadow group"
                   >
-                    {/* Thumbnail/Icon Area */}
+                   
                     <div className="h-32 bg-gray-50 flex items-center justify-center relative">
                       {doc.thumbnail ? (
                         <img src={doc.thumbnail} alt={doc.name} className="w-full h-full object-cover" />
@@ -380,13 +380,13 @@ const DocumentsSection = () => {
                         getFileIcon(doc.type)
                       )}
                       
-                      {/* Hover Actions */}
+                      
                       <div className="absolute inset-0 bg-black/50 flex items-center justify-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
                         <button className="p-2 bg-white rounded-lg hover:bg-gray-100 transition-colors">
                           <Eye size={16} className="text-gray-700" />
                         </button>
                         <button className="p-2 bg-white rounded-lg hover:bg-gray-100 transition-colors">
-                          <Download size={16} className="text-gray-700" />
+                          <Download size={16} className="text-gray-700 " />
                         </button>
                         <button 
                           onClick={() => handleDeleteDocument(doc.id)}
@@ -426,6 +426,7 @@ const DocumentsSection = () => {
                         </p>
                       </div>
                     </div>
+
                     <div className="flex items-center gap-3">
                       {getStatusBadge(doc.status)}
                       <div className="flex items-center gap-1">
