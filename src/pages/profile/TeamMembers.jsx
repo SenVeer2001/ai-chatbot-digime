@@ -130,7 +130,7 @@ const TeamMembers = ({ members, setMembers, roles }) => {
       setEmailError(`${invalidEmails.length} invalid email(s) were skipped`);
     }
   };
-
+  
   // Remove email from list
   const removeEmail = (emailToRemove) => {
     setEmails(prev => prev.filter(email => email !== emailToRemove));
