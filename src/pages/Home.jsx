@@ -87,7 +87,7 @@ const HomePage = () => {
             
               <h1 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-2">
                 A Unified AI Products{' '}
-                <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
+                <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent font-bold">
                   Ecosystem
                 </span>
               </h1>

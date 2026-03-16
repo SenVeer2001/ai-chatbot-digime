@@ -596,7 +596,7 @@ export default function CourseDetailsPage() {
             <div
               ref={navRef}
               className={`bg-white rounded-md shadow-sm border border-slate-200 overflow-hidden transition-all duration-300 ${isNavSticky
-                ? 'lg:sticky lg:top-[74px] lg:z-20 lg:shadow-lg'
+                ? 'lg:sticky lg:top-[60px] lg:z-20 lg:shadow-lg'
                 : ''
                 }`}
             >
