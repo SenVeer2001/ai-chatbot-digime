@@ -17,12 +17,17 @@ const ProfilePage = () => {
   const [expandedMenus, setExpandedMenus] = useState(['agreement']); // Keep agreement expanded by default
 
   const sections = [
-  { id: 'general', label: 'General', icon: Settings, description: 'Account preferences' },
+    { id: 'general', label: 'General', icon: Settings, description: 'Account preferences' },
     { id: 'company', label: 'Company', icon: Building2, description: 'Organization info' },
-    { 
-      id: 'agreement', 
-      label: 'Agreement', 
-      icon: FileText, 
+    { id: 'documents', label: 'Documents', icon: FolderOpen, description: 'Upload & manage files' },
+    { id: 'team', label: 'Team', icon: Users, description: 'Members & roles' },
+    { id: 'billing', label: 'Billing', icon: CreditCard, description: 'Plans & payments' },
+    { id: 'usage', label: 'Usage', icon: BarChart3, description: 'Usage analytics' },
+    { id: 'help', label: 'Help & Support', icon: HelpCircle, description: 'FAQ & tickets' },
+      {
+      id: 'agreement',
+      label: 'Agreement',
+      icon: FileText,
       description: 'Legal documents',
       hasSubmenu: true,
       subItems: [
@@ -32,16 +37,11 @@ const ProfilePage = () => {
         { id: 'cookie', label: 'Cookies Policy' },
       ]
     },
-    { id: 'documents', label: 'Documents', icon: FolderOpen, description: 'Upload & manage files' },
-    { id: 'team', label: 'Team', icon: Users, description: 'Members & roles' },
-    { id: 'billing', label: 'Billing', icon: CreditCard, description: 'Plans & payments' },
-    { id: 'usage', label: 'Usage', icon: BarChart3, description: 'Usage analytics' },
-    { id: 'help', label: 'Help & Support', icon: HelpCircle, description: 'FAQ & tickets' }
   ];
 
   const toggleSubmenu = (sectionId) => {
-    setExpandedMenus(prev => 
-      prev.includes(sectionId) 
+    setExpandedMenus(prev =>
+      prev.includes(sectionId)
         ? prev.filter(id => id !== sectionId)
         : [...prev, sectionId]
     );
@@ -71,13 +71,13 @@ const ProfilePage = () => {
   return (
     <div className="p-4 ">
       <div className="max-w-7xl mx-auto">
-        
+
         {/* Header */}
         <Header title={"Profile"} />
-        
+
         <div className="grid grid-cols-12 gap-4 items-start mt-4">
-          
-          
+
+
           <div className="col-span-12 md:col-span-3 md:sticky md:top-[80px] self-start">
             <div className="bg-[#f9f9f9] rounded-xl border border-gray-200 p-2 shadow-sm">
               {sections.map((section) => (
@@ -85,28 +85,26 @@ const ProfilePage = () => {
                   {/* Main Menu Item */}
                   <button
                     onClick={() => handleSectionClick(section)}
-                    className={`w-full flex items-center justify-between p-3 rounded-lg text-left transition-all ${
-                      activeSection === section.id
+                    className={`w-full flex items-center justify-between p-3 rounded-lg text-left transition-all ${activeSection === section.id
                         ? 'bg-[#eaeaea] text-gray-600'
                         : 'text-gray-600 hover:bg-gray-50'
-                    }`}
+                      }`}
                   >
                     <div className="flex items-center gap-3">
                       <section.icon size={18} />
                       <span className="text-sm font-medium">{section.label}</span>
                     </div>
-                    
+
                     {section.hasSubmenu ? (
-                      <ChevronDown 
-                        size={16} 
-                        className={`transition-transform duration-200 ${
-                          isMenuExpanded(section.id) ? 'rotate-180' : ''
-                        } ${activeSection === section.id ? 'bg-[#eaeaea] text-gray-600' : 'text-gray-600 hover:bg-gray-50'}`}
+                      <ChevronDown
+                        size={16}
+                        className={`transition-transform duration-200 ${isMenuExpanded(section.id) ? 'rotate-180' : ''
+                          } ${activeSection === section.id ? 'bg-[#eaeaea] text-gray-600' : 'text-gray-600 hover:bg-gray-50'}`}
                       />
                     ) : (
-                      <ChevronRight 
-                        size={16} 
-                        className={activeSection === section.id ? 'text-gray-600' : 'text-gray-600'} 
+                      <ChevronRight
+                        size={16}
+                        className={activeSection === section.id ? 'text-gray-600' : 'text-gray-600'}
                       />
                     )}
                   </button>
@@ -118,17 +116,15 @@ const ProfilePage = () => {
                         <button
                           key={subItem.id}
                           onClick={() => handleSubItemClick(section.id, subItem.id)}
-                          className={`w-full flex items-center gap-2 px-3 py-2 rounded-lg  text-left transition-all text-sm ${
-                            activeSection === section.id && activeSubSection === subItem.id
+                          className={`w-full flex items-center gap-2 px-3 py-2 rounded-lg  text-left transition-all text-sm ${activeSection === section.id && activeSubSection === subItem.id
                               ? 'bg-[#eaeaea] text-gray-600'
                               : 'text-gray-600 hover:bg-gray-50'
-                          }`}
+                            }`}
                         >
-                          <div className={`w-1.5 h-1.5 rounded-full ${
-                            activeSection === section.id && activeSubSection === subItem.id
+                          <div className={`w-1.5 h-1.5 rounded-full ${activeSection === section.id && activeSubSection === subItem.id
                               ? 'bg-gray-600'
                               : 'bg-gray-300'
-                          }`} />
+                            }`} />
                           <span>{subItem.label}</span>
                         </button>
                       ))}

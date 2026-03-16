@@ -82,7 +82,7 @@ const TeamMembers = ({ members, setMembers, roles }) => {
     return true;
   };
 
-  // Handle key press in email input
+ 
   const handleKeyDown = (e) => {
     if (e.key === 'Enter') {
       e.preventDefault();
@@ -90,11 +90,11 @@ const TeamMembers = ({ members, setMembers, roles }) => {
         addEmail(inputValue);
       }
     } else if (e.key === 'Backspace' && !inputValue && emails.length > 0) {
-      // Remove last email on backspace if input is empty
+      
       setEmails(prev => prev.slice(0, -1));
       setEmailError('');
     } else if (e.key === ',' || e.key === ' ') {
-      // Also add email on comma or space
+     
       e.preventDefault();
       if (inputValue.trim()) {
         addEmail(inputValue);
@@ -105,10 +105,10 @@ const TeamMembers = ({ members, setMembers, roles }) => {
   // Handle input change
   const handleInputChange = (e) => {
     setInputValue(e.target.value);
-    setEmailError(''); // Clear error on typing
+    setEmailError(''); 
   };
 
-  // Handle paste (for pasting multiple emails)
+  
   const handlePaste = (e) => {
     e.preventDefault();
     const pastedText = e.clipboardData.getData('text');
