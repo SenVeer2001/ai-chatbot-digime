@@ -525,7 +525,7 @@ const HelpSupport = () => {
                   <ChevronDown className="absolute right-3 top-[38px] text-gray-500 pointer-events-none" size={18} />
                 </div>
 
-                {/* Subcategory Dropdown */}
+                
                 {newTicket.category && (
                   <div className="relative">
                     <label className="block text-sm font-semibold text-gray-700 mb-1.5">Subcategory</label>
