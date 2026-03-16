@@ -14,7 +14,7 @@ import DocumentsSection from './profile/DocumentsSection';
 const ProfilePage = () => {
   const [activeSection, setActiveSection] = useState('general');
   const [activeSubSection, setActiveSubSection] = useState('terms');
-  const [expandedMenus, setExpandedMenus] = useState(['agreement']); // Keep agreement expanded by default
+  const [expandedMenus, setExpandedMenus] = useState(['agreement']); 
 
   const sections = [
     { id: 'general', label: 'General', icon: Settings, description: 'Account preferences' },
@@ -50,7 +50,7 @@ const ProfilePage = () => {
   const handleSectionClick = (section) => {
     if (section.hasSubmenu) {
       toggleSubmenu(section.id);
-      // Also set the section as active and select first sub-item
+      
       setActiveSection(section.id);
       if (section.subItems && section.subItems.length > 0) {
         setActiveSubSection(section.subItems[0].id);

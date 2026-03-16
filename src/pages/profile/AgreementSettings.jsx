@@ -232,10 +232,7 @@ We may update this Cookie Policy from time to time.`,
               </span>
             </div>
             <div className="flex items-center gap-4 text-sm text-gray-500">
-              <span className="flex items-center gap-1">
-                <Shield size={14} />
-                Version {active.version}
-              </span>
+              
               <span className="flex items-center gap-1">
                 <Clock size={14} />
                 Updated {active.lastUpdated}
