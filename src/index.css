@@ -2,9 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ===============================
-   BASE FONT SETTINGS - SYSTEM UI
-================================ */
+
 
 @layer base {
   html {
@@ -72,16 +70,16 @@
    CONIC GRADIENT BACKGROUND
 ================================ */
 
-.conic-gradient-bg {
+ /* .conic-gradient-bg {
   position: fixed;
   inset: 0;
   z-index: -1;
   pointer-events: none;
   overflow: hidden;
-  background-color: #f9fafb;
-}
+  background-color: #e5f0fa;
+} */
 
-.conic-gradient-bg::before {
+/* .conic-gradient-bg::before {
   content: "";
   position: absolute;
   top: 50%;
@@ -109,7 +107,68 @@
   to {
     transform: translate(-50%, -50%) rotate(360deg);
   }
+}  */
+
+
+/* styles/theme.css */
+
+/* ========== Light Mode Background ========== */
+.conic-gradient-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  overflow: hidden;
+  background-color: #e5f0fa;
 }
+
+
+/* ========== Dark Mode Background ========== */
+.conic-gradient-bg.dark-bg {
+  background-color: #0f172a;
+  background: 
+    radial-gradient(ellipse at top left, rgba(99, 102, 241, 0.15) 0%, transparent 50%),
+    radial-gradient(ellipse at bottom right, rgba(168, 85, 247, 0.15) 0%, transparent 50%),
+    linear-gradient(180deg, #0f172a 0%, #1e1b4b 50%, #0f172a 100%);
+}
+
+/* ========== Glass Layout Light ========== */
+.glass-layout-light {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+}
+
+/* ========== Glass Layout Dark ========== */
+.glass-layout-dark {
+  background: rgba(15, 23, 42, 0.3);
+  backdrop-filter: blur(10px);
+}
+
+
+/* ========== Body Dark Mode ========== */
+body.dark-mode {
+  background-color: #0f172a;
+  color: #e2e8f0;
+}
+
+/* ========== Scrollbar Dark Mode ========== */
+body.dark-mode::-webkit-scrollbar {
+  width: 8px;
+}
+
+body.dark-mode::-webkit-scrollbar-track {
+  background: #1e293b;
+}
+
+body.dark-mode::-webkit-scrollbar-thumb {
+  background: #475569;
+  border-radius: 4px;
+}
+
+body.dark-mode::-webkit-scrollbar-thumb:hover {
+  background: #64748b;
+}
+
 
 /* ===============================
    GLASS LAYOUT EFFECT

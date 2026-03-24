@@ -477,12 +477,12 @@ const HelpSupport = () => {
         )}
       </div>
 
-      {/* Create Ticket Modal */}
+  
       {showTicketModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
           <div className="bg-white rounded-md w-full max-w-[540px] max-h-[640px] shadow-2xl relative overflow-x-auto">
             
-            {/* Close Button */}
+           
             <button 
               onClick={() => setShowTicketModal(false)}
               className="absolute right-4 top-4 text-gray-500 hover:bg-gray-100 p-1 rounded-full z-10"
@@ -490,7 +490,7 @@ const HelpSupport = () => {
               <X size={20} />
             </button>
 
-            {/* Header Illustration Area */}
+            
             <div className="bg-gray-100 h-36 flex items-center justify-center relative border-b border-gray-200">
               <div className="text-center">
                 <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center mx-auto mb-3 shadow-lg">
@@ -555,7 +555,7 @@ const HelpSupport = () => {
                   />
                 </div>
 
-                {/* Description */}
+               
                 <div>
                   <label className="block text-sm font-semibold text-gray-700 mb-1.5">Description *</label>
                   <textarea 
@@ -566,7 +566,7 @@ const HelpSupport = () => {
                   />
                 </div>
 
-                {/* Attachments */}
+                
                 <div>
                   <input
                     type="file"
@@ -602,7 +602,7 @@ const HelpSupport = () => {
               </div>
             </div>
 
-            {/* Footer Buttons */}
+           
             <div className="p-4 bg-gray-50 flex justify-end gap-3 border-t border-gray-100">
               <button 
                 onClick={() => setShowTicketModal(false)}

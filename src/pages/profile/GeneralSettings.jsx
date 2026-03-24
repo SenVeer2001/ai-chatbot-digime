@@ -126,7 +126,7 @@ const GeneralSettings = () => {
               </div>
             </div>
 
-            {/* Remove Button (shows when image is uploaded) */}
+            
             {imagePreview && (
               <button 
                 onClick={(e) => {
@@ -144,7 +144,7 @@ const GeneralSettings = () => {
             <p className="font-medium text-gray-800">Profile Picture</p>
             <p className="text-xs text-gray-400 mb-3">JPG, PNG or GIF. Max 2MB</p>
             
-            {/* Upload Buttons */}
+           
             <div className="flex gap-2">
               <button
                 onClick={handleImageClick}
@@ -195,7 +195,7 @@ const GeneralSettings = () => {
               className="w-full p-3 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-gray-400"
             />
           </div>
-
+           
           {/* Phone */}
           <div>
             <label className="flex items-center gap-2 text-xs font-semibold text-gray-500 mb-2">

@@ -69,8 +69,8 @@ const ProfilePage = () => {
   const isMenuExpanded = (sectionId) => expandedMenus.includes(sectionId);
 
   return (
-    <div className="p-4 ">
-      <div className="max-w-7xl mx-auto">
+    <div className="p-1 ">
+      <div className="px-2 mx-auto">
 
         {/* Header */}
         <Header title={"Profile"} />

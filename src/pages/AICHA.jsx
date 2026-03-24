@@ -3,9 +3,11 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useApp } from '../hooks/useApp';
 import Header from '../components/layout/Header';
+import { useTheme } from '../context/ThemeContext';
 
 const AICHAPage = () => {
   const { contexts, knowledgeBase, user } = useApp();
+   const { isDarkMode } = useTheme();
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState('');
   const [viewMode, setViewMode] = useState('grid');
@@ -226,7 +228,7 @@ const AICHAPage = () => {
         {/* Page Header */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">
+            <h1 className={`text-3xl font-bold ${isDarkMode?"text-white":"text-gray-900"} `}>
               AICHA™ <span className="bg-gradient-to-r from-blue-500 to-cyan-500 bg-clip-text text-transparent">Chatbots</span>
             </h1>
             <p className="text-gray-600 mt-1">

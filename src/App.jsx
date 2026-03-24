@@ -21,6 +21,8 @@ import ConGenPage from './pages/congen/ConGenPage';
 import CreateContentPage from './pages/congen/CreateContentPage';
 import CoursePreviewPage from './pages/congen/CoursePreviewPage';
 import CourseDetailsPage from './pages/congen/CourseDetailsPage';
+import { ThemeProvider } from './context/ThemeContext';
+import CreditPage from './pages/credit/CreditPage';
 
 
 
@@ -38,7 +40,10 @@ const ProtectedRoute = ({ children }) => {
 
 function App() {
   return (
+     <ThemeProvider>
     < Theme>
+
+    
       <AppProvider>
         <Router>
           <FloatingChatbot />
@@ -65,14 +70,16 @@ function App() {
 
 
             <Route path="/projects" element={<ProtectedRoute><ProjectsPage /></ProtectedRoute>} />
+            <Route path="/credits" element={<ProtectedRoute><CreditPage /></ProtectedRoute>} />
+
             <Route path="/profile" element={<ProfilePage />} />
             <Route path="/tools" element={<ProtectedRoute><ToolsPage /></ProtectedRoute>} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </Router>
       </AppProvider>
-
     </Theme>
+       </ThemeProvider>
   );
 }
 

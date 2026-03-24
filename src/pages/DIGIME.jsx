@@ -3,9 +3,11 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useApp } from '../hooks/useApp';
 import Header from '../components/layout/Header';
+import { useTheme } from '../context/ThemeContext';
 
 const DIGIMEPage = () => {
   const { avatars, user } = useApp();
+  const{isDarkMode}= useTheme();
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState('');
 
@@ -104,7 +106,7 @@ const actionCards = [
         <div>
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 gap-4">
             <div>
-              <h2 className="text-2xl font-bold text-gray-900">Your DigiMee Library</h2>
+              <h2 className={`text-2xl font-bold ${isDarkMode?"text-white":"text-gray-900"}`}>Your DigiMee Library</h2>
               <p className="text-sm text-gray-600">{digimeAvatars.length} avatars</p>
             </div>
             <div className="flex items-center px-4 py-3 rounded-xl bg-white border border-gray-200">

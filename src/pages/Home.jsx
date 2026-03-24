@@ -1,10 +1,13 @@
-import { Sparkles, Zap, Brain, TrendingUp, MessageSquare, User, ArrowRight, ChevronRight, Settings, Bell, Search, LayoutGrid, Star } from 'lucide-react';
+// pages/HomePage.jsx
+import { Sparkles, Zap, Brain, TrendingUp, MessageSquare, ArrowRight, ChevronRight } from 'lucide-react';
 import { useApp } from '../hooks/useApp';
 import { useNavigate } from 'react-router-dom';
 import Header from '../components/layout/Header';
 import Footer from './Footer';
+import { useTheme } from '../context/ThemeContext';
 
 const HomePage = () => {
+  const { isDarkMode } = useTheme(); // ✅ Correct: isDarkMode not darkMode
   const { user } = useApp();
   const navigate = useNavigate();
 
@@ -16,6 +19,7 @@ const HomePage = () => {
       icon: MessageSquare,
       color: 'from-orange-400 to-orange-600',
       bgLight: 'from-orange-50 to-orange-100',
+      bgDark: 'from-orange-900/30 to-orange-800/30',
       shadowColor: 'shadow-orange-500/20',
       path: '/aicha',
       status: 'Active',
@@ -28,6 +32,7 @@ const HomePage = () => {
       icon: Zap,
       color: 'from-purple-400 to-purple-600',
       bgLight: 'from-purple-50 to-purple-100',
+      bgDark: 'from-purple-900/30 to-purple-800/30',
       shadowColor: 'shadow-purple-500/20',
       path: '/digime',
       status: 'Active',
@@ -40,6 +45,7 @@ const HomePage = () => {
       icon: Sparkles,
       color: 'from-blue-400 to-blue-600',
       bgLight: 'from-blue-50 to-blue-100',
+      bgDark: 'from-blue-900/30 to-blue-800/30',
       shadowColor: 'shadow-blue-500/20',
       path: '/congen',
       status: 'Coming Soon',
@@ -52,6 +58,7 @@ const HomePage = () => {
       icon: TrendingUp,
       color: 'from-pink-400 to-pink-600',
       bgLight: 'from-pink-50 to-pink-100',
+      bgDark: 'from-pink-900/30 to-pink-800/30',
       shadowColor: 'shadow-pink-500/20',
       path: '#',
       status: 'Coming Soon',
@@ -64,6 +71,7 @@ const HomePage = () => {
       icon: Brain,
       color: 'from-green-400 to-green-600',
       bgLight: 'from-green-50 to-green-100',
+      bgDark: 'from-green-900/30 to-green-800/30',
       shadowColor: 'shadow-green-500/20',
       path: 'https://app.kypecrm.com/',
       status: '',
@@ -71,11 +79,12 @@ const HomePage = () => {
     },
   ];
 
-
   return (
-    <div className="min-h-screen">
+    <div className={`min-h-screen transition-colors duration-300 ${
+      isDarkMode ? 'bg-transparent' : 'bg-transparent'
+    }`}>
       {/* Header */}
-      <Header user={user}   title={"Dashboard"} />
+      <Header user={user} title={"Dashboard"} />
 
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-6 lg:px-8 py-8 lg:py-12">
@@ -84,26 +93,35 @@ const HomePage = () => {
         <div className="mb-10">
           <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
             <div>
-            
-              <h1 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-2">
+              <h1 className={`text-3xl lg:text-4xl font-bold mb-2 transition-colors duration-300 ${
+                isDarkMode ? "text-white" : "text-gray-900"
+              }`}>
                 A Unified AI Products{' '}
                 <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent font-bold">
                   Ecosystem
                 </span>
               </h1>
-              <p className="text-gray-600 max-w-2xl">
+              <p className={`max-w-2xl transition-colors duration-300 ${
+                isDarkMode ? 'text-gray-400' : 'text-gray-600'
+              }`}>
                 We engineer AI-native ecosystems that think, learn, and execute across your organization—at scale.
               </p>
             </div>
-
-          
           </div>
         </div>
 
         {/* Products Section Header */}
         <div className="flex items-center justify-between mb-6">
-          <h2 className="text-xl font-semibold text-gray-900">Your Products</h2>
-          <button className="flex items-center gap-2 text-sm font-medium text-purple-600 hover:text-purple-700 transition-colors">
+          <h2 className={`text-xl font-semibold transition-colors duration-300 ${
+            isDarkMode ? 'text-white' : 'text-gray-900'
+          }`}>
+            Your Products
+          </h2>
+          <button className={`flex items-center gap-2 text-sm font-medium transition-colors ${
+            isDarkMode 
+              ? 'text-purple-400 hover:text-purple-300' 
+              : 'text-purple-600 hover:text-purple-700'
+          }`}>
             View all
             <ChevronRight size={16} />
           </button>
@@ -119,8 +137,12 @@ const HomePage = () => {
               <div
                 key={product.id}
                 onClick={() => isActive && navigate(product.path)}
-                className={`group relative rounded-2xl overflow-hidden transition-all duration-300 bg-white/70 backdrop-blur-xl border border-gray-200/80 hover:border-gray-300 hover:shadow-xl ${product.shadowColor} ${
+                className={`group relative rounded-2xl overflow-hidden transition-all duration-300 backdrop-blur-xl ${product.shadowColor} ${
                   isActive ? 'cursor-pointer' : 'cursor-default'
+                } ${
+                  isDarkMode 
+                    ? 'bg-gray-800/70 border border-gray-700/80 hover:border-gray-600 hover:shadow-2xl hover:bg-gray-800/90' 
+                    : 'bg-white/70 border border-gray-200/80 hover:border-gray-300 hover:shadow-xl'
                 }`}
               >
                 {/* Status Badge */}
@@ -128,8 +150,12 @@ const HomePage = () => {
                   <span
                     className={`px-3 py-1 rounded-full text-xs font-medium ${
                       isActive
-                        ? 'bg-green-100 text-green-700'
-                        : 'bg-gray-100 text-gray-600'
+                        ? isDarkMode 
+                          ? 'bg-green-900/50 text-green-400 border border-green-700/50'
+                          : 'bg-green-100 text-green-700'
+                        : isDarkMode
+                          ? 'bg-gray-700/50 text-gray-400 border border-gray-600/50'
+                          : 'bg-gray-100 text-gray-600'
                     }`}
                   >
                     {product.status}
@@ -137,16 +163,26 @@ const HomePage = () => {
                 </div>
 
                 {/* Icon Area */}
-                <div className={`h-40 bg-gradient-to-br ${product.bgLight} p-6 flex items-center justify-center relative overflow-hidden`}>
+                <div className={`h-40 bg-gradient-to-br ${
+                  isDarkMode ? product.bgDark : product.bgLight
+                } p-6 flex items-center justify-center relative overflow-hidden`}>
                   {/* Background Pattern */}
                   <div className="absolute inset-0 opacity-30">
-                    <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-white/50 to-transparent rounded-full -translate-y-1/2 translate-x-1/2"></div>
-                    <div className="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-white/50 to-transparent rounded-full translate-y-1/2 -translate-x-1/2"></div>
+                    <div className={`absolute top-0 right-0 w-32 h-32 rounded-full -translate-y-1/2 translate-x-1/2 ${
+                      isDarkMode 
+                        ? 'bg-gradient-to-br from-white/10 to-transparent' 
+                        : 'bg-gradient-to-br from-white/50 to-transparent'
+                    }`}></div>
+                    <div className={`absolute bottom-0 left-0 w-24 h-24 rounded-full translate-y-1/2 -translate-x-1/2 ${
+                      isDarkMode 
+                        ? 'bg-gradient-to-tr from-white/10 to-transparent' 
+                        : 'bg-gradient-to-tr from-white/50 to-transparent'
+                    }`}></div>
                   </div>
                   
                   {/* Large Background Icon */}
                   <div className="absolute -right-6 -bottom-6 opacity-10">
-                    <Icon size={140} className="text-gray-900" />
+                    <Icon size={140} className={isDarkMode ? 'text-white' : 'text-gray-900'} />
                   </div>
                   
                   {/* Main Icon */}
@@ -157,25 +193,39 @@ const HomePage = () => {
 
                 {/* Content Area */}
                 <div className="p-6">
-                  <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-purple-600 transition-colors">
+                  <h3 className={`text-xl font-bold mb-2 transition-colors ${
+                    isDarkMode 
+                      ? 'text-white group-hover:text-purple-400' 
+                      : 'text-gray-900 group-hover:text-purple-600'
+                  }`}>
                     {product.name}
                   </h3>
-                  <p className="text-sm text-gray-600 mb-4 line-clamp-2">
+                  <p className={`text-sm mb-4 line-clamp-2 ${
+                    isDarkMode ? 'text-gray-400' : 'text-gray-600'
+                  }`}>
                     {product.description}
                   </p>
                   
                   {/* Stats or CTA */}
                   <div className="flex items-center justify-between">
                     {product.stats ? (
-                      <span className="text-xs text-gray-500 bg-gray-100 px-3 py-1.5 rounded-full">
+                      <span className={`text-xs px-3 py-1.5 rounded-full ${
+                        isDarkMode 
+                          ? 'text-gray-300 bg-gray-700/50 border border-gray-600/50' 
+                          : 'text-gray-500 bg-gray-100'
+                      }`}>
                         {product.stats}
                       </span>
                     ) : (
-                      <span className="text-xs text-gray-400">—</span>
+                      <span className={`text-xs ${isDarkMode ? 'text-gray-600' : 'text-gray-400'}`}>
+                        —
+                      </span>
                     )}
                     
                     {isActive && (
-                      <button className="flex items-center gap-1.5 text-sm font-medium text-purple-600 group-hover:gap-2.5 transition-all">
+                      <button className={`flex items-center gap-1.5 text-sm font-medium group-hover:gap-2.5 transition-all ${
+                        isDarkMode ? 'text-purple-400' : 'text-purple-600'
+                      }`}>
                         Explore
                         <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
                       </button>
@@ -185,19 +235,18 @@ const HomePage = () => {
 
                 {/* Hover Glow Effect */}
                 <div className={`absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none`}>
-                  <div className={`absolute inset-0 bg-gradient-to-br ${product.color} opacity-5`}></div>
+                  <div className={`absolute inset-0 bg-gradient-to-br ${product.color} ${
+                    isDarkMode ? 'opacity-10' : 'opacity-5'
+                  }`}></div>
                 </div>
               </div>
             );
           })}
         </div>
 
-
-      
-
       </main>
 
-        <Footer/>
+      <Footer />
     </div>
   );
 };
